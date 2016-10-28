@@ -1,11 +1,10 @@
-import React, { Component, PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
+import React, { PropTypes } from 'react';
 import '../../styles-local/Modal.css';
 
 
 const Modal = props => {
 
-  const { id, title, className, shown, children } = props;
+  const { id, className, shown, children } = props;
   const classes = `modal-dialog ${className || ''}`;
 
   return (

@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import PackagesProvider from '../providers/packages';
+import SpreadsProvider from '../providers/spreads';
 import { Modal, ModalHeader, ModalBody } from '../components/modals';
 import CreatePackage from '../components/CreatePackage';
 
@@ -14,8 +17,19 @@ class PackagesList extends Component {
   }
 
   static propTypes = {
-    packages: PropTypes.array.isRequired
+    packages: PropTypes.array.isRequired,
+    spreads: PropTypes.array.isRequired,
+    packagesProvider: PropTypes.object.isRequired,
+    spreadsProvider: PropTypes.object.isRequired,
   };
+
+  componentDidMount() {
+    this.props.packagesProvider.getList([
+      {id: 1, name: 'Package Name 1', totalOrders: 20, totalSpreads: 500, creationDate: '10/16/2016', description: 'Duis ollis est no comodo'},
+      {id: 2, name: 'Package Name 2', totalOrders: 50, totalSpreads: 100, creationDate: '10/16/2016', description: 'Duis ollis est no comodo'}
+    ]);
+    this.props.spreadsProvider.getList([{name: 'Spread1'}, {'name': 'Spread2'}, {'name': 'Spread3'}]);
+  }
 
   showModal() {
     this.setState({ createPackageFormShown: true });
@@ -26,9 +40,10 @@ class PackagesList extends Component {
   }
 
   render() {
+    const { packagesProvider, spreads } = this.props;
     const tableBody = this.props.packages.map(pack => (
       <tr key={pack.id}>
-        <td>{pack.name}</td>
+        <td><Link to={`/packages/${pack.id}`}>{pack.name}</Link></td>
         <td>{pack.totalOrders}</td>
         <td>{pack.totalSpreads}</td>
         <td>{pack.creationDate}</td>
@@ -65,7 +80,7 @@ class PackagesList extends Component {
         >
           <ModalHeader title="Create a package" hideModal={this.hideModal} />
           <ModalBody>
-            <CreatePackage hideModal={this.hideModal} />
+            <CreatePackage hideModal={this.hideModal} spreads={spreads} packagesProvider={packagesProvider} />
           </ModalBody>
         </Modal>
 
@@ -78,7 +93,11 @@ class PackagesList extends Component {
 
 export default connect(
   state => ({
-    packages: state.packages
+    packages: state.packages.list,
+    spreads: state.spreads.list
   }),
-  dispatch => ({})
+  dispatch => ({
+    packagesProvider: new PackagesProvider(dispatch),
+    spreadsProvider: new SpreadsProvider(dispatch),
+  })
 )(PackagesList);

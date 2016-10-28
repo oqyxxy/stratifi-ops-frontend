@@ -2,7 +2,7 @@ import React from 'react';
 import Input from './Input';
 
 
-export const VerboseErrorInput = props => {
+const VerboseErrorInput = props => {
 
     const { touched, error } = props;
 
@@ -14,3 +14,5 @@ export const VerboseErrorInput = props => {
     );
 
 }
+
+export default VerboseErrorInput;
