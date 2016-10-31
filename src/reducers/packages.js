@@ -4,7 +4,7 @@ import { FETCH_PACKAGES,
          FETCH_PACKAGE_SUCCESS } from '../constants/actions';
 
 
-const defaultState = { list: [], object: {} }
+const defaultState = { list: [], object: {} };
 
 export default function(state = defaultState, action) {
 

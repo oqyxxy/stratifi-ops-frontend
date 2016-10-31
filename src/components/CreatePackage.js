@@ -26,6 +26,7 @@ class CreatePackage extends Component {
   }
 
   onSuggestionsFetchRequested({ value }) {
+    console.log(this.props.spreads.filter(sprd => sprd.name.includes(value)));
     this.setState({ spreadSuggestions: this.props.spreads.filter(sprd => sprd.name.includes(value)) });
   }
 
@@ -100,11 +101,12 @@ class CreatePackage extends Component {
                     className="btn btn-success btn-title"
                     onClick={handleSubmit(this.onSubmit)}>Create a package</button>
           </div>
-        </form>
 
-        <div className="text-xs-center">
-          <button className="btn btn-link" onClick={hideModal}>Back to Packages</button>
-        </div>
+          <div className="text-xs-center">
+            <button className="btn btn-link" onClick={hideModal}>Back to Packages</button>
+          </div>
+          
+        </form>
 
       </div>
     );
@@ -123,6 +125,5 @@ export default reduxForm({
     'orders[].tag',
     'spreads[].name',
   ],
-  initialValues: {},
-  validate: () => ({})
+  initialValues: {}
 })(CreatePackage);

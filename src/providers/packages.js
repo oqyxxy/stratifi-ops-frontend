@@ -7,7 +7,7 @@ import DataProvider from './base/data-provider';
 
 export default class PackagesProvider extends DataProvider {
 
-  get resource() { return 'packages'; }
+  get resource() { return 'orderticket/tables/package/'; }
 
   get actionTypes() {
     return {

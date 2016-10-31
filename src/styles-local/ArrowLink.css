@@ -1,0 +1,11 @@
+.arrow-link {
+    position: absolute;
+    top: 32px;
+    left: -35px;
+    font-size: 12px;
+    transform: rotate(90deg);
+}
+
+.arrow-link-container {
+    position: relative;
+}

@@ -1,65 +1,35 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import PackagesProvider from '../providers/packages';
 import PackageOrdersList from '../components/PackageOrdersList';
+import PackageSpreadsList from '../components/PackageSpreadsList';
+
+import '../styles-local/ArrowLink.css';
 
 
 class PackagesDetail extends Component {
 
   static propTypes = {
     packagesProvider: PropTypes.object.isRequired,
-    pack: PropTypes.object.isRequired,
-    routing: PropTypes.object.isRequired
+    pack: PropTypes.object.isRequired
   };
 
   componentDidMount() {
-    const { packagesProvider, routing } = this.props;
+    const { packagesProvider, id } = this.props;
 
-    console.log(routing);
-    packagesProvider.getObject({
-      id: 1,
-      name: 'Package Name 1',
-      totalOrders: 20,
-      totalSpreads: 500,
-      creationDate: '10/16/2016',
-      description: 'Duis ollis est no comodo',
-      spreads: [
-        {name: 'Spread1'}, {'name': 'Spread2'}, {'name': 'Spread3'}
-      ],
-      orders: [
-        {
-          id: 1,
-          name: 'Order1',
-          security: 'Security Name',
-          target_price: 218.0,
-          creation_date: '2016-10-28T12:32:02.359879+00:00',
-          status: 'Open'
-        },
-        {
-          id: 2,
-          name: 'Order2',
-          security: 'Security Name',
-          target_price: 286.2,
-          creation_date: '2016-10-28T12:32:02.359879+00:00',
-          status: 'In Progress'
-        },
-        {
-          id: 3,
-          name: 'Order3',
-          security: 'Security Name',
-          target_price: 718.9,
-          creation_date: '2016-10-28T12:32:02.359879+00:00',
-          status: 'Open'
-        }
-      ]
-    });
+    packagesProvider.getObject(id);
   }
 
   render() {
     const { pack } = this.props;
 
     return pack.name ? (
-      <section>
+      <section className="arrow-link-container">
+        <Link to="/packages" className="arrow-link">
+          <i className="icon-arrow" />
+        </Link>
+
         <h1>{`Package ${pack.name}`}</h1>
         <p>
           Nullam quis risus eget urna mollis ornare vel eu leo.
@@ -69,6 +39,9 @@ class PackagesDetail extends Component {
 
         <h3 className="text-title m-t-3">Orders</h3>
         <PackageOrdersList orders={pack.orders} />
+
+        <h3 className="text-title m-t-3">Spreads</h3>
+        <PackageSpreadsList spreads={pack.spreads} />
       </section>
     ) : false;
   }
@@ -77,9 +50,9 @@ class PackagesDetail extends Component {
 
 
 export default connect(
-  state => ({
+  (state, ownProps) => ({
     pack: state.packages.object,
-    routing: state.routing
+    id: ownProps.params.id
   }),
   dispatch => ({
     packagesProvider: new PackagesProvider(dispatch)

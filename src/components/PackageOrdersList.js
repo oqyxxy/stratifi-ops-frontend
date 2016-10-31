@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react';
+import { Modal, ModalBody } from './modals';
+import ExecuteOrders from './ExecuteOrders';
 
 
 export default class PackageOrdersList extends Component {
@@ -9,26 +11,46 @@ export default class PackageOrdersList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { ordersToExecute: [] };
+    this.state = { ordersToExecute: [], executeOrdersFormShown: false };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
-  toggleOrder(id) {
+  toggleOrder(order) {
     const { ordersToExecute } = this.state;
-    const index = ordersToExecute.indexOf(id);
+    const index = ordersToExecute.findIndex(item => item.id === order.id);
 
-    if (index != -1) {
-      this.setState({ ordersToExecute: [...ordersToExecute.slice(0, index), ...ordersToExecute.slice(index + 1) ]})
+    if (index !== -1) {
+      this.setState({
+        ...this.state,
+        ordersToExecute: [...ordersToExecute.slice(0, index), ...ordersToExecute.slice(index + 1) ]
+      });
     } else {
-      this.setState({ ordersToExecute: ordersToExecute.concat([id]) });
+      this.setState({
+        ...this.state,
+        ordersToExecute: ordersToExecute.concat([order])
+      });
     }
   }
 
-  onSubmit() {
+  showModal(event) {
+    event.preventDefault();
+    this.setState({ ...this.state, executeOrdersFormShown: true });
+  }
+
+  hideModal(event) {
+    event.preventDefault();
+    this.setState({ ...this.state, executeOrdersFormShown: false });
+  }
+
+  onSubmit(event) {
     console.log(this.state.ordersToExecute);
+    this.showModal(event);
   }
 
   render() {
-    const { fields, orders } = this.props;
+    const { orders } = this.props;
+    const { executeOrdersFormShown, ordersToExecute } = this.state;
 
     return (
       <div>
@@ -49,7 +71,7 @@ export default class PackageOrdersList extends Component {
               <tr key={index}>
                 <td className="checkbox-cell">
                   <label className="c-input c-checkbox">
-                    <input onClick={e => this.toggleOrder(ord.id)} type="checkbox" />
+                    <input onClick={e => this.toggleOrder(ord)} type="checkbox" />
                     <span className="c-indicator icon-checkmark"></span>
                   </label>
                 </td>
@@ -65,6 +87,16 @@ export default class PackageOrdersList extends Component {
         </table>
 
         <button onClick={this.onSubmit.bind(this)} className="btn btn-primary btn-title">Execute orders</button>
+
+        <Modal id="executeOrdersModal"
+               className="modal-lg"
+               shown={executeOrdersFormShown}
+        >
+          <ModalBody>
+            <ExecuteOrders initialValues={{ orders: ordersToExecute }} hideModal={this.hideModal} />
+          </ModalBody>
+        </Modal>
+
       </div>
     );
   }

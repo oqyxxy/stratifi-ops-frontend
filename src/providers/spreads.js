@@ -7,7 +7,7 @@ import DataProvider from './base/data-provider';
 
 export default class SpreadsProvider extends DataProvider {
 
-  get resource() { return 'spreads'; }
+  get resource() { return 'orderticket/tables/spread/'; }
 
   get actionTypes() {
     return {
