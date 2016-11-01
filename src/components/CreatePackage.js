@@ -4,6 +4,8 @@ import { AUTOSUGGEST_THEME } from '../constants/rendering';
 import { FormGroup, VerboseErrorInput, VerboseErrorAutosuggest } from './form';
 import AddOrder from './AddOrder';
 
+import '../styles-local/Autosuggest.css';
+
 
 class CreatePackage extends Component {
 
@@ -21,13 +23,8 @@ class CreatePackage extends Component {
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    nextProps.spreads && this.setState({ spreadSuggestions: nextProps.spreads });
-  }
-
   onSuggestionsFetchRequested({ value }) {
-    console.log(this.props.spreads.filter(sprd => sprd.name.includes(value)));
-    this.setState({ spreadSuggestions: this.props.spreads.filter(sprd => sprd.name.includes(value)) });
+    this.setState({ spreadSuggestions: this.props.spreads.filter(sprd => sprd.description.indexOf(value) !== -1) });
   }
 
   onSuggestionsClearRequested() {
@@ -39,8 +36,8 @@ class CreatePackage extends Component {
   }
 
   render() {
-    const { hideModal, fields, invalid, submitting, handleSubmit, spreads } = this.props;
-
+    const { hideModal, fields, invalid, submitting, handleSubmit } = this.props;
+    
     return (
       <div>
 
@@ -71,18 +68,23 @@ class CreatePackage extends Component {
                 fields.spreads.map((spread, index) => (
                   <tr key={index}>
                     <td>
-                      <VerboseErrorAutosuggest field={spread.name}
-                                               suggestions={spreads}
-                                               getSuggestionValue={suggestion => suggestion.name}
-                                               renderSuggestion={suggestion => <span>{suggestion.name}</span>}
+                      <VerboseErrorAutosuggest field={spread.description}
+                                               suggestions={this.state.spreadSuggestions}
+                                               getSuggestionValue={suggestion => suggestion.description}
+                                               renderSuggestion={suggestion => <span>{suggestion.description}</span>}
                                                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                                                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                                                inputProps={{
                                                  placeholder: 'Search existing spreads',
-                                                 value: spread.name.value || '',
-                                                 onChange: (event, { newValue }) => spread.name.onChange(newValue)
+                                                 value: spread.description.value || '',
+                                                 onChange: (event, { newValue }) => spread.description.onChange(newValue)
                                                }}
                                                theme={AUTOSUGGEST_THEME} />
+                    </td>
+                    <td className="action">
+                      <a onClick={() => fields.spreads.removeField(index)}>
+                        <i className="icon-remove" />
+                      </a>
                     </td>
                   </tr>
                 ))
@@ -123,7 +125,7 @@ export default reduxForm({
     'orders[].security',
     'orders[].type',
     'orders[].tag',
-    'spreads[].name',
+    'spreads[].description',
   ],
   initialValues: {}
 })(CreatePackage);
