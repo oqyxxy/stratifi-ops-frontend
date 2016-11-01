@@ -1,0 +1,5 @@
+.react-autosuggest__suggestions-container > ul {
+    padding-left: 0;
+    margin-bottom: 0;
+    cursor: pointer;
+}
