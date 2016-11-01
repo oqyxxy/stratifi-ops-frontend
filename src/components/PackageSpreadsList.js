@@ -8,9 +8,11 @@ export default class PackageSpreadsList extends Component {
   static propTypes = {
     spreads: PropTypes.array.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
+    spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
+    packId: PropTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -55,7 +57,7 @@ export default class PackageSpreadsList extends Component {
   }
 
   render() {
-    const { spreads, securities, securitiesProvider, tagsProvider, tags } = this.props;
+    const { spreads, securities, securitiesProvider, tagsProvider, tags, spreadsProvider, packId } = this.props;
 
     return (
       <div>
@@ -78,8 +80,8 @@ export default class PackageSpreadsList extends Component {
                     <span className="c-indicator icon-checkmark" />
                   </label>
                 </td>
-                <td>{sprd.name}</td>
-                <td>{sprd.orders.join(', ')}</td>
+                <td>{sprd.description}</td>
+                <td>{sprd.orders.length ? sprd.orders.join(', ') : 'No tags for this spread'}</td>
                 <td>{sprd.creation_date}</td>
               </tr>
             ))
@@ -103,8 +105,10 @@ export default class PackageSpreadsList extends Component {
             </p>
             <CreateSpread securities={securities}
                           securitiesProvider={securitiesProvider}
+                          spreadsProvider={spreadsProvider}
                           hideModal={this.hideModal}
                           tags={tags}
+                          packId={packId}
                           tagsProvider={tagsProvider} />
           </ModalBody>
         </Modal>

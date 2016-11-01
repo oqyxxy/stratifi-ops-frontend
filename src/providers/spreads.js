@@ -13,4 +13,18 @@ export default class SpreadsProvider extends DataProvider {
     };
   }
 
+  create(data, packId, tagsStore, securitiesStore) {
+    const json = {
+      package_id: packId,
+      description: data.description,
+      orders: data.orders.map(order => ({
+        ...order,
+        tags: [tagsStore.find(o => o.name === order.tags).id],
+        security: securitiesStore.find(s => s.name === order.security).id
+      })),
+    };
+
+    return super.create(json);
+  }
+
 }

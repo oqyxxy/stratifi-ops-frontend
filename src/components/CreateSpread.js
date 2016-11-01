@@ -9,25 +9,39 @@ class CreateSpread extends Component {
   static propTypes = {
     hideModal: PropTypes.func.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
+    spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
+    packId: PropTypes.number.isRequired
   };
 
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.state = { created: false };
   }
 
   onSubmit(values) {
-    console.log(values);
+    const { spreadsProvider, tags, securities, packId } = this.props;
+
+    spreadsProvider.create(values, packId, tags, securities).then(() => this.setState({ created: true }));
   }
 
   render() {
     const { handleSubmit, fields, invalid, submitting, hideModal, securities,
             securitiesProvider, tags, tagsProvider } = this.props;
 
-    return (
+    return this.state.created ? (
+      <div className="text-xs-center">
+        <h3>You've successfully created new spread</h3>
+        <p>
+          Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+        <button className="btn btn-primary btn-title" onClick={hideModal}>Back to package page</button>
+      </div>
+    ) : (
       <div>
 
         <form className="m-b-2" autoComplete="off" onSubmit={handleSubmit(this.onSubmit)}>
@@ -78,7 +92,7 @@ export default reduxForm({
     'orders[].name',
     'orders[].security',
     'orders[].type',
-    'orders[].tag'
+    'orders[].tags'
   ],
   initialValues: {}
 })(CreateSpread);

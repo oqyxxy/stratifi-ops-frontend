@@ -75,7 +75,7 @@ export default class PackageOrdersList extends Component {
                     <span className="c-indicator icon-checkmark"></span>
                   </label>
                 </td>
-                <td>{ord.name}</td>
+                <td>{ord.description}</td>
                 <td>{ord.security}</td>
                 <td>{ord.target_price}</td>
                 <td>{ord.creation_date}</td>

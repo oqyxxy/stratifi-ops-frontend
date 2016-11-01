@@ -22,28 +22,43 @@ class CreatePackage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { spreadSuggestions: [] };
+    this.state = { spreadSuggestions: [], created: false };
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
   }
 
   onSuggestionsFetchRequested({ value }) {
-    this.setState({ spreadSuggestions: this.props.spreads.filter(sprd => sprd.description.indexOf(value) !== -1) });
+    this.setState({ ...this.state, spreadSuggestions: this.props.spreads.filter(sprd => sprd.description.indexOf(value) !== -1) });
   }
 
   onSuggestionsClearRequested() {
-    this.setState({ spreadSuggestions: [] });
+    this.setState({ ...this.state, spreadSuggestions: [] });
   }
 
   onSubmit(values) {
-    console.log(values);
+    const { packagesProvider, spreads, tags, securities } = this.props;
+
+    packagesProvider.create(values, spreads, tags, securities)
+      .then(() => {
+        this.setState({ ...this.state, created: true });
+        packagesProvider.getList();
+      });
   }
 
   render() {
     const { hideModal, fields, invalid, submitting, handleSubmit,
             securities, securitiesProvider, tags, tagsProvider } = this.props;
 
-    return (
+    return this.state.created ? (
+      <div className="text-xs-center">
+        <h3>You've successfully created new package</h3>
+        <p>
+          Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+        <button className="btn btn-primary btn-title" onClick={hideModal}>Back to packages page</button>
+      </div>
+    ) : (
       <div>
 
         <form className="m-b-2" autoComplete="off" onSubmit={handleSubmit(this.onSubmit)}>
@@ -51,9 +66,9 @@ class CreatePackage extends Component {
           { /** Package name input **/ }
           <div className="row m-b-2">
             <div className="col-sm-12">
-              <FormGroup {...fields.name}>
+              <FormGroup {...fields.description}>
                 <label>Package Name:</label>
-                <VerboseErrorInput type="text" className="form-control" {...fields.name} />
+                <VerboseErrorInput type="text" className="form-control" {...fields.description} />
               </FormGroup>
             </div>
           </div>
@@ -129,11 +144,11 @@ class CreatePackage extends Component {
 export default reduxForm({
   form: 'createPackage',
   fields: [
-    'name',
+    'description',
     'orders[].name',
     'orders[].security',
     'orders[].type',
-    'orders[].tag',
+    'orders[].tags',
     'spreads[].description',
   ],
   initialValues: {}

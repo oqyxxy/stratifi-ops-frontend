@@ -44,7 +44,7 @@ export default class AddOrder extends Component {
               <TableCellSelect fieldData={order.type}
                                optionsData={orderTypes}
                                defaultOption={'select type'}/>
-              <TableCellSelect fieldData={order.tag}
+              <TableCellSelect fieldData={order.tags}
                                optionsData={tags.map(s => s.name)}
                                defaultOption={'select tag'}/>
             </tr>
