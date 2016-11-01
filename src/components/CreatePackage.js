@@ -12,7 +12,11 @@ class CreatePackage extends Component {
   static propTypes = {
     hideModal: PropTypes.func.isRequired,
     packagesProvider: PropTypes.object.isRequired,
-    spreads: PropTypes.array.isRequired
+    spreads: PropTypes.array.isRequired,
+    securities: PropTypes.array.isRequired,
+    securitiesProvider: PropTypes.object.isRequired,
+    tagsProvider: PropTypes.object.isRequired,
+    tags: PropTypes.array.isRequired,
   };
 
   constructor(props) {
@@ -36,8 +40,9 @@ class CreatePackage extends Component {
   }
 
   render() {
-    const { hideModal, fields, invalid, submitting, handleSubmit } = this.props;
-    
+    const { hideModal, fields, invalid, submitting, handleSubmit,
+            securities, securitiesProvider, tags, tagsProvider } = this.props;
+
     return (
       <div>
 
@@ -55,7 +60,11 @@ class CreatePackage extends Component {
 
           { /** Add orders subform(table) **/ }
           <div>
-            <AddOrder orders={fields.orders} />
+            <AddOrder orders={fields.orders}
+                      securities={securities}
+                      securitiesProvider={securitiesProvider}
+                      tags={tags}
+                      tagsProvider={tagsProvider} />
           </div>
 
           { /** Add spreads subform(table) **/ }

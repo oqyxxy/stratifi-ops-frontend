@@ -11,16 +11,12 @@ export default class DataProvider extends Provider {
   }
 
   getList() {
-    this.dispatch({ type: this.actionTypes.fetch });
-
     fetch(this.resourceUrl, { headers: HEADERS })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchSuccess, data: json.data.items }));
   }
 
   getObject(id) {
-    this.dispatch({ type: this.actionTypes.fetchObject });
-
     fetch(`${this.resourceUrl}${id}`, { headers: HEADERS })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: json }))

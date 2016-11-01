@@ -1,7 +1,4 @@
-import { FETCH_PACKAGES,
-         FETCH_PACKAGES_SUCCESS,
-         FETCH_PACKAGE,
-         FETCH_PACKAGE_SUCCESS } from '../constants/actions';
+import { FETCH_PACKAGE_LIST, FETCH_PACKAGE_OBJECT } from '../constants/actions';
 
 
 const defaultState = { list: [], object: {} };
@@ -10,16 +7,10 @@ export default function(state = defaultState, action) {
 
   switch (action.type) {
 
-    case FETCH_PACKAGES:
-      return state;
-
-    case FETCH_PACKAGES_SUCCESS:
+    case FETCH_PACKAGE_LIST:
       return { ...state, list: action.data };
 
-    case FETCH_PACKAGE:
-      return state;
-
-    case FETCH_PACKAGE_SUCCESS:
+    case FETCH_PACKAGE_OBJECT:
       return { ...state, object: action.data };
 
     default:

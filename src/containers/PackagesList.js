@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import PackagesProvider from '../providers/packages';
 import SpreadsProvider from '../providers/spreads';
+import SecuritiesProvider from '../providers/securities';
+import TagsProvider from '../providers/tags';
 import { Modal, ModalBody } from '../components/modals';
 import CreatePackage from '../components/CreatePackage';
 
@@ -19,8 +21,12 @@ class PackagesList extends Component {
   static propTypes = {
     packages: PropTypes.array.isRequired,
     spreads: PropTypes.array.isRequired,
+    securities: PropTypes.array.isRequired,
     packagesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
+    securitiesProvider: PropTypes.object.isRequired,
+    tagsProvider: PropTypes.object.isRequired,
+    tags: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -39,7 +45,7 @@ class PackagesList extends Component {
   }
 
   render() {
-    const { packagesProvider, spreads } = this.props;
+    const { packagesProvider, spreads, securitiesProvider, securities, tags, tagsProvider } = this.props;
     const tableBody = this.props.packages.map(pack => (
       <tr key={pack.id}>
         <td><Link to={`/packages/${pack.id}`}>{pack.name || pack.description}</Link></td>
@@ -82,7 +88,13 @@ class PackagesList extends Component {
             <p>
               Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
             </p>
-            <CreatePackage hideModal={this.hideModal} spreads={spreads} packagesProvider={packagesProvider} />
+            <CreatePackage securitiesProvider={securitiesProvider}
+                           securities={securities}
+                           hideModal={this.hideModal}
+                           spreads={spreads}
+                           packagesProvider={packagesProvider}
+                           tags={tags}
+                           tagsProvider={tagsProvider} />
           </ModalBody>
         </Modal>
 
@@ -90,16 +102,20 @@ class PackagesList extends Component {
     );
   }
 
-};
+}
 
 
 export default connect(
   state => ({
     packages: state.packages.list,
-    spreads: state.spreads.list
+    spreads: state.spreads.list,
+    securities: state.securities.list,
+    tags: state.tags.list,
   }),
   dispatch => ({
     packagesProvider: new PackagesProvider(dispatch),
     spreadsProvider: new SpreadsProvider(dispatch),
+    securitiesProvider: new SecuritiesProvider(dispatch),
+    tagsProvider: new TagsProvider(dispatch),
   })
 )(PackagesList);

@@ -1,7 +1,4 @@
-import { FETCH_SPREADS,
-         FETCH_SPREADS_SUCCESS,
-         FETCH_SPREAD,
-         FETCH_SPREAD_SUCCESS } from '../constants/actions';
+import { FETCH_SPREAD_LIST, FETCH_SPREAD_OBJECT } from '../constants/actions';
 
 
 const defaultState = { list: [], detail: {} };
@@ -10,16 +7,10 @@ export default function(state = defaultState, action) {
 
   switch (action.type) {
 
-    case FETCH_SPREADS:
-      return state;
-
-    case FETCH_SPREADS_SUCCESS:
+    case FETCH_SPREAD_LIST:
       return { ...state, list: action.data };
 
-    case FETCH_SPREAD:
-      return state;
-
-    case FETCH_SPREAD_SUCCESS:
+    case FETCH_SPREAD_OBJECT:
       return { ...state, object: action.data };
 
     default:

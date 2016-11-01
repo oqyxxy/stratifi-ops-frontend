@@ -1,7 +1,4 @@
-import { FETCH_SPREADS,
-         FETCH_SPREADS_SUCCESS,
-         FETCH_SPREAD,
-         FETCH_SPREAD_SUCCESS } from '../constants/actions';
+import { FETCH_SPREAD_LIST, FETCH_SPREAD_OBJECT } from '../constants/actions';
 import DataProvider from './base/data-provider';
 
 
@@ -11,10 +8,8 @@ export default class SpreadsProvider extends DataProvider {
 
   get actionTypes() {
     return {
-      fetch: FETCH_SPREADS,
-      fetchSuccess: FETCH_SPREADS_SUCCESS,
-      fetchObject: FETCH_SPREAD,
-      fetchObjectSuccess: FETCH_SPREAD_SUCCESS
+      fetchSuccess: FETCH_SPREAD_LIST,
+      fetchObjectSuccess: FETCH_SPREAD_OBJECT
     };
   }
 

@@ -1,9 +1,9 @@
-export const FETCH_PACKAGES = 'fetch-packages';
-export const FETCH_PACKAGES_SUCCESS = 'fetch-packages-success';
-export const FETCH_PACKAGE = 'fetch-package';
-export const FETCH_PACKAGE_SUCCESS = 'fetch-package-success';
+export const FETCH_PACKAGE_LIST = 'fetch-package-list';
+export const FETCH_PACKAGE_OBJECT = 'fetch-package-object';
 
-export const FETCH_SPREADS = 'fetch-spreads';
-export const FETCH_SPREADS_SUCCESS = 'fetch-spreads-success';
-export const FETCH_SPREAD = 'fetch-spread';
-export const FETCH_SPREAD_SUCCESS = 'fetch-spread-success';
+export const FETCH_SPREAD_LIST = 'fetch-spreads-success';
+export const FETCH_SPREAD_OBJECT = 'fetch-spread-success';
+
+export const FETCH_SECURITY_LIST = 'fetch-securities-success';
+
+export const FETCH_TAG_LIST = 'fetch-tag-list';

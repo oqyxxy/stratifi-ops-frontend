@@ -7,7 +7,11 @@ import AddOrder from './AddOrder';
 class CreateSpread extends Component {
 
   static propTypes = {
-    hideModal: PropTypes.func.isRequired
+    hideModal: PropTypes.func.isRequired,
+    securitiesProvider: PropTypes.object.isRequired,
+    securities: PropTypes.array.isRequired,
+    tagsProvider: PropTypes.object.isRequired,
+    tags: PropTypes.array.isRequired,
   };
 
   constructor(props) {
@@ -20,7 +24,8 @@ class CreateSpread extends Component {
   }
 
   render() {
-    const { handleSubmit, fields, invalid, submitting, hideModal } = this.props;
+    const { handleSubmit, fields, invalid, submitting, hideModal, securities,
+            securitiesProvider, tags, tagsProvider } = this.props;
 
     return (
       <div>
@@ -39,7 +44,11 @@ class CreateSpread extends Component {
 
           { /** Add orders subform(table) **/ }
           <div>
-            <AddOrder orders={fields.orders} />
+            <AddOrder securities={securities}
+                      securitiesProvider={securitiesProvider}
+                      orders={fields.orders}
+                      tags={tags}
+                      tagsProvider={tagsProvider} />
           </div>
 
           <div className="text-xs-center m-b-1">

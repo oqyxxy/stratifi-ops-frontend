@@ -1,7 +1,4 @@
-import { FETCH_PACKAGES,
-         FETCH_PACKAGES_SUCCESS,
-         FETCH_PACKAGE,
-         FETCH_PACKAGE_SUCCESS } from '../constants/actions';
+import { FETCH_PACKAGE_LIST, FETCH_PACKAGE_OBJECT } from '../constants/actions';
 import DataProvider from './base/data-provider';
 
 
@@ -11,10 +8,8 @@ export default class PackagesProvider extends DataProvider {
 
   get actionTypes() {
     return {
-      fetch: FETCH_PACKAGES,
-      fetchSuccess: FETCH_PACKAGES_SUCCESS,
-      fetchObject: FETCH_PACKAGE,
-      fetchObjectSuccess: FETCH_PACKAGE_SUCCESS
+      fetchSuccess: FETCH_PACKAGE_LIST,
+      fetchObjectSuccess: FETCH_PACKAGE_OBJECT
     };
   }
 

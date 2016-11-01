@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import PackagesProvider from '../providers/packages';
+import SecuritiesProvider from '../providers/securities';
+import TagsProvider from '../providers/tags';
 import PackageOrdersList from '../components/PackageOrdersList';
 import PackageSpreadsList from '../components/PackageSpreadsList';
 
@@ -12,7 +14,11 @@ class PackagesDetail extends Component {
 
   static propTypes = {
     packagesProvider: PropTypes.object.isRequired,
-    pack: PropTypes.object.isRequired
+    securitiesProvider: PropTypes.object.isRequired,
+    securities: PropTypes.array.isRequired,
+    pack: PropTypes.object.isRequired,
+    tagsProvider: PropTypes.object.isRequired,
+    tags: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
@@ -22,7 +28,7 @@ class PackagesDetail extends Component {
   }
 
   render() {
-    const { pack } = this.props;
+    const { pack, securities, securitiesProvider, tags, tagsProvider } = this.props;
 
     return pack.name ? (
       <section className="arrow-link-container">
@@ -41,7 +47,11 @@ class PackagesDetail extends Component {
         <PackageOrdersList orders={pack.orders} />
 
         <h3 className="text-title m-t-3">Spreads</h3>
-        <PackageSpreadsList spreads={pack.spreads} />
+        <PackageSpreadsList securities={securities}
+                            securitiesProvider={securitiesProvider}
+                            spreads={pack.spreads}
+                            tagsProvider={tagsProvider}
+                            tags={tags} />
       </section>
     ) : false;
   }
@@ -52,9 +62,13 @@ class PackagesDetail extends Component {
 export default connect(
   (state, ownProps) => ({
     pack: state.packages.object,
-    id: ownProps.params.id
+    id: ownProps.params.id,
+    securities: state.securities.list,
+    tags: state.tags.list,
   }),
   dispatch => ({
-    packagesProvider: new PackagesProvider(dispatch)
+    packagesProvider: new PackagesProvider(dispatch),
+    securitiesProvider: new SecuritiesProvider(dispatch),
+    tagsProvider: new TagsProvider(dispatch),
   })
 )(PackagesDetail);

@@ -6,7 +6,11 @@ import CreateSpread from './CreateSpread';
 export default class PackageSpreadsList extends Component {
 
   static propTypes = {
-    spreads: PropTypes.array.isRequired
+    spreads: PropTypes.array.isRequired,
+    securitiesProvider: PropTypes.object.isRequired,
+    securities: PropTypes.array.isRequired,
+    tagsProvider: PropTypes.object.isRequired,
+    tags: PropTypes.array.isRequired,
   };
 
   constructor(props) {
@@ -51,7 +55,7 @@ export default class PackageSpreadsList extends Component {
   }
 
   render() {
-    const { spreads } = this.props;
+    const { spreads, securities, securitiesProvider, tagsProvider, tags } = this.props;
 
     return (
       <div>
@@ -97,7 +101,11 @@ export default class PackageSpreadsList extends Component {
             <p>
               Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
             </p>
-            <CreateSpread hideModal={this.hideModal} />
+            <CreateSpread securities={securities}
+                          securitiesProvider={securitiesProvider}
+                          hideModal={this.hideModal}
+                          tags={tags}
+                          tagsProvider={tagsProvider} />
           </ModalBody>
         </Modal>
       </div>
