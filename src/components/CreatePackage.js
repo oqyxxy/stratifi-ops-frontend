@@ -61,6 +61,11 @@ class CreatePackage extends Component {
     ) : (
       <div>
 
+        <h3 className="text-title">Create a Package</h3>
+        <p>
+          Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
+        </p>
+
         <form className="m-b-2" autoComplete="off" onSubmit={handleSubmit(this.onSubmit)}>
 
           { /** Package name input **/ }
@@ -145,7 +150,7 @@ export default reduxForm({
   form: 'createPackage',
   fields: [
     'description',
-    'orders[].name',
+    'orders[].description',
     'orders[].security',
     'orders[].type',
     'orders[].tags',

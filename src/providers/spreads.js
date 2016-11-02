@@ -1,4 +1,4 @@
-import { FETCH_SPREAD_LIST, FETCH_SPREAD_OBJECT } from '../constants/actions';
+import { FETCH_SPREAD_LIST, FETCH_SPREAD_OBJECT, CREATE_SPREAD } from '../constants/actions';
 import DataProvider from './base/data-provider';
 
 
@@ -9,13 +9,14 @@ export default class SpreadsProvider extends DataProvider {
   get actionTypes() {
     return {
       fetchSuccess: FETCH_SPREAD_LIST,
-      fetchObjectSuccess: FETCH_SPREAD_OBJECT
+      fetchObjectSuccess: FETCH_SPREAD_OBJECT,
+      create: CREATE_SPREAD,
     };
   }
 
   create(data, packId, tagsStore, securitiesStore) {
     const json = {
-      package_id: packId,
+      package_id: Number.parseInt(packId),
       description: data.description,
       orders: data.orders.map(order => ({
         ...order,

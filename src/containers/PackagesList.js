@@ -84,10 +84,6 @@ class PackagesList extends Component {
                shown={this.state.createPackageFormShown}
         >
           <ModalBody>
-            <h3 className="text-title">Create a Package</h3>
-            <p>
-              Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
-            </p>
             <CreatePackage securitiesProvider={securitiesProvider}
                            securities={securities}
                            hideModal={this.hideModal}

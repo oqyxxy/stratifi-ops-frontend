@@ -26,7 +26,7 @@ export default class DataProvider extends Provider {
   }
 
   create(data) {
-    return fetch(this.resourceUrl, { method: 'POST', headers: HEADERS, body: data })
+    return fetch(this.resourceUrl, { method: 'POST', headers: HEADERS, body: JSON.stringify(data) })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.create, data: json }));
   }

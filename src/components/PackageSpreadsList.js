@@ -8,11 +8,12 @@ export default class PackageSpreadsList extends Component {
   static propTypes = {
     spreads: PropTypes.array.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
+    packagesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
-    packId: PropTypes.number.isRequired,
+    packId: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -57,7 +58,8 @@ export default class PackageSpreadsList extends Component {
   }
 
   render() {
-    const { spreads, securities, securitiesProvider, tagsProvider, tags, spreadsProvider, packId } = this.props;
+    const { spreads, securities, securitiesProvider, tagsProvider,
+            tags, spreadsProvider, packId, packagesProvider } = this.props;
 
     return (
       <div>
@@ -91,7 +93,7 @@ export default class PackageSpreadsList extends Component {
 
         <div className="m-b-3">
           <button onClick={this.showModal} className="btn btn-primary btn-black btn-title m-r-1">Create a spread</button>
-          <button onClick={this.onSubmit.bind(this)} className="btn btn-primary btn-title">Execute orders</button>
+          <button onClick={this.onSubmit.bind(this)} className="btn btn-primary btn-title">Execute spreads</button>
         </div>
 
         <Modal id="createSpread"
@@ -99,13 +101,10 @@ export default class PackageSpreadsList extends Component {
                shown={this.state.createSpreadFormShown}
         >
           <ModalBody>
-            <h3 className="text-title">Create a Spread</h3>
-            <p>
-              Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
-            </p>
             <CreateSpread securities={securities}
                           securitiesProvider={securitiesProvider}
                           spreadsProvider={spreadsProvider}
+                          packagesProvider={packagesProvider}
                           hideModal={this.hideModal}
                           tags={tags}
                           packId={packId}

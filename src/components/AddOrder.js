@@ -37,7 +37,7 @@ export default class AddOrder extends Component {
         {
           orders.map((order, index) => (
             <tr key={index}>
-              <TableCellInput type="text" placeholder="Enter order name" className="form-control" {...order.name} />
+              <TableCellInput type="text" placeholder="Enter order name" className="form-control" {...order.description} />
               <TableCellSelect fieldData={order.security}
                                optionsData={securities.map(s => s.name)}
                                defaultOption={'select security'}/>

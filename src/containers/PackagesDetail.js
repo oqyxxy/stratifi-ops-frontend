@@ -18,7 +18,7 @@ class PackagesDetail extends Component {
     securitiesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     pack: PropTypes.object.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
@@ -31,7 +31,8 @@ class PackagesDetail extends Component {
   }
 
   render() {
-    const { pack, securities, securitiesProvider, tags, tagsProvider, spreadsProvider, id } = this.props;
+    const { pack, securities, securitiesProvider, tags,
+            tagsProvider, packagesProvider, spreadsProvider, id } = this.props;
 
     return pack.description ? (
       <section className="arrow-link-container">
@@ -51,6 +52,7 @@ class PackagesDetail extends Component {
 
         <h3 className="text-title m-t-3">Spreads</h3>
         <PackageSpreadsList securities={securities}
+                            packagesProvider={packagesProvider}
                             securitiesProvider={securitiesProvider}
                             spreads={pack.spreads}
                             spreadsProvider={spreadsProvider}
