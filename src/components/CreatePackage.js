@@ -1,10 +1,40 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
+import validation from '../utils/validation';
 import { AUTOSUGGEST_THEME } from '../constants/rendering';
 import { FormGroup, VerboseErrorInput, VerboseErrorAutosuggest } from './form';
 import AddOrder from './AddOrder';
 
 import '../styles-local/Autosuggest.css';
+
+
+const validate = (values, props) => {
+  const errors = {};
+
+  errors.description = errors.description || validation.required(values.description);
+
+  errors.orders = (values.orders || []).map(order => {
+    const errors = {};
+
+    errors.description = errors.description || validation.required(order.description);
+    errors.security = errors.security || validation.required(order.security);
+    errors.type = errors.type || validation.required(order.type);
+    errors.tags = errors.tags || validation.required(order.tags);
+
+    return errors;
+  });
+
+  errors.spreads = (values.spreads || []).map(spread => {
+    const errors = {};
+
+    errors.description = errors.description || validation.required(spread.description);
+    errors.description = errors.description || validation.includes(props.spreads, spread, 'description');
+
+    return errors;
+  });
+
+  return errors;
+};
 
 
 class CreatePackage extends Component {
@@ -28,7 +58,10 @@ class CreatePackage extends Component {
   }
 
   onSuggestionsFetchRequested({ value }) {
-    this.setState({ ...this.state, spreadSuggestions: this.props.spreads.filter(sprd => sprd.description.indexOf(value) !== -1) });
+    this.setState({
+      ...this.state,
+      spreadSuggestions: this.props.spreads.filter(sprd => sprd.description && sprd.description.indexOf(value) !== -1)
+    });
   }
 
   onSuggestionsClearRequested() {
@@ -60,6 +93,11 @@ class CreatePackage extends Component {
       </div>
     ) : (
       <div>
+
+        <h3 className="text-title">Create a Package</h3>
+        <p>
+          Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
+        </p>
 
         <form className="m-b-2" autoComplete="off" onSubmit={handleSubmit(this.onSubmit)}>
 
@@ -145,11 +183,12 @@ export default reduxForm({
   form: 'createPackage',
   fields: [
     'description',
-    'orders[].name',
+    'orders[].description',
     'orders[].security',
     'orders[].type',
     'orders[].tags',
     'spreads[].description',
   ],
-  initialValues: {}
+  initialValues: {},
+  validate
 })(CreatePackage);

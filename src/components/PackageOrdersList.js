@@ -6,7 +6,10 @@ import ExecuteOrders from './ExecuteOrders';
 export default class PackageOrdersList extends Component {
 
   static propTypes = {
-    orders: PropTypes.array.isRequired
+    orders: PropTypes.array.isRequired,
+    packId: PropTypes.string.isRequired,
+    ordersProvider: PropTypes.object.isRequired,
+    packagesProvider: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -44,12 +47,11 @@ export default class PackageOrdersList extends Component {
   }
 
   onSubmit(event) {
-    console.log(this.state.ordersToExecute);
     this.showModal(event);
   }
 
   render() {
-    const { orders } = this.props;
+    const { orders, ordersProvider, packagesProvider, packId } = this.props;
     const { executeOrdersFormShown, ordersToExecute } = this.state;
 
     return (
@@ -93,7 +95,11 @@ export default class PackageOrdersList extends Component {
                shown={executeOrdersFormShown}
         >
           <ModalBody>
-            <ExecuteOrders initialValues={{ orders: ordersToExecute }} hideModal={this.hideModal} />
+            <ExecuteOrders initialValues={{ orders: ordersToExecute }}
+                           packId={packId}
+                           ordersProvider={ordersProvider}
+                           packagesProvider={packagesProvider}
+                           hideModal={this.hideModal} />
           </ModalBody>
         </Modal>
 

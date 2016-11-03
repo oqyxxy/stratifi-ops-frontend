@@ -1,7 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
+import validation from '../utils/validation';
 import { FormGroup, VerboseErrorInput } from './form';
 import AddOrder from './AddOrder';
+
+
+const validate = values => {
+  const errors = {};
+
+  errors.description = errors.description || validation.required(values.description);
+
+  errors.orders = (values.orders || []).map(order => {
+    const errors = {};
+
+    errors.description = errors.description || validation.required(order.description);
+    errors.security = errors.security || validation.required(order.security);
+    errors.type = errors.type || validation.required(order.type);
+    errors.tags = errors.tags || validation.required(order.tags);
+
+    return errors;
+  });
+
+  return errors;
+};
 
 
 class CreateSpread extends Component {
@@ -9,11 +30,12 @@ class CreateSpread extends Component {
   static propTypes = {
     hideModal: PropTypes.func.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
+    packagesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
-    packId: PropTypes.number.isRequired
+    packId: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -23,9 +45,12 @@ class CreateSpread extends Component {
   }
 
   onSubmit(values) {
-    const { spreadsProvider, tags, securities, packId } = this.props;
+    const { spreadsProvider, tags, securities, packId, packagesProvider } = this.props;
 
-    spreadsProvider.create(values, packId, tags, securities).then(() => this.setState({ created: true }));
+    spreadsProvider.create(values, packId, tags, securities).then(() => {
+      this.setState({ created: true });
+      packagesProvider.getObject(packId);
+    });
   }
 
   render() {
@@ -44,14 +69,19 @@ class CreateSpread extends Component {
     ) : (
       <div>
 
+        <h3 className="text-title">Create a Spread</h3>
+        <p>
+          Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
+        </p>
+
         <form className="m-b-2" autoComplete="off" onSubmit={handleSubmit(this.onSubmit)}>
 
           { /** Package name input **/ }
           <div className="row m-b-2">
             <div className="col-sm-12">
-              <FormGroup {...fields.name}>
+              <FormGroup {...fields.description}>
                 <label>Spread Name:</label>
-                <VerboseErrorInput type="text" className="form-control" {...fields.name} />
+                <VerboseErrorInput type="text" className="form-control" {...fields.description} />
               </FormGroup>
             </div>
           </div>
@@ -88,11 +118,12 @@ class CreateSpread extends Component {
 export default reduxForm({
   form: 'createSpread',
   fields: [
-    'name',
-    'orders[].name',
+    'description',
+    'orders[].description',
     'orders[].security',
     'orders[].type',
     'orders[].tags'
   ],
-  initialValues: {}
+  initialValues: {},
+  validate
 })(CreateSpread);

@@ -6,7 +6,10 @@ import { TableCellInput } from './form';
 class ExecuteOrders extends Component {
 
   static propTypes = {
-    hideModal: PropTypes.func.isRequired
+    hideModal: PropTypes.func.isRequired,
+    packId: PropTypes.string.isRequired,
+    ordersProvider: PropTypes.object.isRequired,
+    packagesProvider: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -16,8 +19,12 @@ class ExecuteOrders extends Component {
   }
 
   onSubmit(values) {
-    console.log(values);
-    this.setState({ executed: values.orders.length });
+    const { ordersProvider, packagesProvider, packId } = this.props;
+
+    ordersProvider.execute(values).then(() => {
+      packagesProvider.getObject(packId);
+      this.setState({executed: values.orders.length});
+    });
   }
 
   render() {

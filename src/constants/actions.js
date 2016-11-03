@@ -4,6 +4,7 @@ export const CREATE_PACKAGE = 'create-package';
 
 export const FETCH_SPREAD_LIST = 'fetch-spread-list';
 export const FETCH_SPREAD_OBJECT = 'fetch-spread-object';
+export const CREATE_SPREAD = 'create-spread';
 
 export const FETCH_SECURITY_LIST = 'fetch-security-list';
 
