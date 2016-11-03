@@ -16,7 +16,7 @@ export default class SpreadsProvider extends DataProvider {
 
   create(data, packId, tagsStore, securitiesStore) {
     const json = {
-      package_id: Number.parseInt(packId),
+      package_id: Number.parseInt(packId, 10),
       description: data.description,
       orders: data.orders.map(order => ({
         ...order,

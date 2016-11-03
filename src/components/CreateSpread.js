@@ -1,7 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
+import validation from '../utils/validation';
 import { FormGroup, VerboseErrorInput } from './form';
 import AddOrder from './AddOrder';
+
+
+const validate = values => {
+  const errors = {};
+
+  errors.description = errors.description || validation.required(values.description);
+
+  errors.orders = (values.orders || []).map(order => {
+    const errors = {};
+
+    errors.description = errors.description || validation.required(order.description);
+    errors.security = errors.security || validation.required(order.security);
+    errors.type = errors.type || validation.required(order.type);
+    errors.tags = errors.tags || validation.required(order.tags);
+
+    return errors;
+  });
+
+  return errors;
+};
 
 
 class CreateSpread extends Component {
@@ -103,5 +124,6 @@ export default reduxForm({
     'orders[].type',
     'orders[].tags'
   ],
-  initialValues: {}
+  initialValues: {},
+  validate
 })(CreateSpread);

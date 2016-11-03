@@ -10,6 +10,10 @@ export default class DataProvider extends Provider {
     this.resourceUrl = `${API_BASE_URL}${this.resource}`;
   }
 
+  getObjectUrl(id) {
+    return `${this.resourceUrl}${id}`;
+  }
+
   getList() {
     fetch(this.resourceUrl, { headers: HEADERS })
       .then(response => response.json())

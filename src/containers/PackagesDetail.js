@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PackagesProvider from '../providers/packages';
 import SecuritiesProvider from '../providers/securities';
 import SpreadsProvider from '../providers/spreads';
+import OrdersProvider from '../providers/orders';
 import TagsProvider from '../providers/tags';
 import PackageOrdersList from '../components/PackageOrdersList';
 import PackageSpreadsList from '../components/PackageSpreadsList';
@@ -15,6 +16,7 @@ class PackagesDetail extends Component {
 
   static propTypes = {
     packagesProvider: PropTypes.object.isRequired,
+    ordersProvider: PropTypes.object.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
@@ -31,7 +33,7 @@ class PackagesDetail extends Component {
   }
 
   render() {
-    const { pack, securities, securitiesProvider, tags,
+    const { pack, securities, securitiesProvider, tags, ordersProvider,
             tagsProvider, packagesProvider, spreadsProvider, id } = this.props;
 
     return pack.description ? (
@@ -48,7 +50,10 @@ class PackagesDetail extends Component {
         </p>
 
         <h3 className="text-title m-t-3">Orders</h3>
-        <PackageOrdersList orders={pack.orders} />
+        <PackageOrdersList orders={pack.orders}
+                           packId={id}
+                           ordersProvider={ordersProvider}
+                           packagesProvider={packagesProvider} />
 
         <h3 className="text-title m-t-3">Spreads</h3>
         <PackageSpreadsList securities={securities}
@@ -78,5 +83,6 @@ export default connect(
     securitiesProvider: new SecuritiesProvider(dispatch),
     tagsProvider: new TagsProvider(dispatch),
     spreadsProvider: new SpreadsProvider(dispatch),
+    ordersProvider: new OrdersProvider(dispatch),
   })
 )(PackagesDetail);
