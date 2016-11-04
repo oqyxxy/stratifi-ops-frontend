@@ -1,0 +1,27 @@
+.packages-container {
+    position: relative;
+}
+
+.packages-filter {
+    position: absolute;
+    top: 15px;
+    right: 0;
+}
+
+.packages-filter i {
+    color: #777;
+    margin-right: 10px;
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.packages-filter input {
+    border: none;
+    color: #777;
+}
+
+.packages-filter input:focus {
+    border-bottom: 1px solid #777;
+    outline: none;
+}

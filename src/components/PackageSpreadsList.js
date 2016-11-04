@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { toDateString } from '../utils/filters';
 import { Modal, ModalBody } from './modals';
 import CreateSpread from './CreateSpread';
 
@@ -63,37 +64,47 @@ export default class PackageSpreadsList extends Component {
 
     return (
       <div>
-        <table className="table table-bordered table-borderless-top">
-          <thead className="thead-graphite">
-            <tr>
-              <th className="checkbox-cell" />
-              <th>Spread Name</th>
-              <th># of Orders</th>
-              <th>Creation Date</th>
-            </tr>
-          </thead>
-          <tbody>
-          {
-             spreads.map((sprd, index) => (
-              <tr key={index}>
-                <td className="checkbox-cell">
-                  <label className="c-input c-checkbox">
-                    <input onClick={e => this.toggleItem(sprd.id)} type="checkbox" />
-                    <span className="c-indicator icon-checkmark" />
-                  </label>
-                </td>
-                <td>{sprd.description}</td>
-                <td>{sprd.orders.length ? sprd.orders.join(', ') : 'No tags for this spread'}</td>
-                <td>{sprd.creation_date}</td>
-              </tr>
-            ))
-          }
-          </tbody>
-        </table>
+        {
+          spreads.length ? (
+            <table className="table table-bordered table-borderless-top">
+              <thead className="thead-graphite">
+                <tr>
+                  <th className="checkbox-cell" />
+                  <th>Spread Name</th>
+                  <th># of Orders</th>
+                  <th>Creation Date</th>
+                </tr>
+              </thead>
+              <tbody>
+              {
+                 spreads.map((sprd, index) => (
+                  <tr key={index}>
+                    <td className="checkbox-cell">
+                      <label className="c-input c-checkbox">
+                        <input onClick={e => this.toggleItem(sprd.id)} type="checkbox" />
+                        <span className="c-indicator icon-checkmark" />
+                      </label>
+                    </td>
+                    <td>{sprd.description}</td>
+                    <td>{sprd.orders.length ? sprd.orders.join(', ') : 'No tags for this spread'}</td>
+                    <td>{toDateString(sprd.creation_date)}</td>
+                  </tr>
+                ))
+              }
+              </tbody>
+            </table>
+          ) : (
+            <p>No spreads for this package</p>
+          )
+        }
 
         <div className="m-b-3">
           <button onClick={this.showModal} className="btn btn-primary btn-black btn-title m-r-1">Create a spread</button>
-          <button onClick={this.onSubmit.bind(this)} className="btn btn-primary btn-title">Execute spreads</button>
+          {
+            spreads.length ? (
+              <button onClick={this.onSubmit.bind(this)} className="btn btn-primary btn-title">Execute orders</button>
+            ) : null
+          }
         </div>
 
         <Modal id="createSpread"

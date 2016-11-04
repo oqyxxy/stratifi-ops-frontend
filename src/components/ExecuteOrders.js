@@ -1,6 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
+import validation from '../utils/validation';
 import { TableCellInput } from './form';
+
+
+const validate = values => {
+  const errors = {};
+
+  errors.orders = (values.orders || []).map(order => {
+    const errors = {};
+
+    errors.executed_price = errors.executed_price || validation.required(order.executed_price);
+    errors.executed_price = errors.executed_price || validation.floatPositive(order.executed_price);
+
+    errors.quantity = errors.quantity || validation.required(order.quantity);
+    errors.quantity = errors.quantity || validation.intPositive(order.quantity);
+
+    return errors;
+  });
+
+  return errors;
+};
 
 
 class ExecuteOrders extends Component {
@@ -57,7 +77,7 @@ class ExecuteOrders extends Component {
               {
                 fields.orders.map((order, index) => (
                   <tr key={index}>
-                    <td>{order.name.value}</td>
+                    <td>{order.description.value}</td>
                     <TableCellInput type="text" placeholder="Enter Price" className="form-control" {...order.executed_price} />
                     <TableCellInput type="text" placeholder="Enter Quantity" className="form-control" {...order.quantity} />
                   </tr>
@@ -88,8 +108,9 @@ export default reduxForm({
   form: 'executeOrders',
   fields: [
     'orders[].id',
-    'orders[].name',
+    'orders[].description',
     'orders[].executed_price',
     'orders[].quantity'
-  ]
+  ],
+  validate
 })(ExecuteOrders);
