@@ -1,9 +1,10 @@
 const _regex = {
-  intPositive: /^\d+$/
+  intPositive: /^\d+$/,
+  floatPositive: /^\d+.?[\d+]?/,
 };
 
 const _test_pattern = (value, pattern, errorMessage) => {
-  let val = value ? '' + value : value;
+  let val = value ? '' + value : '';
   if (!val.match(pattern)) return errorMessage;
 };
 
@@ -21,6 +22,10 @@ const validation = {
 
   intPositive(value) {
     return _test_pattern(value, _regex.intPositive, 'Invalid positive number');
+  },
+
+  floatPositive(value) {
+    return _test_pattern(value, _regex.floatPositive, 'Invalid positive float number');
   }
 
 };
