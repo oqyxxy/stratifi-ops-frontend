@@ -5,9 +5,8 @@ import './styles/dist/css/app.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { useRouterHistory, Router, Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { createHistory } from 'history';
 import App from './containers/App';
 import PackagesList from './containers/PackagesList';
 import PackagesDetail from './containers/PackagesDetail';
@@ -15,7 +14,6 @@ import PackagesDetail from './containers/PackagesDetail';
 import getStore from './store';
 
 
-const browserHistory = useRouterHistory(createHistory)({ basename: '/' });
 const store = getStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
 
