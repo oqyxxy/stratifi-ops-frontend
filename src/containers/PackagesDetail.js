@@ -57,6 +57,7 @@ class PackagesDetail extends Component {
 
         <h3 className="text-title m-t-3">Spreads</h3>
         <PackageSpreadsList securities={securities}
+                            ordersProvider={ordersProvider}
                             packagesProvider={packagesProvider}
                             securitiesProvider={securitiesProvider}
                             spreads={pack.spreads}
