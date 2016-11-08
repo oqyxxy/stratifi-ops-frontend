@@ -47,6 +47,11 @@ export default class AddOrder extends Component {
               <TableCellSelect fieldData={order.tags}
                                optionsData={tags.map(s => s.name)}
                                defaultOption={'select tag'}/>
+              <td className="action">
+                <a onClick={() => orders.removeField(index)}>
+                  <i className="icon-remove" />
+                </a>
+              </td>
             </tr>
           ))
         }

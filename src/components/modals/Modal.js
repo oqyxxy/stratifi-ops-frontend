@@ -7,24 +7,22 @@ const Modal = props => {
   const { id, className, shown, children } = props;
   const classes = `modal-dialog ${className || ''}`;
 
-  return (
-    <div id={id} className={`modal fade ${shown ? 'in' : ''}`} tabIndex="-1" role="dialog">
+  return shown ? (
       <div className={classes} role="document">
         <div className="modal-content">
           {shown && children}
         </div>
       </div>
-    </div>
-  );
+  ) : null;
 
-}
+};
 
 Modal.propTypes = {
   id: PropTypes.string.isRequired,
   className: PropTypes.string,
   title: PropTypes.string,
   shown: PropTypes.bool.isRequired
-}
+};
 
 
 export default Modal;
