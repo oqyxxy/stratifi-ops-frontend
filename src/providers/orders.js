@@ -7,8 +7,6 @@ export default class OrdersProvider extends DataProvider {
   get resource() { return 'orderticket/tables/order/'; }
 
   execute(data) {
-    console.log(data);
-
     const promises = [];
     for (let order of data.orders) {
       let prms = fetch(this.getObjectUrl(order.id), {
