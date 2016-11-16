@@ -11,7 +11,7 @@ export default class DataProvider extends Provider {
   }
 
   getObjectUrl(id) {
-    return `${this.resourceUrl}${id}`;
+    return `${this.resourceUrl}/${id}`;
   }
 
   getDataFromJSON(json) {
@@ -33,7 +33,7 @@ export default class DataProvider extends Provider {
   }
 
   getObject(id) {
-    fetch(`${this.resourceUrl}${id}`, { headers: this.headers })
+    fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: json }));
   }

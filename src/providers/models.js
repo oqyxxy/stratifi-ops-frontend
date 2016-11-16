@@ -32,13 +32,22 @@ export default class ModelsProvider extends DataProvider {
     let maxNumAccounts = tasksBuf.reduce((max, t) => (t.num_accounts > max) ? t.num_accounts : max, 0);
     tasksBuf = tasksBuf.filter(t => t.num_accounts === maxNumAccounts);
 
-    return tasksBuf[0];
+    return tasksBuf[0].id;
   }
 
   _getObjectForList(id) {
     fetch(this.getObjectUrl(id), { headers: this.headers })
       .then(response => response.json())
-      .then(json => this.dispatch({ type: APPEND_TO_MODEL_LIST, data: json }));
+      .then(json => {
+        const data = json.data;
+        const metrics = JSON.parse(data.json.replace(/\bNaN\b/g, "null"));
+
+        var result={};
+        for(var key in data) result[key]=data[key];
+        for(var key in metrics) result[key]=metrics[key];
+
+        this.dispatch({ type: APPEND_TO_MODEL_LIST, data: result })
+      });
   }
 
   getList() {
