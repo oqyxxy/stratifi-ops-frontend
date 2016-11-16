@@ -1,0 +1,12 @@
+.error-message {
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-align: center;
+    background: #FF002D;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.error-message:hover {
+    opacity: .5;
+}

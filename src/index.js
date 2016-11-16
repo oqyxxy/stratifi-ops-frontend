@@ -1,6 +1,10 @@
 /** import stylesheets: **/
+import 'react-date-picker/base.css';
+import 'react-date-picker/index.css';
 import './styles/dist/css/stratifi.min.css';
 import './styles/dist/css/app.min.css';
+
+import './vendor';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

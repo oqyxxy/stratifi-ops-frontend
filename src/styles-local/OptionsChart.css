@@ -1,0 +1,20 @@
+.options-chart-legend {
+    overflow: hidden;
+}
+
+.options-chart-legend h6:before {
+    content: '';
+    display: inline-block;
+    width: 2em;
+    margin-right: 1em;
+    border-bottom: 2px solid #a4def9;
+    vertical-align: middle;
+}
+
+.options-chart-legend h6.legend-primary:before {
+    border-bottom-color: #09adf9;
+}
+
+.options-chart-legend h6.legend-dashed:before {
+    border-bottom-style: dotted;
+}

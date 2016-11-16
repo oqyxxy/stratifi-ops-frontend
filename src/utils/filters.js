@@ -30,3 +30,9 @@ export const getSpreadStatus = spread => {
 export const getSpreadPrice = spread => {
   return spread.orders.reduce((prevVal, nextVal) => prevVal + nextVal.target_price, 0);
 };
+
+
+export const getDateFieldProps = props => {
+  const { value, className, checked, name, onBlur, onChange, onDragStart, onDrop, onFocus, type, placeholder } = props;
+  return { value, className, checked, name, onBlur, onChange, onDragStart, onDrop, onFocus, type, placeholder };
+};

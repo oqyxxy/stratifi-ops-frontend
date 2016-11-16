@@ -5,9 +5,11 @@ import { toDateString } from '../utils/filters';
 import PackagesProvider from '../providers/packages';
 import SpreadsProvider from '../providers/spreads';
 import SecuritiesProvider from '../providers/securities';
+import OptionsProvider from '../providers/options';
 import TagsProvider from '../providers/tags';
 import { Modal, ModalBody } from '../components/modals';
 import CreatePackage from '../components/CreatePackage';
+import OptionsSection from '../components/OptionsSection';
 
 import '../styles-local/PackagesList.css';
 
@@ -30,6 +32,8 @@ class PackagesList extends Component {
     securitiesProvider: PropTypes.object.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
+    options: PropTypes.array.isRequired,
+    optionsProvider: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -52,7 +56,16 @@ class PackagesList extends Component {
   }
 
   render() {
-    const { packagesProvider, spreads, securitiesProvider, securities, tags, tagsProvider } = this.props;
+    const {
+      packagesProvider,
+      spreads,
+      securitiesProvider,
+      securities,
+      tags,
+      tagsProvider,
+      options,
+      optionsProvider
+    } = this.props;
     const tableBody = this.packages.map(pack => (
       <tr key={pack.id}>
         <td><Link to={`/packages/${pack.id}`}>{pack.name || pack.description}</Link></td>
@@ -114,6 +127,7 @@ class PackagesList extends Component {
           </ModalBody>
         </Modal>
 
+        <OptionsSection options={options} optionsProvider={optionsProvider} />
       </section>
     );
   }
@@ -127,11 +141,13 @@ export default connect(
     spreads: state.spreads.list,
     securities: state.securities.list,
     tags: state.tags.list,
+    options: state.options.list,
   }),
   dispatch => ({
     packagesProvider: new PackagesProvider(dispatch),
     spreadsProvider: new SpreadsProvider(dispatch),
     securitiesProvider: new SecuritiesProvider(dispatch),
     tagsProvider: new TagsProvider(dispatch),
+    optionsProvider: new OptionsProvider(dispatch),
   })
 )(PackagesList);

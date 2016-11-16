@@ -1,0 +1,47 @@
+.react-date-field {
+    border: none !important;
+}
+
+.react-date-field__calendar-icon {
+    display: none;
+}
+
+.react-date-picker__calendar,
+.react-date-field > .react-date-field__picker {
+    min-width: initial;
+    border-color: #cad5d8 !important;
+}
+
+.form-inline .react-date-field__input {
+    display: inline-block;
+}
+
+.react-date-picker__nav-bar {
+    border-bottom: 1px solid #cad5d8;
+    background: #f8f8f8;
+}
+
+.react-date-picker__month-view-week-day-name {
+    font-size: 10px;
+}
+
+.react-date-picker__nav-bar-date {
+    font-size: 14px;
+}
+
+.react-date-picker__history-view {
+    border-color: #cad5d8 !important;
+}
+
+.react-date-picker__month-view--theme-default .react-date-picker__month-view-day--in-hover-range.react-date-picker__month-view-day--today-highlight .react-date-picker__month-view-day-text,
+.react-date-picker__month-view--theme-default .react-date-picker__month-view-day--in-range.react-date-picker__month-view-day--today-highlight .react-date-picker__month-view-day-text,
+.react-date-picker__month-view--theme-default .react-date-picker__month-view-day--today-highlight:not(.react-date-picker__month-view-day--active) {
+    color: #09acf8 !important;
+}
+
+.react-date-picker__month-view--theme-default .react-date-picker__month-view-day--active .react-date-picker__month-view-day-text,
+.react-date-picker__month-view--theme-default .react-date-picker__month-view-day--value.react-date-picker__month-view-day--today-highlight .react-date-picker__month-view-day-text {
+    border-color: #09acf8 !important;
+    background: #09acf8 !important;
+    color: #fff !important;
+}
