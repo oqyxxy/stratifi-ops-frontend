@@ -4,7 +4,7 @@ import '../../styles-local/Modal.css';
 
 const Modal = props => {
 
-  const { id, className, shown, children } = props;
+  const { className, shown, children } = props;
   const classes = `modal-dialog ${className || ''}`;
 
   return shown ? (

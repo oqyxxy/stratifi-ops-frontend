@@ -1,4 +1,3 @@
-import { HEADERS } from '../config';
 import DataProvider from './base/data-provider';
 
 
@@ -10,7 +9,7 @@ export default class OrdersProvider extends DataProvider {
     const promises = [];
     for (let order of data.orders) {
       let prms = fetch(this.getObjectUrl(order.id), {
-        headers: HEADERS,
+        headers: this.headers,
         method: 'PATCH',
         body: JSON.stringify({
           status: 'Executed',

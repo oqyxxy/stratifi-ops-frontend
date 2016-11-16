@@ -27,9 +27,9 @@ export default class Dashboard extends Component {
                 <div className="card-offset"></div>
 
                 <div className="card dashboard-card">
-                  <h3 className="text-title">Perfomance</h3>
+                  <h3 className="text-title">Performance</h3>
                   <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                  <Link to="/" className="btn btn-primary btn-black btn-title">Manage</Link>
+                  <Link to="/performance" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
               </div>
             </div>

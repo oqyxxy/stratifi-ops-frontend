@@ -9,3 +9,7 @@ export const CREATE_SPREAD = 'create-spread';
 export const FETCH_SECURITY_LIST = 'fetch-security-list';
 
 export const FETCH_TAG_LIST = 'fetch-tag-list';
+
+export const RESET_MODEL_LIST = 'fetch-model-list';
+export const APPEND_TO_MODEL_LIST = 'append-to-model-list';
+

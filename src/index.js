@@ -2,6 +2,9 @@
 import './styles/dist/css/stratifi.min.css';
 import './styles/dist/css/app.min.css';
 
+/** import vendor js: **/
+import './vendor';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -10,6 +13,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import App from './containers/App';
 import PackagesList from './containers/PackagesList';
 import PackagesDetail from './containers/PackagesDetail';
+import Performance from './containers/Performance';
 import Dashboard from './containers/Dashboard';
 
 import getStore from './store';
@@ -27,6 +31,7 @@ ReactDOM.render(
           <IndexRoute component={PackagesList} />
           <Route path=":id" component={PackagesDetail} />
         </Route>
+        <Route path="performance" component={Performance} />
       </Route>
     </Router>
   </Provider>,
