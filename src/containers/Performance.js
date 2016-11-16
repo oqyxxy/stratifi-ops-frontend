@@ -1,26 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import ProcessesProvider from '../providers/processes';
+import ModelsProvider from '../providers/models';
 
 
 class Performance extends Component {
 
   static propTypes = {
-    processes: PropTypes.array.isRequired,
-    processesProvider: PropTypes.object.isRequired
+    models: PropTypes.array.isRequired,
+    modelsProvider: PropTypes.object.isRequired
   };
 
   componentDidMount() {
-    this.props.processesProvider.getList();
+    this.props.modelsProvider.getList();
   }
 
   render() {
-    const { processes } = this.props;
-    const body = processes.map(process => (
-      <tr>
-        <td>{process.id}</td>
-        <td>{process.status}</td>
+    const { models } = this.props;
+    const body = models.map((m, index) => (
+      <tr key={index}>
+        <td>{m.model}</td>
+        <td>{m.strategy.metrics.annualized_return}</td>
+        <td>{m.strategy.metrics.annualized_volatility}</td>
+        <td>{m.strategy.metrics.max_drawdown}</td>
       </tr>
     ));
 
@@ -34,16 +36,20 @@ class Performance extends Component {
         </p>
 
         {
-          processes.length ? (
+          models.length ? (
             <table className="table table-bordered table-borderless-top">
               <thead className="thead-graphite">
-                <th>Process ID</th>
-                <th>Status</th>
+                <tr>
+                  <th>Model</th>
+                  <th>Annualized Return</th>
+                  <th>Annualized Volatility</th>
+                  <th>Max Drawdown</th>
+                </tr>
               </thead>
               <tbody>{body}</tbody>
             </table>
           ) : (
-            <p>There are no active processes.</p>
+            <p>There are no models.</p>
           )
         }
 
@@ -57,9 +63,9 @@ class Performance extends Component {
 
 export default connect(
   state => ({
-    processes: state.processes.list,
+    models: state.models.list,
   }),
   dispatch => ({
-    processesProvider: new ProcessesProvider(dispatch),
+    modelsProvider: new ModelsProvider(dispatch),
   })
 )(Performance);

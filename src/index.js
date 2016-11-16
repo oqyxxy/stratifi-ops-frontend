@@ -2,6 +2,9 @@
 import './styles/dist/css/stratifi.min.css';
 import './styles/dist/css/app.min.css';
 
+/** import vendor js: **/
+import './vendor';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
