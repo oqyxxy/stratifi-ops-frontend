@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { FormattedNumber } from 'react-intl';
 import ModelsProvider from '../providers/models';
 
 
@@ -20,9 +21,9 @@ class Performance extends Component {
     const body = models.map((m, index) => (
       <tr key={index}>
         <td>{m.model}</td>
-        <td>{m.strategy.metrics.annualized_return}</td>
-        <td>{m.strategy.metrics.annualized_volatility}</td>
-        <td>{m.strategy.metrics.max_drawdown}</td>
+        <td><FormattedNumber value={m.strategy.metrics.annualized_return} format="percent" /></td>
+        <td><FormattedNumber value={m.strategy.metrics.annualized_volatility} format="percent" /></td>
+        <td><FormattedNumber value={m.strategy.metrics.max_drawdown} format="percent" /></td>
       </tr>
     ));
 
