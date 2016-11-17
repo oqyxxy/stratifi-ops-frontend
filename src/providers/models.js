@@ -12,6 +12,10 @@ export default class ModelsProvider extends DataProvider {
     };
   }
 
+  getObjectUrl(id) {
+    return `${this.resourceUrl}/${id}`;
+  }
+
   _getTaskDateRange(task) {
     const minDate = new Date(task.min_date);
     const maxDate = new Date(task.max_date);
@@ -27,7 +31,7 @@ export default class ModelsProvider extends DataProvider {
     }, 0);
     tasksBuf = tasksBuf.filter(t => this._getTaskDateRange(t) === maxDateRange);
 
-    if (tasksBuf.length === 1) return tasksBuf[0];
+    if (tasksBuf.length === 1) return tasksBuf[0].id;
 
     let maxNumAccounts = tasksBuf.reduce((max, t) => (t.num_accounts > max) ? t.num_accounts : max, 0);
     tasksBuf = tasksBuf.filter(t => t.num_accounts === maxNumAccounts);
@@ -43,10 +47,16 @@ export default class ModelsProvider extends DataProvider {
         const metrics = JSON.parse(data.json.replace(/\bNaN\b/g, "null"));
 
         var result={};
-        for(var key in data) result[key]=data[key];
-        for(var key in metrics) result[key]=metrics[key];
+        for (var key in data) {
+          if (!data.hasOwnProperty(key)) continue;
+          result[key]=data[key];
+        }
+        for (var key in metrics) {
+          if (!data.hasOwnProperty(key)) continue;
+          result[key]=metrics[key];
+        }
 
-        this.dispatch({ type: APPEND_TO_MODEL_LIST, data: result })
+        this.dispatch({ type: APPEND_TO_MODEL_LIST, data: result });
       });
   }
 
