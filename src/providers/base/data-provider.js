@@ -11,7 +11,7 @@ export default class DataProvider extends Provider {
   }
 
   getObjectUrl(id) {
-    return `${this.resourceUrl}/${id}`;
+    return `${this.resourceUrl}${id}`;
   }
 
   getDataFromJSON(json) {
