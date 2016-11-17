@@ -18,7 +18,6 @@ class Performance extends Component {
 
   render() {
     const { models } = this.props;
-    console.log(models);
     const body = models.map((m, index) => (
       <tr key={index}>
         <td>{m.model}</td>
