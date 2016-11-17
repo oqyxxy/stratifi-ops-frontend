@@ -47,12 +47,12 @@ export default class ModelsProvider extends DataProvider {
         const metrics = JSON.parse(data.json.replace(/\bNaN\b/g, "null"));
 
         var result={};
-        for (var key in data) {
+        for (let key in data) {
           if (!data.hasOwnProperty(key)) continue;
           result[key]=data[key];
         }
-        for (var key in metrics) {
-          if (!data.hasOwnProperty(key)) continue;
+        for (let key in metrics) {
+          if (!metrics.hasOwnProperty(key)) continue;
           result[key]=metrics[key];
         }
 

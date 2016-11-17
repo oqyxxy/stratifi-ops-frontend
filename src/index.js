@@ -10,6 +10,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import { IntlProvider } from 'react-intl';
+import { INTL_CONFIG } from './config';
 import App from './containers/App';
 import PackagesList from './containers/PackagesList';
 import PackagesDetail from './containers/PackagesDetail';
@@ -24,16 +26,18 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App}>
-        <IndexRoute component={Dashboard} />
-        <Route path="packages">
-          <IndexRoute component={PackagesList} />
-          <Route path=":id" component={PackagesDetail} />
+    <IntlProvider {...INTL_CONFIG} >
+      <Router history={history}>
+        <Route path="/" component={App}>
+          <IndexRoute component={Dashboard} />
+          <Route path="packages">
+            <IndexRoute component={PackagesList} />
+            <Route path=":id" component={PackagesDetail} />
+          </Route>
+          <Route path="performance" component={Performance} />
         </Route>
-        <Route path="performance" component={Performance} />
-      </Route>
-    </Router>
+      </Router>
+    </IntlProvider>
   </Provider>,
   document.getElementById('root')
 );

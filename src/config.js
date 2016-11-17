@@ -19,3 +19,47 @@ export const HEADERS = {
   'Authorization': AUTH_TOKEN,
   'Content-Type': 'application/json'
 };
+
+
+export const INTL_CONFIG = {
+  locale: 'en',
+  formats: {
+    date: {
+      date: {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+      },
+      dateMonthYear: {
+        month: 'short',
+        year: 'numeric',
+      },
+      dateYear: {
+        year: 'numeric',
+      },
+    },
+    number: {
+      currency: {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      },
+      percent: {
+        style: 'percent',
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 2,
+      },
+      percentTenth: {
+        style: 'percent',
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      },
+      percentHundredth: {
+        style: 'percent',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      },
+    }
+  }
+};
