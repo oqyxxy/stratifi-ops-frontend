@@ -31,19 +31,19 @@ export default class ModelsProvider extends DataProvider {
     }, 0);
     tasksBuf = tasksBuf.filter(t => this._getTaskDateRange(t) === maxDateRange);
 
-    if (tasksBuf.length === 1) return tasksBuf[0].id;
+    if (tasksBuf.length === 1) return tasksBuf[0].task_id;
 
     let maxNumAccounts = tasksBuf.reduce((max, t) => (t.num_accounts > max) ? t.num_accounts : max, 0);
     tasksBuf = tasksBuf.filter(t => t.num_accounts === maxNumAccounts);
 
-    return tasksBuf[0].id;
+    return tasksBuf[0].task_id;
   }
 
   _getObjectForList(id) {
     fetch(this.getObjectUrl(id), { headers: this.headers })
       .then(response => response.json())
       .then(json => {
-        const data = json.data;
+        const data = json.data.items[0];
         const metrics = JSON.parse(data.json.replace(/\bNaN\b/g, "null"));
 
         var result={};
