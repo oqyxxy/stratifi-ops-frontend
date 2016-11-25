@@ -21,9 +21,9 @@ class Performance extends Component {
     const body = models.map((m, index) => (
       <tr key={index}>
         <td>{m.model}</td>
-        <td><FormattedNumber value={m.strategy.metrics.annualized_return} format="percent" /></td>
-        <td><FormattedNumber value={m.strategy.metrics.annualized_volatility} format="percent" /></td>
-        <td><FormattedNumber value={m.strategy.metrics.max_drawdown} format="percent" /></td>
+        <td><FormattedNumber value={m.annualized_return} format="percent" /></td>
+        <td><FormattedNumber value={m.annualized_volatility} format="percent" /></td>
+        <td><FormattedNumber value={m.max_drawdown} format="percent" /></td>
       </tr>
     ));
 

@@ -1,4 +1,4 @@
-import { RESET_MODEL_LIST, APPEND_TO_MODEL_LIST } from '../constants/actions';
+import { GET_MODEL_LIST } from '../constants/actions';
 import DataProvider from './base/data-provider';
 
 
@@ -8,12 +8,17 @@ export default class ModelsProvider extends DataProvider {
 
   get actionTypes() {
     return {
-      fetchSuccess: RESET_MODEL_LIST
+      fetchSuccess: GET_MODEL_LIST
     };
   }
 
-  getObjectUrl(id) {
-    return `${this.resourceUrl}/${id}`;
+  getDataFromJSON(json) {
+    const tasks = super.getDataFromJSON(json);
+    return tasks
+      .reduce((list, t) => (!list.includes(t.model)) ? list.concat(t.model) : list, [])
+      .map(model => tasks.filter(t => t.model === model))
+      .map(tasksGroup => this._findBestMatchedTask(tasksGroup))
+      .map(task => ({ ...task, ...JSON.parse(task.json.replace(/\bNaN\b/g, "null")).strategy.metrics }))
   }
 
   _getTaskDateRange(task) {
@@ -22,7 +27,7 @@ export default class ModelsProvider extends DataProvider {
     return maxDate - minDate;
   }
 
-  _findBestMatchedID(tasks) {
+  _findBestMatchedTask(tasks) {
     let tasksBuf = tasks;
 
     let maxDateRange = tasksBuf.reduce((maxRange, t) => {
@@ -31,43 +36,12 @@ export default class ModelsProvider extends DataProvider {
     }, 0);
     tasksBuf = tasksBuf.filter(t => this._getTaskDateRange(t) === maxDateRange);
 
-    if (tasksBuf.length === 1) return tasksBuf[0].id;
+    if (tasksBuf.length === 1) return tasksBuf[0];
 
     let maxNumAccounts = tasksBuf.reduce((max, t) => (t.num_accounts > max) ? t.num_accounts : max, 0);
     tasksBuf = tasksBuf.filter(t => t.num_accounts === maxNumAccounts);
 
-    return tasksBuf[0].id;
-  }
-
-  _getObjectForList(id) {
-    fetch(this.getObjectUrl(id), { headers: this.headers })
-      .then(response => response.json())
-      .then(json => {
-        const data = json.data;
-        const metrics = JSON.parse(data.json.replace(/\bNaN\b/g, "null"));
-
-        var result={};
-        for (let key in data) {
-          if (!data.hasOwnProperty(key)) continue;
-          result[key]=data[key];
-        }
-        for (let key in metrics) {
-          if (!metrics.hasOwnProperty(key)) continue;
-          result[key]=metrics[key];
-        }
-
-        this.dispatch({ type: APPEND_TO_MODEL_LIST, data: result });
-      });
-  }
-
-  getList() {
-    super.getList().then(tasks => {
-      tasks
-        .reduce((list, t) => (!list.includes(t.model)) ? list.concat(t.model) : list, [])
-        .map(model => tasks.filter(t => t.model === model))
-        .map(tasksGroup => this._findBestMatchedID(tasksGroup))
-        .map(id => this._getObjectForList(id));
-    });
+    return tasksBuf[0];
   }
 
 }
