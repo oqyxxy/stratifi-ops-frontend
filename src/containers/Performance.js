@@ -24,6 +24,11 @@ class Performance extends Component {
         <td><FormattedNumber value={m.annualized_return} format="percent" /></td>
         <td><FormattedNumber value={m.annualized_volatility} format="percent" /></td>
         <td><FormattedNumber value={m.max_drawdown} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_inception} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_daily} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_wtd} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_mtd} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_ytd} format="percent" /></td>
       </tr>
     ));
 
@@ -45,6 +50,11 @@ class Performance extends Component {
                   <th>Annualized Return</th>
                   <th>Annualized Volatility</th>
                   <th>Max Drawdown</th>
+                  <th>Inception Return</th>
+                  <th>Daily Return</th>
+                  <th>WTD Return</th>
+                  <th>MTD Return</th>
+                  <th>YTD Return</th>
                 </tr>
               </thead>
               <tbody>{body}</tbody>
