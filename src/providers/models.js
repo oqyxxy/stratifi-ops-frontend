@@ -41,6 +41,11 @@ export default class ModelsProvider extends DataProvider {
     let maxNumAccounts = tasksBuf.reduce((max, t) => (t.num_accounts > max) ? t.num_accounts : max, 0);
     tasksBuf = tasksBuf.filter(t => t.num_accounts === maxNumAccounts);
 
+    if (tasksBuf.length === 1) return tasksBuf[0];
+
+    let creationDate = tasksBuf.reduce((max, t) => (new Date(t.creation_date) > new Date(max)) ? t.creation_date : max, 0);
+    tasksBuf = tasksBuf.filter(t => t.creation_date === creationDate);
+
     return tasksBuf[0];
   }
 
