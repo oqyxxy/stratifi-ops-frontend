@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedNumber } from 'react-intl';
 import ModelsProvider from '../providers/models';
+import '../styles-local/Performance.css';
 
 
 class Performance extends Component {
@@ -29,11 +30,14 @@ class Performance extends Component {
         <td><FormattedNumber value={m.returns_wtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_mtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_ytd} format="percent" /></td>
+        <td>{m.num_accounts}</td>
+        <td>{m.min_date}</td>
+        <td>{m.max_date}</td>
       </tr>
     ));
 
     return (
-      <section>
+      <section className="performance-container">
         <h1>Performance</h1>
         <p>
           Nullam quis risus eget urna mollis ornare vel eu leo.
@@ -55,6 +59,9 @@ class Performance extends Component {
                   <th>WTD Return</th>
                   <th>MTD Return</th>
                   <th>YTD Return</th>
+                  <th>Number of accounts</th>
+                  <th>Min date</th>
+                  <th>Max date</th>
                 </tr>
               </thead>
               <tbody>{body}</tbody>
