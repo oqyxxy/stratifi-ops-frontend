@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedNumber } from 'react-intl';
 import ModelsProvider from '../providers/models';
-import '../styles-local/Performance.css';
 
 
 class Performance extends Component {
@@ -30,6 +29,11 @@ class Performance extends Component {
         <td><FormattedNumber value={m.returns_wtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_mtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_ytd} format="percent" /></td>
+      </tr>
+    ));
+    const secondBody = models.map((m, index) => (
+      <tr key={index}>
+        <td>{m.model}</td>
         <td>{m.num_accounts}</td>
         <td>{m.min_date}</td>
         <td>{m.max_date}</td>
@@ -37,7 +41,7 @@ class Performance extends Component {
     ));
 
     return (
-      <section className="performance-container">
+      <section className="m-b-3">
         <h1>Performance</h1>
         <p>
           Nullam quis risus eget urna mollis ornare vel eu leo.
@@ -47,25 +51,35 @@ class Performance extends Component {
 
         {
           models.length ? (
-            <table className="table table-bordered table-borderless-top">
-              <thead className="thead-graphite">
-                <tr>
-                  <th>Model</th>
-                  <th>Annualized Return</th>
-                  <th>Annualized Volatility</th>
-                  <th>Max Drawdown</th>
-                  <th>Inception Return</th>
-                  <th>Daily Return</th>
-                  <th>WTD Return</th>
-                  <th>MTD Return</th>
-                  <th>YTD Return</th>
-                  <th>Number of accounts</th>
-                  <th>Min date</th>
-                  <th>Max date</th>
-                </tr>
-              </thead>
-              <tbody>{body}</tbody>
-            </table>
+            <div>
+              <table className="table table-bordered table-borderless-top">
+                <thead className="thead-graphite">
+                  <tr>
+                    <th>Model</th>
+                    <th>Annualized Return</th>
+                    <th>Annualized Volatility</th>
+                    <th>Max Drawdown</th>
+                    <th>Inception Return</th>
+                    <th>Daily Return</th>
+                    <th>WTD Return</th>
+                    <th>MTD Return</th>
+                    <th>YTD Return</th>
+                  </tr>
+                </thead>
+                <tbody>{body}</tbody>
+              </table>
+              <table className="table table-bordered table-borderless-top">
+                <thead className="thead-graphite">
+                  <tr>
+                    <th>Model</th>
+                    <th>Number of accounts</th>
+                    <th>Min date</th>
+                    <th>Max date</th>
+                  </tr>
+                </thead>
+                <tbody>{secondBody}</tbody>
+              </table>
+            </div>
           ) : (
             <p>There are no models.</p>
           )

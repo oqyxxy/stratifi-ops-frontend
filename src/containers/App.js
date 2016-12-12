@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="ops-container">
         <Header />
-        {this.props.children}
+        <div className="container">{this.props.children}</div>
       </div>
     );
   }

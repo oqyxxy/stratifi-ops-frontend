@@ -37,37 +37,35 @@ class PackagesDetail extends Component {
             tagsProvider, packagesProvider, spreadsProvider, id } = this.props;
 
     return pack.description ? (
-      <div className="container">
-        <section className="arrow-link-container">
-          <Link to="/packages" className="arrow-link">
-            <i className="icon-arrow" />
-          </Link>
+      <section className="arrow-link-container">
+        <Link to="/packages" className="arrow-link">
+          <i className="icon-arrow" />
+        </Link>
 
-          <h1>{`Package ${pack.description}`}</h1>
-          <p>
-            Nullam quis risus eget urna mollis ornare vel eu leo.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-            eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
-          </p>
+        <h1>{`Package ${pack.description}`}</h1>
+        <p>
+          Nullam quis risus eget urna mollis ornare vel eu leo.
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
+          eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
+        </p>
 
-          <h3 className="text-title m-t-3">Orders</h3>
-          <PackageOrdersList orders={pack.orders}
-                             packId={id}
-                             ordersProvider={ordersProvider}
-                             packagesProvider={packagesProvider} />
+        <h3 className="text-title m-t-3">Orders</h3>
+        <PackageOrdersList orders={pack.orders}
+                           packId={id}
+                           ordersProvider={ordersProvider}
+                           packagesProvider={packagesProvider} />
 
-          <h3 className="text-title m-t-3">Spreads</h3>
-          <PackageSpreadsList securities={securities}
-                              ordersProvider={ordersProvider}
-                              packagesProvider={packagesProvider}
-                              securitiesProvider={securitiesProvider}
-                              spreads={pack.spreads}
-                              spreadsProvider={spreadsProvider}
-                              tagsProvider={tagsProvider}
-                              packId={id}
-                              tags={tags} />
-        </section>
-      </div>
+        <h3 className="text-title m-t-3">Spreads</h3>
+        <PackageSpreadsList securities={securities}
+                            ordersProvider={ordersProvider}
+                            packagesProvider={packagesProvider}
+                            securitiesProvider={securitiesProvider}
+                            spreads={pack.spreads}
+                            spreadsProvider={spreadsProvider}
+                            tagsProvider={tagsProvider}
+                            packId={id}
+                            tags={tags} />
+      </section>
     ) : false;
   }
 
