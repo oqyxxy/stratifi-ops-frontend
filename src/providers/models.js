@@ -33,7 +33,7 @@ export default class ModelsProvider extends DataProvider {
     //Return the latest task
     let creationDate = tasksBuf.reduce((max, t) => (new Date(t.creation_date) > new Date(max)) ? t.creation_date : max, 0);
     tasksBuf = tasksBuf.filter(t => t.creation_date === creationDate);
-
+    /*
     let maxDateRange = tasksBuf.reduce((maxRange, t) => {
       const tDateRange = this._getTaskDateRange(t);
       return (tDateRange > maxRange) ? tDateRange : maxRange;
@@ -49,7 +49,7 @@ export default class ModelsProvider extends DataProvider {
 
     let creationDate = tasksBuf.reduce((max, t) => (new Date(t.creation_date) > new Date(max)) ? t.creation_date : max, 0);
     tasksBuf = tasksBuf.filter(t => t.creation_date === creationDate);
-
+    */
     return tasksBuf[0];
   }
 
