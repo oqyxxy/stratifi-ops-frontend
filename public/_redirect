@@ -1,2 +1,5 @@
 # SPA Redirect
-/* / 200
+/ / 200
+/performance /performance 200
+/packages /packages 200
+/packages/:id /packages/:id 200
