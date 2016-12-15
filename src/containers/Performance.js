@@ -28,6 +28,7 @@ class Performance extends Component {
         <td><FormattedNumber value={m.returns_daily} format="percent" /></td>
         <td><FormattedNumber value={m.returns_wtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_mtd} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_qtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_ytd} format="percent" /></td>
       </tr>
     ));
@@ -63,6 +64,7 @@ class Performance extends Component {
                     <th>Daily Return</th>
                     <th>WTD Return</th>
                     <th>MTD Return</th>
+                    <th>QTD Return</th>
                     <th>YTD Return</th>
                   </tr>
                 </thead>
