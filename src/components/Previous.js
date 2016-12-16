@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import DataPresenter from './DataPresenter';
 
 
@@ -51,12 +50,10 @@ export default class Previous extends Component {
             data.data && data.plots && <DataPresenter backtestsProvider={backtestsProvider}
                                                       title={selectedName}
                                                       data={data.data}
+                                                      underlyingSymbol={data.underlying_symbol}
                                                       plots={data.plots} />
           )
         }
-        <div className="m-t-3">
-          <Link to="/" className="btn btn-primary btn-title btn-black">Back to dashboard</Link>
-        </div>
       </section>
     );
   }
