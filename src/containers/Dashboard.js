@@ -6,7 +6,7 @@ export default class Dashboard extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <div>
           <div className="dashboard-summary">
             <h1 className="m-t-2 text-gray-darkest">Welcome the dashboard</h1>
@@ -39,7 +39,7 @@ export default class Dashboard extends Component {
                 <div className="card dashboard-card">
                   <h3 className="text-title">Research</h3>
                   <p>An unknown printer took a galley of type and scrambled it.</p>
-                  <Link to="/" className="btn btn-primary btn-black btn-title">Manage</Link>
+                  <Link to="/research" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
 
                 <div className="card-offset"></div>

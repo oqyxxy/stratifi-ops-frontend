@@ -1,0 +1,34 @@
+.benchmark input,
+.benchmark label {
+    display: block;
+    width: 85%;
+}
+
+.benchmark label {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.benchmark input {
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    height: 25px;
+    border-radius: 1px;
+    padding-left: 7px;
+    box-shadow: 0 1px 1px #ddd;
+}
+
+.benchmark input:focus {
+    outline: none;
+}
+
+.benchmark fieldset {
+    display: inline-block;
+    width: 49%;
+    padding: 0;
+    border: none;
+}
+
+.benchmark .benchmark-run-btn {
+    margin-top: 2rem;
+}

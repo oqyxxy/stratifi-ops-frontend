@@ -1,0 +1,17 @@
+.data-presentation {
+    width: 95%;
+    max-width: 1650px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin: 0 auto;
+}
+
+.data-presentation > section {
+    display: inline-block;
+    width: 47.5%;
+    vertical-align: top;
+}
+
+.data-presentation > section:first-child {
+    margin-right: 5%;
+}

@@ -1,0 +1,11 @@
+.data-presenter img {
+    width: 100%;
+    box-shadow: 0 2px 3px #ccc;
+    margin-bottom: 1rem;
+}
+
+.data-presenter h5 {
+    margin-top: 25px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
