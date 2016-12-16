@@ -3,22 +3,16 @@ import { BACKTESTER_BASE_URL } from '../config';
 import { FETCH_BACKTEST_LIST, FETCH_BACKTEST_OBJECT, RUN_BACKTEST } from '../constants/actions';
 
 
-const _collectDataFromInputs = inputs => {
-  const data = {};
-  for (let key in inputs) {
-    if (!inputs.hasOwnProperty(key)) continue;
-    const val = inputs[key];
-    if (val && val.value)
-      data[key] = val.value;
-    else if (val && typeof val === 'object' && !val.tagName) {
-      data[key] = {};
-      for (let k in inputs[key]) {
-        if (!inputs[key].hasOwnProperty(k)) continue;
-        if (inputs[key][k] && inputs[key][k].value) data[key][k] = inputs[key][k].value;
-      }
+const filterOutUndefined = dict => {
+  for (let key in dict) {
+    if (!dict.hasOwnProperty(key)) continue;
+    if (typeof key === 'object') {
+      filterOutUndefined(dict[key]);
+    } else {
+      if (!dict[key]) delete dict[key];
     }
   }
-  return data;
+  return dict;
 };
 
 
@@ -58,7 +52,7 @@ export default class BacktestsProvider extends Provider {
   runBacktest(inputs) {
     return fetch(`${BACKTESTER_BASE_URL}/report`, {
       method: "post",
-      body: JSON.stringify(_collectDataFromInputs(inputs)),
+      body: JSON.stringify(filterOutUndefined(inputs)),
       headers: {
         'Content-Type': 'application/json'
       }
