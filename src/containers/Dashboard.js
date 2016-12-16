@@ -11,16 +11,14 @@ export default class Dashboard extends Component {
           <div className="dashboard-summary">
             <h1 className="m-t-2 text-gray-darkest">Welcome the dashboard</h1>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              This is our internal StratiFi dashbaord for viewing and managing things that are trading, research & performance related. 
             </p>
 
             <div className="m-t-2 card-row-wrapper">
               <div>
                 <div className="card dashboard-card">
                   <h3 className="text-title">Trading</h3>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                  <p>Ticker Order Management, T-costs, Vol Monitor etc</p>
                   <Link to="/packages" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
 
@@ -28,7 +26,7 @@ export default class Dashboard extends Component {
 
                 <div className="card dashboard-card">
                   <h3 className="text-title">Performance</h3>
-                  <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                  <p> View the performance of the various overlay strategies, number of accounts, etc.</p>
                   <Link to="/performance" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
               </div>
@@ -38,7 +36,7 @@ export default class Dashboard extends Component {
               <div>
                 <div className="card dashboard-card">
                   <h3 className="text-title">Research</h3>
-                  <p>An unknown printer took a galley of type and scrambled it.</p>
+                  <p>Run backtests, view analytics, etc</p>
                   <Link to="/research" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
 
