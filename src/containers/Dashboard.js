@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
               <div>
                 <div className="card dashboard-card">
                   <h3 className="text-title">Trading</h3>
-                  <p>Ticker Order Management, T-costs, Vol Monitor etc</p>
+                  <p>Ticker Order Management, T-costs, Vol Monitor etc.</p>
                   <Link to="/packages" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
 
@@ -36,7 +36,7 @@ export default class Dashboard extends Component {
               <div>
                 <div className="card dashboard-card">
                   <h3 className="text-title">Research</h3>
-                  <p>Run backtests, view analytics, etc</p>
+                  <p>Run backtests, view analytics, etc.</p>
                   <Link to="/research" className="btn btn-primary btn-black btn-title">Manage</Link>
                 </div>
 
