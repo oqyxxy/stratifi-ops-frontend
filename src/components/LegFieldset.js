@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import Input from './form/Input';
 
 
@@ -9,6 +10,15 @@ export default class LegFieldset extends Component {
     placeholders: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired
   };
+
+  componentDidMount() {
+    const { fields, placeholders } = this.props;
+    for (let fieldName in fields) {
+      if (!fields.hasOwnProperty(fieldName)) continue;
+      let element = ReactDOM.findDOMNode(this).querySelector('input[name$=' + fieldName + ']');
+      element.value = placeholders[fieldName];
+    }
+  }
 
   render() {
     const { fields, placeholders, title } = this.props;
