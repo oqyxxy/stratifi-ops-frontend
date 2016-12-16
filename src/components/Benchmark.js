@@ -78,7 +78,7 @@ class Benchmark extends Component {
           take_profit_threshold: 3.0,
           stop_loss_threshold: -1.00e30
         }} title="Leg long call" />
-        <LegFieldset fields={fields.leg_short_call} placeholders={{
+        <LegFieldset fields={fields.leg_short_put} placeholders={{
           oom_amount: -0.03,
           optional_notional_exposure: -0.33,
           tenor_days: 28,
@@ -86,7 +86,7 @@ class Benchmark extends Component {
           take_profit_threshold: 0.5,
           stop_loss_threshold: -1.00e30
         }} title="Leg short put" />
-        <LegFieldset fields={fields.leg_long_call} placeholders={{
+        <LegFieldset fields={fields.leg_long_put} placeholders={{
           oom_amount: -0.05,
           optional_notional_exposure: 0.50,
           tenor_days: 28 * 6,
