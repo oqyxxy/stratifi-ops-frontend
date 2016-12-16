@@ -42,53 +42,55 @@ class Performance extends Component {
     ));
 
     return (
-      <section className="m-b-3">
-        <h1>Performance</h1>
-        <p>
-          Nullam quis risus eget urna mollis ornare vel eu leo.
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-          eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
-        </p>
+      <div className="container">
+        <section className="m-b-3">
+          <h1>Performance</h1>
+          <p>
+            Nullam quis risus eget urna mollis ornare vel eu leo.
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
+            eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
+          </p>
 
-        {
-          models.length ? (
-            <div>
-              <table className="table table-bordered table-borderless-top">
-                <thead className="thead-graphite">
-                  <tr>
-                    <th>Model</th>
-                    <th>Annualized Return</th>
-                    <th>Annualized Volatility</th>
-                    <th>Max Drawdown</th>
-                    <th>Inception Return</th>
-                    <th>Daily Return</th>
-                    <th>WTD Return</th>
-                    <th>MTD Return</th>
-                    <th>QTD Return</th>
-                    <th>YTD Return</th>
-                  </tr>
-                </thead>
-                <tbody>{body}</tbody>
-              </table>
-              <table className="table table-bordered table-borderless-top">
-                <thead className="thead-graphite">
-                  <tr>
-                    <th>Model</th>
-                    <th>Number of accounts</th>
-                    <th>Min date</th>
-                    <th>Max date</th>
-                  </tr>
-                </thead>
-                <tbody>{secondBody}</tbody>
-              </table>
-            </div>
-          ) : (
-            <p>There are no models.</p>
-          )
-        }
+          {
+            models.length ? (
+              <div>
+                <table className="table table-bordered table-borderless-top">
+                  <thead className="thead-graphite">
+                    <tr>
+                      <th>Model</th>
+                      <th>Annualized Return</th>
+                      <th>Annualized Volatility</th>
+                      <th>Max Drawdown</th>
+                      <th>Inception Return</th>
+                      <th>Daily Return</th>
+                      <th>WTD Return</th>
+                      <th>MTD Return</th>
+                      <th>QTD Return</th>
+                      <th>YTD Return</th>
+                    </tr>
+                  </thead>
+                  <tbody>{body}</tbody>
+                </table>
+                <table className="table table-bordered table-borderless-top">
+                  <thead className="thead-graphite">
+                    <tr>
+                      <th>Model</th>
+                      <th>Number of accounts</th>
+                      <th>Min date</th>
+                      <th>Max date</th>
+                    </tr>
+                  </thead>
+                  <tbody>{secondBody}</tbody>
+                </table>
+              </div>
+            ) : (
+              <p>There are no models.</p>
+            )
+          }
 
-        <Link to="/" className="btn btn-primary btn-black btn-title">Back to dashboard</Link>
-      </section>
+          <Link to="/" className="btn btn-primary btn-black btn-title">Back to dashboard</Link>
+        </section>
+      </div>
     );
   }
 

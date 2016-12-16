@@ -1,17 +1,18 @@
 const hostname = window.location.hostname;
 
 const api = {
-  'localhost': 'http://localhost:9090/api/',
+  'localhost': 'https://robo-pm-dev.stratifi.com/api/',
   'robo-pm-frontend.netlify.com': 'https://robo-pm-production.stratifi.com/api/'
 };
 
 const authTokens = {
-  'localhost': 'WyIyIiwiMjRlNjc5OWZjNDYzMjMyMTcyYjY5NDI5NTllOWEyZjQiXQ.CvjPkw.4SzjzCRDmWJ1iHSi_tzuNlJC0AE',
+  'localhost': 'WyIyIiwiNjU4ZGMyZjA5ZGJiNGRkMzZkMTNjZmMzNjBlMTk5ZTEiXQ.Cm66yQ.7J671CvhSZtT8mX9ZFD6yLs96K8',
   'robo-pm-frontend.netlify.com': 'WyIyIiwiNjU4ZGMyZjA5ZGJiNGRkMzZkMTNjZmMzNjBlMTk5ZTEiXQ.Cm66yQ.7J671CvhSZtT8mX9ZFD6yLs96K8'
 };
 
 
 export const API_BASE_URL = api[hostname];
+export const BACKTESTER_BASE_URL = 'http://127.0.0.1:5000';
 const AUTH_TOKEN = authTokens[hostname];
 
 

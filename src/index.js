@@ -17,6 +17,7 @@ import PackagesList from './containers/PackagesList';
 import PackagesDetail from './containers/PackagesDetail';
 import Performance from './containers/Performance';
 import Dashboard from './containers/Dashboard';
+import Research from './containers/Research';
 
 import getStore from './store';
 
@@ -35,6 +36,7 @@ ReactDOM.render(
             <Route path=":id" component={PackagesDetail} />
           </Route>
           <Route path="performance" component={Performance} />
+          <Route path="research" component={Research} />
         </Route>
       </Router>
     </IntlProvider>
