@@ -32,58 +32,58 @@ export default class DataPresenter extends Component {
           <tbody>
             <tr>
               <td>Total return</td>
-              <td><FormattedNumber value={underlying.total_return} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.total_return} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.total_return} /></td>
+              <td><FormattedNumber value={strategy.total_return} /></td>
             </tr>
             <tr>
               <td>Max dd months to recover</td>
-              <td><FormattedNumber value={underlying.max_dd_months_to_recover} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.max_dd_months_to_recover} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.max_dd_months_to_recover} /></td>
+              <td><FormattedNumber value={strategy.max_dd_months_to_recover} /></td>
             </tr>
             <tr>
               <td>Max drawdown</td>
-              <td><FormattedNumber value={underlying.max_drawdown} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.max_drawdown} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.max_drawdown} /></td>
+              <td><FormattedNumber value={strategy.max_drawdown} /></td>
             </tr>
             <tr>
               <td>Annual return</td>
-              <td><FormattedNumber value={underlying.annual_return} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.annual_return} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.annual_return} /></td>
+              <td><FormattedNumber value={strategy.annual_return} /></td>
             </tr>
             <tr>
               <td>Capture up</td>
-              <td><FormattedNumber value={underlying.capture_up} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.capture_up} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.capture_up} /></td>
+              <td><FormattedNumber value={strategy.capture_up} /></td>
             </tr>
             <tr>
               <td>Capture down</td>
-              <td><FormattedNumber value={underlying.capture_down} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.capture_down} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.capture_down} /></td>
+              <td><FormattedNumber value={strategy.capture_down} /></td>
             </tr>
             <tr>
               <td>Return in 1 year</td>
-              <td><FormattedNumber value={underlying.return_1yr} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.return_1yr} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.return_1yr} /></td>
+              <td><FormattedNumber value={strategy.return_1yr} /></td>
             </tr>
             <tr>
               <td>Return in 3 years</td>
-              <td><FormattedNumber value={underlying.return_3yr} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.return_3yr} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.return_3yr} /></td>
+              <td><FormattedNumber value={strategy.return_3yr} /></td>
             </tr>
             <tr>
               <td>Return in 5 years</td>
-              <td><FormattedNumber value={underlying.return_5yr} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.return_5yr} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.return_5yr} /></td>
+              <td><FormattedNumber value={strategy.return_5yr} /></td>
             </tr>
             <tr>
               <td>Sharpe ratio</td>
-              <td><FormattedNumber value={underlying.sharpe_ratio} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.sharpe_ratio} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.sharpe_ratio} /></td>
+              <td><FormattedNumber value={strategy.sharpe_ratio} /></td>
             </tr>
             <tr>
               <td>Annual volatility</td>
-              <td><FormattedNumber value={underlying.annual_volatility} format="decimal" /></td>
-              <td><FormattedNumber value={strategy.annual_volatility} format="decimal" /></td>
+              <td><FormattedNumber value={underlying.annual_volatility} /></td>
+              <td><FormattedNumber value={strategy.annual_volatility} /></td>
             </tr>
           </tbody>
         </table>
