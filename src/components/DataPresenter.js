@@ -24,7 +24,7 @@ export default class DataPresenter extends Component {
         <table className="table table-bordered table-borderless-top">
           <thead className="thead-graphite">
             <tr>
-              <th>Parameter</th>
+              <th>Performance Metric</th>
               <th>{underlyingSymbol}</th>
               <th>Strategy</th>
             </tr>
