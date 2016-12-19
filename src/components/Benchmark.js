@@ -43,7 +43,7 @@ class Benchmark extends Component {
                        plots={data.plots}
                        underlyingSymbol={data.underlying_symbol}
                        backtestsProvider={backtestsProvider}
-                       title="Benchmark Data" />
+                       title="Backtest Report" />
         <button className="btn btn-title btn-primary" onClick={this.skipResults.bind(this)}>Run with other parameters</button>
       </section>
     ) : this.state.loading ? (
