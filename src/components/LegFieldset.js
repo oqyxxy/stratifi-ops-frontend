@@ -17,6 +17,9 @@ export default class LegFieldset extends Component {
       if (!fields.hasOwnProperty(fieldName)) continue;
       let element = ReactDOM.findDOMNode(this).querySelector('input[name$=' + fieldName + ']');
       element.value = placeholders[fieldName];
+
+      var event = new Event( 'input', {target: element, bubbles: true} );
+      element.dispatchEvent(event)
     }
   }
 
