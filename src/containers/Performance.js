@@ -46,9 +46,7 @@ class Performance extends Component {
         <section className="m-b-3">
           <h1>Performance</h1>
           <p>
-            Nullam quis risus eget urna mollis ornare vel eu leo.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-            eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
+            Daily Performance of the Overlay strategies.
           </p>
 
           {
