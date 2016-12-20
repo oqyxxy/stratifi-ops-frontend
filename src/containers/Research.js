@@ -22,11 +22,6 @@ class Research extends Component {
 
     return (
       <div className="data-presentation">
-      <section className="m-b-3">
-          <h1>BackTest Strategies</h1>
-          <p>
-            Set the values of the parameters to backtest a trading strategy.
-          </p>
 
         <Previous list={backtests.list}
                   data={backtests.object}
@@ -34,8 +29,6 @@ class Research extends Component {
                   selectedName={backtests.name} />
         <Benchmark data={backtests.runResult} backtestsProvider={backtestsProvider} />
       
-      <Link to="/" className="btn btn-primary btn-black btn-title">Back to dashboard</Link>
-        </section>
       </div>
     );
   }
