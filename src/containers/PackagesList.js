@@ -77,58 +77,59 @@ class PackagesList extends Component {
     ));
 
     return (
-      <section className="packages-container">
-        <h1>Packages</h1>
-        <div className="packages-filter">
-          <i className="icon-search" />
-          <input type="text"
-                 placeholder="Search all packages"
-                 onChange={e => this.setState({ ...this.state, searchFilter: e.target.value })} />
-        </div>
-        <p>
-          Nullam quis risus eget urna mollis ornare vel eu leo.
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-          eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
-        </p>
+      <div className="container">
+        <section className="packages-container">
+          <h1>Packages</h1>
+          <div className="packages-filter">
+            <i className="icon-search" />
+            <input type="text"
+                   placeholder="Search all packages"
+                   onChange={e => this.setState({ ...this.state, searchFilter: e.target.value })} />
+          </div>
+          <p>
+            Nullam quis risus eget urna mollis ornare vel eu leo.
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
+            eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
+          </p>
 
-        {
-          this.packages.length ? (
-            <table className="table table-bordered table-borderless-top">
-              <thead className="thead-graphite">
-              <tr>
-                <th>Package Name</th>
-                <th>Total Orders</th>
-                <th>Total Spreads</th>
-                <th>Creation Date</th>
-                <th>Description</th>
-              </tr>
-              </thead>
-              <tbody>{tableBody}</tbody>
-            </table>
-          ) : (
-            <p>There are no packages :(</p>
-          )
-        }
-        <button className="btn btn-primary btn-title"
-                onClick={this.showModal}>Create a package</button>
+          {
+            this.packages.length ? (
+              <table className="table table-bordered table-borderless-top">
+                <thead className="thead-graphite">
+                <tr>
+                  <th>Package Name</th>
+                  <th>Total Orders</th>
+                  <th>Total Spreads</th>
+                  <th>Creation Date</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>{tableBody}</tbody>
+              </table>
+            ) : (
+              <p>There are no packages :(</p>
+            )
+          }
+          <button className="btn btn-primary btn-title"
+                  onClick={this.showModal}>Create a package</button>
 
-        <Modal id="createPackage"
-               className="modal-lg"
-               shown={this.state.createPackageFormShown}
-        >
-          <ModalBody>
-            <CreatePackage securitiesProvider={securitiesProvider}
-                           securities={securities}
-                           hideModal={this.hideModal}
-                           spreads={spreads}
-                           packagesProvider={packagesProvider}
-                           tags={tags}
-                           tagsProvider={tagsProvider} />
-          </ModalBody>
-        </Modal>
+          <Modal id="createPackage"
+                 className="modal-lg"
+                 shown={this.state.createPackageFormShown}
+          >
+            <ModalBody>
+              <CreatePackage securitiesProvider={securitiesProvider}
+                             securities={securities}
+                             hideModal={this.hideModal}
+                             spreads={spreads}
+                             packagesProvider={packagesProvider}
+                             tags={tags}
+                             tagsProvider={tagsProvider} />
+            </ModalBody>
+          </Modal>
 
-        <OptionsSection options={options} optionsProvider={optionsProvider} />
-      </section>
+        </section>
+      </div>
     );
   }
 
