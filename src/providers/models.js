@@ -29,6 +29,8 @@ export default class ModelsProvider extends DataProvider {
 
   _findBestMatchedTask(tasks) {
     let tasksBuf = tasks;
+
+    tasksBuf = tasksBuf.filter(t => t.status_code === 200);
     
     //Return the latest task
     let creationDate = tasksBuf.reduce((max, t) => (new Date(t.creation_date) > new Date(max)) ? t.creation_date : max, 0);
