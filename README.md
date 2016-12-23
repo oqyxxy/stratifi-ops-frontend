@@ -5,6 +5,7 @@
 One command should prepare the environment and install all the dependencies.
 ```
 npm install
+bower install
 ```
 
 

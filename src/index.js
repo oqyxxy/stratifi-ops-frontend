@@ -18,9 +18,9 @@ import PackagesDetail from './containers/PackagesDetail';
 import Performance from './containers/Performance';
 import Dashboard from './containers/Dashboard';
 import Research from './containers/Research';
+import StrategyDetail from './containers/StrategyDetail';
 
 import getStore from './store';
-
 
 const store = getStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
@@ -37,6 +37,9 @@ ReactDOM.render(
           </Route>
           <Route path="performance" component={Performance} />
           <Route path="research" component={Research} />
+          <Route path="strategy">
+            <Route path=":id" component={StrategyDetail} />
+          </Route>
         </Route>
       </Router>
     </IntlProvider>
