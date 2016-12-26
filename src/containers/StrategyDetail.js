@@ -7,34 +7,61 @@ import ModelsProvider from '../providers/models';
 class StrategyDetailContainer extends Component {
 
   static propTypes = {
-    model: PropTypes.object.isRequired,
+    model: PropTypes.object,
+    basisModel: PropTypes.object,
     modelsProvider: PropTypes.object.isRequired
   };
 
   componentDidMount() {
     const {params} = this.props;
 
-    this.props.modelsProvider.getObject(params.id);
+    if (params.id == 'basis-strategy') {
+      this.props.modelsProvider.getBasisObject();
+    } else {
+      this.props.modelsProvider.getObject(params.id);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.modelsProvider.clearObject();
   }
 
   render() {
-    const {model} = this.props;
-    let data = {};
+    const {model, basisModel, params} = this.props;
+    let returns = [];
     let strategyModel = '';
 
-    if (model && model.data) {
+    if (params.id == 'basis-strategy' && basisModel && basisModel.data) {
+      const basisModelData = basisModel.data.items[0].data;
+      strategyModel = 'VIX vs VXX';
+      returns = Object.assign([]);
+
+      Object.keys(basisModelData.t_date).forEach(key => {
+        returns.push({
+          date: new Date(basisModelData.t_date[key]),
+          0: basisModelData.price_close_ini[key],
+        });
+      });
+    } else if (model && model.data) {
       const modelItem = model.data.items[0];
+      const data = JSON.parse(modelItem.json);
       strategyModel = modelItem.model;
-      data = JSON.parse(model.data.items[0].json);
+
+      returns = data.strategy.returns.map(item => ({
+        date: new Date(item[0]),
+        0: item[1]
+      }));
     }
 
     return (
       <div className="strategy-detail-container container">
         <div className="m-b-3">
-          <StrategyDetail
-            model={strategyModel}
-            data={data}
-          />
+          {returns.length ?
+            <StrategyDetail
+              model={strategyModel}
+              returns={returns}
+            /> : false
+          }
         </div>
       </div>
     );
@@ -46,6 +73,7 @@ class StrategyDetailContainer extends Component {
 export default connect(
   state => ({
     model: state.models.object,
+    basisModel: state.models.basisObject,
   }),
   dispatch => ({
     modelsProvider: new ModelsProvider(dispatch),
