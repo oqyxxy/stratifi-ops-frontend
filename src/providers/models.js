@@ -1,4 +1,4 @@
-import { GET_MODEL_LIST } from '../constants/actions';
+import { GET_MODEL_LIST, GET_MODEL_OBJECT } from '../constants/actions';
 import DataProvider from './base/data-provider';
 
 
@@ -8,7 +8,8 @@ export default class ModelsProvider extends DataProvider {
 
   get actionTypes() {
     return {
-      fetchSuccess: GET_MODEL_LIST
+      fetchSuccess: GET_MODEL_LIST,
+      fetchObjectSuccess: GET_MODEL_OBJECT,
     };
   }
 

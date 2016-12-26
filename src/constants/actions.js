@@ -11,6 +11,7 @@ export const FETCH_SECURITY_LIST = 'fetch-security-list';
 export const FETCH_TAG_LIST = 'fetch-tag-list';
 
 export const GET_MODEL_LIST = 'get-model-list';
+export const GET_MODEL_OBJECT = 'get-model-object';
 
 export const FETCH_BACKTEST_LIST = 'fetch-backtest-list';
 export const FETCH_BACKTEST_OBJECT = 'fetch-backtest-object';
