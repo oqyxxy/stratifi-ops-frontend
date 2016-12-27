@@ -34,7 +34,6 @@ class PackagesList extends Component {
 
   componentDidMount() {
     this.props.packagesProvider.getList();
-    this.props.spreadsProvider.getList([{name: 'Spread1'}, {'name': 'Spread2'}, {'name': 'Spread3'}]);
   }
 
   get packages() {
@@ -52,7 +51,9 @@ class PackagesList extends Component {
   }
 
   render() {
-    const { packagesProvider, spreads, securitiesProvider, securities, tags, tagsProvider } = this.props;
+    const {
+      packagesProvider, spreads, spreadsProvider, securitiesProvider, securities, tags, tagsProvider
+    } = this.props;
     const tableBody = this.packages.map(pack => (
       <tr key={pack.id}>
         <td><Link to={`/packages/${pack.id}`}>{pack.name || pack.description}</Link></td>
@@ -109,6 +110,7 @@ class PackagesList extends Component {
                              securities={securities}
                              hideModal={this.hideModal}
                              spreads={spreads}
+                             spreadsProvider={spreadsProvider}
                              packagesProvider={packagesProvider}
                              tags={tags}
                              tagsProvider={tagsProvider} />

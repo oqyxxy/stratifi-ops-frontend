@@ -6,20 +6,13 @@ import FormGroup from './FormGroup';
 const TableCellInput = props => {
 
   const { touched, error } = props,
-      invalid = !!(touched && error),
-      invalidStyles = { borderBottom: '2px solid #FF002D' },
-      messageStyles = {
-        marginTop: 10,
-        marginBottom: -12,
-        marginLeft: -14,
-        fontSize: 12
-      };
+      invalid = !!(touched && error);
 
    return (
-     <td style={invalid ? invalidStyles : null}>
+     <td>
        <FormGroup {...props}>
          <Input type="text" className="form-control" {...props} />
-         { invalid && <div className="text-danger" style={messageStyles}>{error}</div> }
+         { invalid && <div className="text-danger">{error}</div> }
        </FormGroup>
      </td>
    );

@@ -14,18 +14,12 @@ export default class PackagesProvider extends DataProvider {
     };
   }
 
-  create(data, spreadsStore, tagsStore, securitiesStore) {
+  create(data, spreadsStore) {
     const json = {
-      description: data.description,
-      orders: data.orders.map(order => ({
-        ...order,
-        tags: [tagsStore.find(o => o.name === order.tags).id],
-        security: securitiesStore.find(s => s.name === order.security).id
-      })),
+      ...data,
       spreads: data.spreads.map(sprd => spreadsStore.find(s => s.description === sprd.description).id)
     };
 
-    console.log(json);
     return super.create(json);
   }
 

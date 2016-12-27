@@ -90,9 +90,7 @@ class CreateSpread extends Component {
           <div>
             <AddOrder securities={securities}
                       securitiesProvider={securitiesProvider}
-                      orders={fields.orders}
-                      tags={tags}
-                      tagsProvider={tagsProvider} />
+                      orders={fields.orders} />
           </div>
 
           <div className="text-xs-center m-b-1">

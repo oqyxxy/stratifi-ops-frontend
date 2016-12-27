@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import validation from '../utils/validation';
-import { AUTOSUGGEST_THEME } from '../constants/rendering';
-import { FormGroup, VerboseErrorInput, VerboseErrorAutosuggest } from './form';
+import { FormGroup, VerboseErrorInput, VerboseErrorSelect, ListAutosuggest } from './form';
 import AddOrder from './AddOrder';
 
 import '../styles-local/Autosuggest.css';
@@ -13,26 +12,6 @@ const validate = (values, props) => {
 
   errors.description = errors.description || validation.required(values.description);
 
-  errors.orders = (values.orders || []).map(order => {
-    const errors = {};
-
-    errors.description = errors.description || validation.required(order.description);
-    errors.security = errors.security || validation.required(order.security);
-    errors.type = errors.type || validation.required(order.type);
-    errors.tags = errors.tags || validation.required(order.tags);
-
-    return errors;
-  });
-
-  errors.spreads = (values.spreads || []).map(spread => {
-    const errors = {};
-
-    errors.description = errors.description || validation.required(spread.description);
-    errors.description = errors.description || validation.includes(props.spreads, spread, 'description');
-
-    return errors;
-  });
-
   return errors;
 };
 
@@ -42,6 +21,7 @@ class CreatePackage extends Component {
   static propTypes = {
     hideModal: PropTypes.func.isRequired,
     packagesProvider: PropTypes.object.isRequired,
+    spreadsProvider: PropTypes.object.isRequired,
     spreads: PropTypes.array.isRequired,
     securities: PropTypes.array.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
@@ -52,35 +32,28 @@ class CreatePackage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { spreadSuggestions: [], created: false };
-    this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
-    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
-  }
-
-  onSuggestionsFetchRequested({ value }) {
-    this.setState({
-      ...this.state,
-      spreadSuggestions: this.props.spreads.filter(sprd => sprd.description && sprd.description.indexOf(value) !== -1)
-    });
-  }
-
-  onSuggestionsClearRequested() {
-    this.setState({ ...this.state, spreadSuggestions: [] });
+    this.state = { created: false };
   }
 
   onSubmit(values) {
-    const { packagesProvider, spreads, tags, securities } = this.props;
+    const { packagesProvider, spreads } = this.props;
+    console.log(values);
 
-    packagesProvider.create(values, spreads, tags, securities)
+    packagesProvider.create(values, spreads)
       .then(() => {
         this.setState({ ...this.state, created: true });
         packagesProvider.getList();
       });
   }
 
+  componentDidMount() {
+    this.props.tagsProvider.getList();
+    this.props.spreadsProvider.getList();
+  }
+
   render() {
     const { hideModal, fields, invalid, submitting, handleSubmit,
-            securities, securitiesProvider, tags, tagsProvider } = this.props;
+            securities, securitiesProvider, tags, spreads } = this.props;
 
     return this.state.created ? (
       <div className="text-xs-center">
@@ -102,7 +75,7 @@ class CreatePackage extends Component {
         <form className="m-b-2" autoComplete="off" onSubmit={handleSubmit(this.onSubmit)}>
 
           { /** Package name input **/ }
-          <div className="row m-b-2">
+          <div className="row">
             <div className="col-sm-12">
               <FormGroup {...fields.description}>
                 <label>Package Name:</label>
@@ -111,13 +84,20 @@ class CreatePackage extends Component {
             </div>
           </div>
 
+          <div className="row m-b-2">
+            <div className="col-sm-12">
+              <VerboseErrorSelect fieldData={fields.strategy_tag_name}
+                                  defaultOption="Select strategy tag"
+                                  labelText="Strategy tag"
+                                  optionsData={tags.map(t => ({value: t.id, label: t.name}))} />
+            </div>
+          </div>
+
           { /** Add orders subform(table) **/ }
           <div>
             <AddOrder orders={fields.orders}
                       securities={securities}
-                      securitiesProvider={securitiesProvider}
-                      tags={tags}
-                      tagsProvider={tagsProvider} />
+                      securitiesProvider={securitiesProvider} />
           </div>
 
           { /** Add spreads subform(table) **/ }
@@ -130,18 +110,10 @@ class CreatePackage extends Component {
                 fields.spreads.map((spread, index) => (
                   <tr key={index}>
                     <td>
-                      <VerboseErrorAutosuggest field={spread.description}
-                                               suggestions={this.state.spreadSuggestions}
-                                               getSuggestionValue={suggestion => suggestion.description}
-                                               renderSuggestion={suggestion => <span>{suggestion.description}</span>}
-                                               onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                                               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                                               inputProps={{
-                                                 placeholder: 'Search existing spreads',
-                                                 value: spread.description.value || '',
-                                                 onChange: (event, { newValue }) => spread.description.onChange(newValue)
-                                               }}
-                                               theme={AUTOSUGGEST_THEME} />
+                      <ListAutosuggest data={spreads}
+                                       fieldName="description"
+                                       placeholder="Search existing spreads"
+                                       fieldData={spread.description} />
                     </td>
                     <td className="action">
                       <a onClick={() => fields.spreads.removeField(index)}>
@@ -154,7 +126,7 @@ class CreatePackage extends Component {
 
               <tr>
                 <td>
-                  <a onClick={() => fields.spreads.addField({})} className="link"><i className="icon-add"></i> Add Spread</a>
+                  <a onClick={() => fields.spreads.addField({})} className="link"><i className="icon-add" /> Add Spread</a>
                 </td>
               </tr>
             </tbody>
@@ -183,10 +155,13 @@ export default reduxForm({
   form: 'createPackage',
   fields: [
     'description',
+    'strategy_tag_name',
     'orders[].description',
-    'orders[].security',
+    'orders[].security.name',
+    'orders[].security.option_type',
+    'orders[].security.strike_price',
+    'orders[].security.expiration_price',
     'orders[].type',
-    'orders[].tags',
     'spreads[].description',
   ],
   initialValues: {},
