@@ -13,52 +13,69 @@ class StrategyDetailContainer extends Component {
   };
 
   componentDidMount() {
-    const {params} = this.props;
+    const {params, location} = this.props;
 
-    if (params.id == 'basis-strategy') {
+    if (location.query && +location.query.basis) {
       this.props.modelsProvider.getBasisObject();
-    } else {
-      this.props.modelsProvider.getObject(params.id);
     }
+
+    this.props.modelsProvider.getObject(params.id);
   }
 
   componentWillUnmount() {
     this.props.modelsProvider.clearObject();
   }
 
-  render() {
-    const {model, basisModel, params} = this.props;
+  prepareReturns() {
+    const {model} = this.props;
     let returns = [];
     let strategyModel = '';
 
-    if (params.id == 'basis-strategy' && basisModel && basisModel.data) {
-      const basisModelData = basisModel.data.items[0].data;
-      strategyModel = 'VIX vs VXX';
-      returns = Object.assign([]);
-
-      Object.keys(basisModelData.t_date).forEach(key => {
-        returns.push({
-          date: new Date(basisModelData.t_date[key]),
-          0: basisModelData.price_close_ini[key],
-        });
-      });
-    } else if (model && model.data) {
+    if (model && model.data) {
       const modelItem = model.data.items[0];
       const data = JSON.parse(modelItem.json);
       strategyModel = modelItem.model;
 
       returns = data.strategy.returns.map(item => ({
         date: new Date(item[0]),
-        0: item[1]
+        1: item[1]
       }));
     }
+
+    return {returns, strategyModel};
+  }
+
+  prepareBasisReturns() {
+    const {basisModel, location: {query}} = this.props;
+    let basisReturns = [];
+
+    if (query && +query.basis && basisModel && basisModel.data) {
+      const basisModelData = basisModel.data.items[0].data;
+
+      Object.keys(basisModelData.t_date).forEach(key => {
+        basisReturns.push({
+          date: new Date(basisModelData.t_date[key]),
+          1: basisModelData.price_close_ini[key],
+        });
+      });
+    }
+
+    return basisReturns;
+  }
+
+  render() {
+    const {location} = this.props;
+    const {strategyModel, returns} = this.prepareReturns();
+    const basisReturns = this.prepareBasisReturns();
 
     return (
       <div className="strategy-detail-container container">
         <div className="m-b-3">
           {returns.length ?
             <StrategyDetail
+              showBasis={location.query && Boolean(+location.query.basis)}
               model={strategyModel}
+              basisReturns={basisReturns}
               returns={returns}
             /> : false
           }
