@@ -14,6 +14,7 @@ import { IntlProvider } from 'react-intl';
 import { INTL_CONFIG } from './config';
 import App from './containers/App';
 import PackagesList from './containers/PackagesList';
+import CreatePackage from './containers/CreatePackage';
 import PackagesDetail from './containers/PackagesDetail';
 import Performance from './containers/Performance';
 import Dashboard from './containers/Dashboard';
@@ -33,6 +34,7 @@ ReactDOM.render(
           <IndexRoute component={Dashboard} />
           <Route path="packages">
             <IndexRoute component={PackagesList} />
+            <Route path="create" component={CreatePackage} />
             <Route path=":id" component={PackagesDetail} />
           </Route>
           <Route path="performance" component={Performance} />

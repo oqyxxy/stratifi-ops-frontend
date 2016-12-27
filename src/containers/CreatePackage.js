@@ -1,8 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import PackagesProvider from '../providers/packages';
+import SpreadsProvider from '../providers/spreads';
+import SecuritiesProvider from '../providers/securities';
+import TagsProvider from '../providers/tags';
 import validation from '../utils/validation';
-import { FormGroup, VerboseErrorInput, VerboseErrorSelect, ListAutosuggest } from './form';
-import AddOrder from './AddOrder';
+import { FormGroup, VerboseErrorInput, VerboseErrorSelect, ListAutosuggest } from '../components/form';
+import AddOrder from '../components/AddOrder';
 
 import '../styles-local/Autosuggest.css';
 
@@ -19,7 +25,6 @@ const validate = (values, props) => {
 class CreatePackage extends Component {
 
   static propTypes = {
-    hideModal: PropTypes.func.isRequired,
     packagesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
     spreads: PropTypes.array.isRequired,
@@ -52,20 +57,21 @@ class CreatePackage extends Component {
   }
 
   render() {
-    const { hideModal, fields, invalid, submitting, handleSubmit,
-            securities, securitiesProvider, tags, spreads } = this.props;
+    const { fields, invalid, submitting, handleSubmit, securities, securitiesProvider, tags, spreads } = this.props;
 
     return this.state.created ? (
-      <div className="text-xs-center">
-        <h3>You've successfully created new package</h3>
-        <p>
-          Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-        <button className="btn btn-primary btn-title" onClick={hideModal}>Back to packages page</button>
+      <div className="container">
+        <div className="text-xs-center">
+          <h3>You've successfully created new package</h3>
+          <p>
+            Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <Link className="btn btn-primary btn-title" to="/packages">Back to packages page</Link>
+        </div>
       </div>
     ) : (
-      <div>
+      <div className="container">
 
         <h3 className="text-title">Create a Package</h3>
         <p>
@@ -139,7 +145,7 @@ class CreatePackage extends Component {
           </div>
 
           <div className="text-xs-center">
-            <button className="btn btn-link" onClick={hideModal}>Back to Packages</button>
+            <Link className="btn btn-link" to="/packages">Back to Packages</Link>
           </div>
           
         </form>
@@ -151,7 +157,20 @@ class CreatePackage extends Component {
 }
 
 
-export default reduxForm({
+export default connect(
+  state => ({
+    spreads: state.spreads.list,
+    securities: state.securities.list,
+    tags: state.tags.list
+  }),
+  dispatch => ({
+    packagesProvider: new PackagesProvider(dispatch),
+    spreadsProvider: new SpreadsProvider(dispatch),
+    ordersProvider: new SecuritiesProvider(dispatch),
+    tagsProvider: new TagsProvider(dispatch),
+    securitiesProvider: new SecuritiesProvider(dispatch)
+  })
+)(reduxForm({
   form: 'createPackage',
   fields: [
     'description',
@@ -166,4 +185,4 @@ export default reduxForm({
   ],
   initialValues: {},
   validate
-})(CreatePackage);
+})(CreatePackage));

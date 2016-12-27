@@ -1,13 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { toDateString } from '../utils/filters';
 import PackagesProvider from '../providers/packages';
-import SpreadsProvider from '../providers/spreads';
-import SecuritiesProvider from '../providers/securities';
-import TagsProvider from '../providers/tags';
-import { Modal, ModalBody } from '../components/modals';
-import CreatePackage from '../components/CreatePackage';
+import { toDateString } from '../utils/filters';
 
 import '../styles-local/PackagesList.css';
 
@@ -16,20 +11,11 @@ class PackagesList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { createPackageFormShown: false, searchFilter: '' };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
+    this.state = { searchFilter: '' };
   }
 
   static propTypes = {
-    packages: PropTypes.array.isRequired,
-    spreads: PropTypes.array.isRequired,
-    securities: PropTypes.array.isRequired,
-    packagesProvider: PropTypes.object.isRequired,
-    spreadsProvider: PropTypes.object.isRequired,
-    securitiesProvider: PropTypes.object.isRequired,
-    tagsProvider: PropTypes.object.isRequired,
-    tags: PropTypes.array.isRequired,
+    packages: PropTypes.array.isRequired
   };
 
   componentDidMount() {
@@ -40,20 +26,7 @@ class PackagesList extends Component {
     return this.props.packages.filter(pack => pack.description.indexOf(this.state.searchFilter) !== -1);
   }
 
-  showModal(event) {
-    event.preventDefault();
-    this.setState({ ...this.state, createPackageFormShown: true });
-  }
-
-  hideModal(event) {
-    event.preventDefault();
-    this.setState({ ...this.state, createPackageFormShown: false });
-  }
-
   render() {
-    const {
-      packagesProvider, spreads, spreadsProvider, securitiesProvider, securities, tags, tagsProvider
-    } = this.props;
     const tableBody = this.packages.map(pack => (
       <tr key={pack.id}>
         <td><Link to={`/packages/${pack.id}`}>{pack.name || pack.description}</Link></td>
@@ -98,25 +71,8 @@ class PackagesList extends Component {
               <p>There are no packages :(</p>
             )
           }
-          <button className="btn btn-primary btn-title"
-                  onClick={this.showModal}>Create a package</button>
 
-          <Modal id="createPackage"
-                 className="modal-lg"
-                 shown={this.state.createPackageFormShown}
-          >
-            <ModalBody>
-              <CreatePackage securitiesProvider={securitiesProvider}
-                             securities={securities}
-                             hideModal={this.hideModal}
-                             spreads={spreads}
-                             spreadsProvider={spreadsProvider}
-                             packagesProvider={packagesProvider}
-                             tags={tags}
-                             tagsProvider={tagsProvider} />
-            </ModalBody>
-          </Modal>
-
+          <Link className="btn btn-primary btn-title" to="/packages/create">Create a package</Link>
         </section>
       </div>
     );
@@ -127,15 +83,9 @@ class PackagesList extends Component {
 
 export default connect(
   state => ({
-    packages: state.packages.list,
-    spreads: state.spreads.list,
-    securities: state.securities.list,
-    tags: state.tags.list,
+    packages: state.packages.list
   }),
   dispatch => ({
-    packagesProvider: new PackagesProvider(dispatch),
-    spreadsProvider: new SpreadsProvider(dispatch),
-    securitiesProvider: new SecuritiesProvider(dispatch),
-    tagsProvider: new TagsProvider(dispatch),
+    packagesProvider: new PackagesProvider(dispatch)
   })
 )(PackagesList);
