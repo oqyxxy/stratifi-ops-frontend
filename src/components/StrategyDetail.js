@@ -12,20 +12,14 @@ class StrategyDetail extends Component {
   }
 
   render() {
-    const {data} = this.props;
-
-    const returnsCumulative = data.strategy.returns.map(item => ({
-      date: + new Date(item[0]),
-      0: item[1]
-    }));
+    const {model, returns} = this.props;
 
     return (
       <div className="strategy-detail">
-        <h3>Strategy Detail</h3>
-
+        <h3>{model}</h3>
         <ChartReturnsCumulative
           id="returnsChart"
-          data={returnsCumulative}
+          data={returns}
           value={config.strategy.value}
           style={{height: '30em'}}
         />
@@ -38,7 +32,8 @@ class StrategyDetail extends Component {
 }
 
 StrategyDetail.propTypes = {
-  data: PropTypes.object.isRequired,
+  model: PropTypes.string.isRequired,
+  returns: PropTypes.array.isRequired,
 };
 
 StrategyDetail.childContextTypes = {

@@ -1,4 +1,4 @@
-import { GET_MODEL_LIST } from '../constants/actions';
+import { GET_MODEL_LIST, GET_MODEL_OBJECT, GET_MODEL_BASIS_OBJECT, CLEAR_MODEL_OBJECT } from '../constants/actions';
 import DataProvider from './base/data-provider';
 
 
@@ -8,7 +8,10 @@ export default class ModelsProvider extends DataProvider {
 
   get actionTypes() {
     return {
-      fetchSuccess: GET_MODEL_LIST
+      fetchSuccess: GET_MODEL_LIST,
+      fetchObjectSuccess: GET_MODEL_OBJECT,
+      fetchBasisObjectSuccess: GET_MODEL_BASIS_OBJECT,
+      clearObject: CLEAR_MODEL_OBJECT,
     };
   }
 
@@ -53,6 +56,16 @@ export default class ModelsProvider extends DataProvider {
     tasksBuf = tasksBuf.filter(t => t.creation_date === creationDate);
     */
     return tasksBuf[0];
+  }
+
+  getBasisObject() {
+    return fetch('https://robo-pm-production.stratifi.com/api/ivolatility/basis_timeseries?token=WyIyIiwiNjU4ZGMyZjA5ZGJiNGRkMzZkMTNjZmMzNjBlMTk5ZTEiXQ&ticker1=VXX&ticker2=VIX&start_date=2016-01-01', { headers: this.headers })
+      .then(response => response.json())
+      .then(json => this.dispatch({ type: this.actionTypes.fetchBasisObjectSuccess, data: json }));
+  }
+
+  clearObject() {
+    this.dispatch({type: this.actionTypes.clearObject});
   }
 
 }

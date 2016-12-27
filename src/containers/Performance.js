@@ -20,7 +20,7 @@ class Performance extends Component {
     const { models } = this.props;
     const body = models.map((m, index) => (
       <tr key={index}>
-        <td><Link to={`strategy/${index}`}>{m.model}</Link></td>
+        <td><Link to={`strategy/${m.model == 'Basis Strategy' ? 'basis-strategy' : m.task_id}`}>{m.model}</Link></td>
         <td><FormattedNumber value={m.annualized_return} format="percent" /></td>
         <td><FormattedNumber value={m.annualized_volatility} format="percent" /></td>
         <td><FormattedNumber value={m.max_drawdown} format="percent" /></td>
@@ -34,7 +34,7 @@ class Performance extends Component {
     ));
     const secondBody = models.map((m, index) => (
       <tr key={index}>
-        <td><Link to={`strategy/${index}`}>{m.model}</Link></td>
+        <td><Link to={`strategy/${m.model == 'Basis Strategy' ? 'basis-strategy' : m.task_id}`}>{m.model}</Link></td>
         <td>{m.num_accounts}</td>
         <td>{m.min_date}</td>
         <td>{m.max_date}</td>
