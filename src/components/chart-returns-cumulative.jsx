@@ -22,7 +22,7 @@ class ChartReturnsCumulative extends Chart {
     );
 
     // extra very custom settings
-    options.valueAxes[0].unit = '$';
+    options.valueAxes[0].unit = '%';
     options.valueAxes[0].unitPosition = 'left';
 
     return options;
@@ -38,7 +38,7 @@ class ChartReturnsCumulative extends Chart {
       var newItem = clone(item, false);
 
       themes.serial.returnsCumulative.graphs.forEach(graph => {
-        if (item[graph.valueField] !== undefined) { newItem[graph.valueField] = (item[graph.valueField] + 1) * value; }
+        if (item[graph.valueField] !== undefined) { newItem[graph.valueField] = item[graph.valueField]; }
       });
 
       return newItem;

@@ -12,7 +12,7 @@ class StrategyDetail extends Component {
   }
 
   render() {
-    const {model, returns} = this.props;
+    const {model, returns, showBasis, basisReturns} = this.props;
 
     return (
       <div className="strategy-detail">
@@ -24,6 +24,19 @@ class StrategyDetail extends Component {
           style={{height: '30em'}}
         />
 
+        { showBasis && basisReturns.length ? (
+          <div className="m-t-3">
+            <h3>VIX vs VXX</h3>
+            <ChartReturnsCumulative
+              id = "basisReturnsChart"
+              data={basisReturns}
+              value={config.strategy.value}
+              style={{height: '30em'}}
+            />
+          </div>
+          ) : false
+        }
+
         <Link to="/performance" className="btn btn-primary btn-black btn-title m-t-2">Back to performance</Link>
       </div>
     );
@@ -32,8 +45,10 @@ class StrategyDetail extends Component {
 }
 
 StrategyDetail.propTypes = {
+  showBasis: PropTypes.bool.isRequired,
   model: PropTypes.string.isRequired,
   returns: PropTypes.array.isRequired,
+  basisReturns: PropTypes.array,
 };
 
 StrategyDetail.childContextTypes = {
