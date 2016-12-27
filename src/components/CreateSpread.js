@@ -10,17 +10,6 @@ const validate = values => {
 
   errors.description = errors.description || validation.required(values.description);
 
-  errors.orders = (values.orders || []).map(order => {
-    const errors = {};
-
-    errors.description = errors.description || validation.required(order.description);
-    errors.security = errors.security || validation.required(order.security);
-    errors.type = errors.type || validation.required(order.type);
-    errors.tags = errors.tags || validation.required(order.tags);
-
-    return errors;
-  });
-
   return errors;
 };
 
@@ -105,7 +94,6 @@ class CreateSpread extends Component {
           </div>
 
         </form>
-
       </div>
     );
   }
@@ -118,9 +106,11 @@ export default reduxForm({
   fields: [
     'description',
     'orders[].description',
-    'orders[].security',
-    'orders[].type',
-    'orders[].tags'
+    'orders[].security.name',
+    'orders[].security.option_type',
+    'orders[].security.strike_price',
+    'orders[].security.expiration_price',
+    'orders[].type'
   ],
   initialValues: {},
   validate
