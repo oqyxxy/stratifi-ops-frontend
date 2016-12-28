@@ -1,5 +1,6 @@
 import { API_BASE_URL, HEADERS } from '../../config';
 import Provider from './provider';
+import {queryParams} from '../../utils/query-params';
 
 
 export default class DataProvider extends Provider {
@@ -33,7 +34,7 @@ export default class DataProvider extends Provider {
   }
 
   getObject(id) {
-    fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
+    return fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: json }));
   }
