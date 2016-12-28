@@ -55,7 +55,7 @@ class StrategyDetailContainer extends Component {
       }));
     }
 
-    withModel && this.props.modelsProvider.getObject(params.id, queryParams);
+    withModel && this.props.modelsProvider.getObject(params.id);
   }
 
   prepareReturns() {

@@ -33,17 +33,8 @@ export default class DataProvider extends Provider {
       });
   }
 
-  getObject(id, query) {
-    let url = `${this.resourceUrl}/${id}`;
-    let queryString = '';
-
-    if (Object.keys(query).length) {
-      queryString = queryParams(query);
-    }
-
-    url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
-
-    return fetch(url, { headers: this.headers })
+  getObject(id) {
+    return fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: json }));
   }
