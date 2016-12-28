@@ -7,9 +7,9 @@ import deepAssign from 'deep-assign';
 const _array = [], _object = {};
 import Chart from './chart';
 
-class ChartReturnsCumulative extends Chart {
+class ChartBarReturns extends Chart {
 
- className = 'chart-returns chart-returns-cumulative';
+ className = 'chart-returns chart-bar-returns';
 
   getOptions() {
     const themes = this.context.config.chart;
@@ -18,7 +18,7 @@ class ChartReturnsCumulative extends Chart {
       clone(themes.common.default, false),
       clone(themes.serial.default, false),
       clone(themes.serial.timeseries, false),
-      clone(themes.serial.returnsCumulative, false),
+      clone(themes.serial.returnsBarchart, false),
       clone(this.props.options, false),
     );
 
@@ -52,14 +52,14 @@ class ChartReturnsCumulative extends Chart {
   }
 }
 
-ChartReturnsCumulative.contextTypes = {
+ChartBarReturns.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-ChartReturnsCumulative.propTypes = {
+ChartBarReturns.propTypes = {
   id: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
   value: PropTypes.number.isRequired,
 };
 
-export default ChartReturnsCumulative;
+export default ChartBarReturns;

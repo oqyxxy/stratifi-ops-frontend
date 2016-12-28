@@ -37,6 +37,7 @@ class Chart extends Component {
 
     this._chart.dataProvider = this.getData(options, newProps);
     this._chart.validateNow();
+    this._chart.validateData();
 
     this.renderGuides(options, newProps);
   }

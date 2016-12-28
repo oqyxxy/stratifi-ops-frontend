@@ -1,5 +1,6 @@
 import { API_BASE_URL, HEADERS } from '../../config';
 import Provider from './provider';
+import {queryParams} from '../../utils/query-params';
 
 
 export default class DataProvider extends Provider {
@@ -32,8 +33,17 @@ export default class DataProvider extends Provider {
       });
   }
 
-  getObject(id) {
-    fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
+  getObject(id, query) {
+    let url = `${this.resourceUrl}/${id}`;
+    let queryString = '';
+
+    if (Object.keys(query).length) {
+      queryString = queryParams(query);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
+
+    return fetch(url, { headers: this.headers })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: json }));
   }

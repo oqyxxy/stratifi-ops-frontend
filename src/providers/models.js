@@ -1,6 +1,6 @@
 import { GET_MODEL_LIST, GET_MODEL_OBJECT, GET_MODEL_BASIS_OBJECT, CLEAR_MODEL_OBJECT } from '../constants/actions';
 import DataProvider from './base/data-provider';
-
+import {queryParams} from '../utils/query-params';
 
 export default class ModelsProvider extends DataProvider {
 
@@ -58,8 +58,17 @@ export default class ModelsProvider extends DataProvider {
     return tasksBuf[0];
   }
 
-  getBasisObject() {
-    return fetch('https://robo-pm-production.stratifi.com/api/ivolatility/basis_timeseries?token=WyIyIiwiNjU4ZGMyZjA5ZGJiNGRkMzZkMTNjZmMzNjBlMTk5ZTEiXQ&ticker1=VXX&ticker2=VIX&start_date=2016-01-01', { headers: this.headers })
+  getBasisObject(query) {
+    let url = `https://robo-pm-production.stratifi.com/api/ivolatility/basis_timeseries`;
+    let queryString = '';
+
+    if (Object.keys(query).length) {
+      queryString = queryParams(query);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
+
+    return fetch(url, { headers: this.headers })
       .then(response => response.json())
       .then(json => this.dispatch({ type: this.actionTypes.fetchBasisObjectSuccess, data: json }));
   }

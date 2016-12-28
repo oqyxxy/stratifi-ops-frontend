@@ -158,6 +158,32 @@ export default {
           enabled: false
         }
       },
+      'returnsBarchart': {
+        type: "serial",
+        categoryField: "date",
+        categoryAxis: {
+          gridPosition: "start",
+          position: "left"
+        },
+        trendLines: [],
+        graphs: [{
+            fillAlphas: 0.8,
+            id: "AmGraph-1",
+            lineAlpha: 0.2,
+            title: "Income",
+            type: "column",
+            valueField: 0
+        }],
+        guides: [],
+        valueAxes: [{
+            id: "ValueAxis-1",
+            position: "top",
+            axisAlpha: 0
+        }],
+        allLabels: [],
+        balloon: {},
+        titles: [],
+      },
       'returnsRisk': {
         pathToImages: "http://www.amcharts.com/lib/3/images/",
         precision: 2,
