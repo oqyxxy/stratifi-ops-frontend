@@ -160,6 +160,7 @@ export default {
       },
       'returnsBarchart': {
         type: "serial",
+        theme: 'light',
         categoryField: "date",
         categoryAxis: {
           gridPosition: "start",
@@ -180,6 +181,10 @@ export default {
             position: "top",
             axisAlpha: 0
         }],
+        colors: [
+          '#a4def9', // sass: $brand-primary-muted // backup: brand-danger-muted
+          '#09adf9' // sass: $brand-primary
+        ],
         allLabels: [],
         balloon: {},
         titles: [],
