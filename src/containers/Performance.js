@@ -28,15 +28,17 @@ class Performance extends Component {
               basis: m.model == 'Basis Strategy' ? 1 : 0
             }
           }}>{m.model}</Link></td>
-        <td><FormattedNumber value={m.annualized_return} format="percent" /></td>
-        <td><FormattedNumber value={m.annualized_volatility} format="percent" /></td>
-        <td><FormattedNumber value={m.max_drawdown} format="percent" /></td>
-        <td><FormattedNumber value={m.returns_inception} format="percent" /></td>
+        
         <td><FormattedNumber value={m.returns_daily} format="percent" /></td>
         <td><FormattedNumber value={m.returns_wtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_mtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_qtd} format="percent" /></td>
         <td><FormattedNumber value={m.returns_ytd} format="percent" /></td>
+        <td><FormattedNumber value={m.returns_inception} format="percent" /></td>
+        <td><FormattedNumber value={m.annualized_return} format="percent" /></td>
+        <td><FormattedNumber value={m.annualized_volatility} format="percent" /></td>
+        <td><FormattedNumber value={m.max_drawdown} format="percent" /></td>
+       
       </tr>
     ));
     const secondBody = models.map((m, index) => (
