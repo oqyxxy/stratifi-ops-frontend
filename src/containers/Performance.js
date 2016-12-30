@@ -64,34 +64,38 @@ class Performance extends Component {
           {
             models.length ? (
               <div>
-                <table className="table table-bordered table-borderless-top">
-                  <thead className="thead-graphite">
-                    <tr>
-                      <th>Model</th>
-                      <th>Annualized Return</th>
-                      <th>Annualized Volatility</th>
-                      <th>Max Drawdown</th>
-                      <th>Inception Return</th>
-                      <th>Daily Return</th>
-                      <th>WTD Return</th>
-                      <th>MTD Return</th>
-                      <th>QTD Return</th>
-                      <th>YTD Return</th>
-                    </tr>
-                  </thead>
-                  <tbody>{body}</tbody>
-                </table>
-                <table className="table table-bordered table-borderless-top">
-                  <thead className="thead-graphite">
-                    <tr>
-                      <th>Model</th>
-                      <th>Number of accounts</th>
-                      <th>Min date</th>
-                      <th>Max date</th>
-                    </tr>
-                  </thead>
-                  <tbody>{secondBody}</tbody>
-                </table>
+                <div style={{overflowX: 'auto'}}>
+                  <table className="table table-bordered table-borderless-top">
+                    <thead className="thead-graphite">
+                      <tr>
+                        <th>Model</th>
+                        <th>Annualized Return</th>
+                        <th>Annualized Volatility</th>
+                        <th>Max Drawdown</th>
+                        <th>Inception Return</th>
+                        <th>Daily Return</th>
+                        <th>WTD Return</th>
+                        <th>MTD Return</th>
+                        <th>QTD Return</th>
+                        <th>YTD Return</th>
+                      </tr>
+                    </thead>
+                    <tbody>{body}</tbody>
+                  </table>
+                </div>
+                <div style={{overflowX: 'auto'}}>
+                  <table className="table table-bordered table-borderless-top">
+                    <thead className="thead-graphite">
+                      <tr>
+                        <th>Model</th>
+                        <th>Number of accounts</th>
+                        <th>Min date</th>
+                        <th>Max date</th>
+                      </tr>
+                    </thead>
+                    <tbody>{secondBody}</tbody>
+                  </table>
+                </div>
               </div>
             ) : (
               <p>There are no models.</p>

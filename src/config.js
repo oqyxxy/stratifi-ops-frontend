@@ -108,7 +108,10 @@ export default {
           ignoreAxisWidth: true,
           showFirstLabel: false, // Whether to show first axis label (and grid line) or not.
           showLastLabel: false, // Whether to show last axis label (and grid line) or not.
-          gridAlpha: 0.075 // experimental
+          gridAlpha: 0.075, // experimental
+          balloon: {
+            enabled: true
+          }
         }],
         categoryAxis: {
           gridThickness: 0
@@ -150,13 +153,27 @@ export default {
           //   dashLengthField: 'dashLength',
           // }
         ],
+        chartCursor: {
+            pan: true,
+            valueLineEnabled: true,
+            valueLineBalloonEnabled: true,
+            cursorAlpha:1,
+            cursorColor: "#258cbb",
+            limitToGraph: "g1",
+            valueLineAlpha: 0.2,
+            valueZoomable: true
+        },
         colors: [
           '#a4def9', // sass: $brand-primary-muted // backup: brand-danger-muted
           '#09adf9' // sass: $brand-primary
         ],
         chartScrollbar: {
           enabled: false
-        }
+        },
+        balloon: {
+          borderThickness: 1,
+          shadowAlpha: 0
+        },
       },
       'returnsBarchart': {
         type: "serial",
