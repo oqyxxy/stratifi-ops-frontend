@@ -198,6 +198,16 @@ export default {
             position: "top",
             axisAlpha: 0
         }],
+        chartCursor: {
+            pan: true,
+            valueLineEnabled: true,
+            valueLineBalloonEnabled: true,
+            cursorAlpha:1,
+            cursorColor: "#258cbb",
+            limitToGraph: "g1",
+            valueLineAlpha: 0.2,
+            valueZoomable: true
+        },
         colors: [
           '#a4def9', // sass: $brand-primary-muted // backup: brand-danger-muted
           '#09adf9' // sass: $brand-primary
