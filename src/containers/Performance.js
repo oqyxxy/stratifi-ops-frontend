@@ -70,13 +70,13 @@ class Performance extends Component {
                   <table className="table table-bordered table-borderless-top">
                     <thead className="thead-graphite">
                       <tr>
+                        <th>Model</th>
                         <th>Daily Return</th>
                         <th>WTD Return</th>
                         <th>MTD Return</th>
                         <th>QTD Return</th>
                         <th>YTD Return</th>
                         <th>Inception Return</th>
-                        <th>Model</th>
                         <th>Annualized Return</th>
                         <th>Annualized Volatility</th>
                         <th>Max Drawdown</th>
