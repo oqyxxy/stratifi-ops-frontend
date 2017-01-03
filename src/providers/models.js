@@ -1,6 +1,6 @@
-import { GET_MODEL_LIST } from '../constants/actions';
+import { GET_MODEL_LIST, GET_MODEL_OBJECT, GET_MODEL_BASIS_OBJECT, CLEAR_MODEL_OBJECT,GET_MODEL_VIX_OBJECT } from '../constants/actions';
 import DataProvider from './base/data-provider';
-
+import {queryParams} from '../utils/query-params';
 
 export default class ModelsProvider extends DataProvider {
 
@@ -8,7 +8,11 @@ export default class ModelsProvider extends DataProvider {
 
   get actionTypes() {
     return {
-      fetchSuccess: GET_MODEL_LIST
+      fetchSuccess: GET_MODEL_LIST,
+      fetchObjectSuccess: GET_MODEL_OBJECT,
+      fetchBasisObjectSuccess: GET_MODEL_BASIS_OBJECT,
+      fetchVIXObjectSuccess: GET_MODEL_VIX_OBJECT,
+      clearObject: CLEAR_MODEL_OBJECT,
     };
   }
 
@@ -53,6 +57,41 @@ export default class ModelsProvider extends DataProvider {
     tasksBuf = tasksBuf.filter(t => t.creation_date === creationDate);
     */
     return tasksBuf[0];
+  }
+
+  getBasisObject(query) {
+    let url = `https://robo-pm-production.stratifi.com/api/ivolatility/basis_timeseries`;
+    let queryString = '';
+
+    if (Object.keys(query).length) {
+      queryString = queryParams(query);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
+
+    return fetch(url, { headers: this.headers })
+      .then(response => response.json())
+      .then(json => this.dispatch({ type: this.actionTypes.fetchBasisObjectSuccess, data: json }));
+  }
+  
+  
+  getVIXObject(query) {
+    let url = `https://robo-pm-production.stratifi.com/api/ivolatility/ticker_timeseries`;
+    let queryString = '';
+
+    if (Object.keys(query).length) {
+      queryString = queryParams(query);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + queryString;
+
+    return fetch(url, { headers: this.headers })
+      .then(response => response.json())
+      .then(json => this.dispatch({ type: this.actionTypes.fetchVIXObjectSuccess, data: json }));
+  }
+
+  clearObject() {
+    this.dispatch({type: this.actionTypes.clearObject});
   }
 
 }
