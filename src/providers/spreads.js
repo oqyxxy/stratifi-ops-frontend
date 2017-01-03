@@ -10,17 +10,13 @@ export default class SpreadsProvider extends DataProvider {
     return {
       fetchSuccess: FETCH_SPREAD_LIST,
       fetchObjectSuccess: FETCH_SPREAD_OBJECT,
-      create: CREATE_SPREAD,
+      create: CREATE_SPREAD
     };
   }
 
-  create(data, packId, tagsStore, securitiesStore) {
-    const json = {
-      package_id: Number.parseInt(packId, 10),
-      ...data
-    };
-
-    return super.create(json);
+  create(data, packId) {
+    if (packId) data.package_id = packId;
+    return super.create(data);
   }
 
 }

@@ -44,6 +44,7 @@ class PackagesDetail extends Component {
           </Link>
 
           <h1>{`Package ${pack.description}`}</h1>
+          <p style={{fontWeight: 'bold'}}>{`Strategy: ${pack.strategy_tag_name || 'no strategy tag'}`}</p>
           <p>
             Nullam quis risus eget urna mollis ornare vel eu leo.
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula,

@@ -8,9 +8,12 @@ import SecuritiesProvider from '../providers/securities';
 import TagsProvider from '../providers/tags';
 import validation from '../utils/validation';
 import { FormGroup, VerboseErrorInput, VerboseErrorSelect, ListAutosuggest } from '../components/form';
+import { Modal, ModalBody } from '../components/modals';
+import CreateSpread from '../components/CreateSpread';
 import AddOrder from '../components/AddOrder';
 
 import '../styles-local/Autosuggest.css';
+import '../styles-local/CreatePackage.css';
 
 
 const validate = (values, props) => {
@@ -37,7 +40,10 @@ class CreatePackage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { created: false };
+    this.state = { created: false, spreadCreateFormShown: false };
+
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
   onSubmit(values) {
@@ -56,8 +62,28 @@ class CreatePackage extends Component {
     this.props.spreadsProvider.getList();
   }
 
+  showModal(event) {
+    event.preventDefault();
+    this.setState({ ...this.state, spreadCreateFormShown: true });
+  }
+
+  hideModal(event, newSpreadId) {
+    event.preventDefault();
+
+    if (newSpreadId) {
+      const { spreads, fields } = this.props;
+      const spread = spreads.find(sprd => sprd.id === newSpreadId);
+      spread && fields.spreads.addField({ description: spread.description });
+    }
+
+    this.setState({ ...this.state, spreadCreateFormShown: false });
+  }
+
   render() {
-    const { fields, invalid, submitting, handleSubmit, securities, securitiesProvider, tags, spreads } = this.props;
+    const {
+      fields, invalid, submitting, handleSubmit, securities, securitiesProvider, tags, spreads,
+      tagsProvider, spreadsProvider
+    } = this.props;
 
     return this.state.created ? (
       <div className="container">
@@ -71,7 +97,7 @@ class CreatePackage extends Component {
         </div>
       </div>
     ) : (
-      <div className="container">
+      <div className="container create-package-container">
 
         <h3 className="text-title">Create a Package</h3>
         <p>
@@ -133,6 +159,7 @@ class CreatePackage extends Component {
               <tr>
                 <td>
                   <a onClick={() => fields.spreads.addField({})} className="link"><i className="icon-add" /> Add Spread</a>
+                  <button className="btn btn-primary m-l-2" onClick={this.showModal.bind(this)}>Create spread</button>
                 </td>
               </tr>
             </tbody>
@@ -141,7 +168,8 @@ class CreatePackage extends Component {
           <div className="text-xs-center">
             <button disabled={invalid || submitting}
                     className="btn btn-success btn-title"
-                    onClick={handleSubmit(this.onSubmit)}>Create a package</button>
+                    type="submit"
+            >Create a package</button>
           </div>
 
           <div className="text-xs-center">
@@ -150,6 +178,16 @@ class CreatePackage extends Component {
           
         </form>
 
+        <Modal id="createSpread" className="modal-lg" shown={this.state.spreadCreateFormShown}>
+          <ModalBody>
+            <CreateSpread hideModal={this.hideModal}
+                          securitiesProvider={securitiesProvider}
+                          spreadsProvider={spreadsProvider}
+                          securities={securities}
+                          tagsProvider={tagsProvider}
+                          tags={tags} />
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
