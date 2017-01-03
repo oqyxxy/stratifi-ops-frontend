@@ -2,9 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import moment from 'moment';
-import {analyzeProxies} from '../utils/timeseries';
-import StrategyDetail from '../components/StrategyDetail';
 import ModelsProvider from '../providers/models';
+import StrategyDetail from '../components/StrategyDetail';
 
 
 class StrategyDetailContainer extends Component {
@@ -58,34 +57,6 @@ class StrategyDetailContainer extends Component {
     withModel && this.props.modelsProvider.getObject(params.id);
   }
 
-  prepareReturns() {
-    const {model, fields: {startDate, endDate}} = this.props;
-    let returns = [];
-    let returnsCumulative= [];
-    let strategyModel = '';
-
-    if (model && model.data) {
-      const modelItem = model.data.items[0];
-      const data = JSON.parse(modelItem.json);
-      const startDateUnix = moment(startDate.value).unix();
-      const endDateUnix = moment(endDate.value).unix();
-      const preparedReturns = data.strategy.returns
-        .filter(item => {
-          const date = moment(item[0]).unix();
-          return date >= startDateUnix && date <= endDateUnix;
-        })
-        .map(item => ([moment(item[0]).unix(), item[1]]));
-      const preparedData = analyzeProxies([preparedReturns], startDateUnix, endDateUnix);
-
-
-      strategyModel = modelItem.model;
-      returns = preparedData.returns;
-      returnsCumulative = preparedData.returnsCumulative;
-    }
-
-    return {returns, returnsCumulative, strategyModel};
-  }
-
   prepareBasisReturns() {
     const {basisModel, location: {query}} = this.props;
     let basisReturns = [];
@@ -105,20 +76,18 @@ class StrategyDetailContainer extends Component {
   }
 
   render() {
-    const {location, fields} = this.props;
-    const {strategyModel, returns, returnsCumulative} = this.prepareReturns();
+    const {location, fields, model} = this.props;
+    const data = ModelsProvider.prepareData(model, fields.startDate.value, fields.endDate.value);
     const basisReturns = this.prepareBasisReturns();
 
     return (
       <div className="strategy-detail-container container">
         <div className="m-b-3">
           <StrategyDetail
+            data={data}
             fields={fields}
             showBasis={location.query && Boolean(+location.query.basis)}
-            model={strategyModel}
             basisReturns={basisReturns}
-            returns={returns}
-            returnsCumulative={returnsCumulative}
           />
         </div>
       </div>

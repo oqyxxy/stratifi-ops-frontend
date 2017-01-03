@@ -69,6 +69,19 @@ export default {
   strategy: {
     value: 1000000,
   },
+  metrics: {
+    labels: {
+      annualized_return: 'Annualized Return',
+      annualized_volatility: 'Annualized Volatility',
+      max_drawdown: 'Max Drawdown',
+      returns_inception: 'Inception Return',
+      returns_daily: 'Daily Return',
+      returns_wtd: 'WTD Return',
+      returns_mtd: 'MTD Return',
+      returns_qtd: 'QTD Return',
+      returns_ytd: 'YTD Return',
+    }
+  },
   chart: {
     common: {
       'default': {
@@ -188,9 +201,14 @@ export default {
             fillAlphas: 0.8,
             id: "AmGraph-1",
             lineAlpha: 0.2,
-            title: "Income",
             type: "column",
             valueField: 0
+        }, {
+            fillAlphas: 0.8,
+            id: "AmGraph-2",
+            lineAlpha: 0.2,
+            type: "column",
+            valueField: 1
         }],
         guides: [],
         valueAxes: [{
