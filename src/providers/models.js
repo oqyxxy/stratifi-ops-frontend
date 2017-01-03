@@ -1,6 +1,8 @@
 import { GET_MODEL_LIST, GET_MODEL_OBJECT, GET_MODEL_BASIS_OBJECT, CLEAR_MODEL_OBJECT,GET_MODEL_VIX_OBJECT } from '../constants/actions';
+import moment from 'moment';
 import DataProvider from './base/data-provider';
 import {queryParams} from '../utils/query-params';
+import {analyzeProxies} from '../utils/timeseries';
 
 export default class ModelsProvider extends DataProvider {
 
@@ -92,6 +94,44 @@ export default class ModelsProvider extends DataProvider {
 
   clearObject() {
     this.dispatch({type: this.actionTypes.clearObject});
+  }
+
+  static prepareData(model, startDate, endDate) {
+    let result = Object.assign({}, {
+      strategyName: '',
+      metrics: [],
+      returns: [],
+      returnsCumulative: [],
+    });
+
+    if (model && model.data) {
+      const modelItem = model.data.items[0];
+      const data = JSON.parse(modelItem.json);
+      const startDateUnix = moment(startDate).unix();
+      const endDateUnix = moment(endDate).unix();
+      const benchmarkReturns = data.benchmark.returns
+        .filter(item => {
+          const date = moment(item[0]).unix();
+          return date >= startDateUnix && date <= endDateUnix;
+        })
+        .map(item => ([moment(item[0]).unix(), item[1]]));
+      const strategyReturns = data.strategy.returns
+        .filter(item => {
+          const date = moment(item[0]).unix();
+          return date >= startDateUnix && date <= endDateUnix;
+        })
+        .map(item => ([moment(item[0]).unix(), item[1]]));
+
+      const preparedData = analyzeProxies([benchmarkReturns, strategyReturns], startDateUnix, endDateUnix);
+
+      result.strategyName = modelItem.model;
+      result.metrics = [data.benchmark.metrics, data.strategy.metrics];
+      result.returns = preparedData.returns;
+      result.returnsCumulative = preparedData.returnsCumulative;
+
+    }
+
+    return result;
   }
 
 }
