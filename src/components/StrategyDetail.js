@@ -146,8 +146,8 @@ class StrategyDetail extends Component {
                 enabled: true,
                 exportFields: ["0", "1", "date"],
                 columnNames: {
-                  0: "Strategy",
-                  1: "Benchmark",
+                  0: "Benchmark",
+                  1: "Strategy",
                   date: "Date"
                 }
               }
@@ -168,8 +168,8 @@ class StrategyDetail extends Component {
                 enabled: true,
                 exportFields: ["0", "1", "date"],
                 columnNames: {
-                  0: "Strategy",
-                  1: "Benchmark",
+                  0: "Benchmark",
+                  1: "Strategy",
                   date: "Date"
                 }
               }
