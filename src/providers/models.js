@@ -128,7 +128,7 @@ export default class ModelsProvider extends DataProvider {
       result.metrics = [data.benchmark.metrics, data.strategy.metrics];
       result.returns = preparedData.returns;
       result.returnsCumulative = preparedData.returnsCumulative;
-
+      result.benchmarkName = data.benchmark.ticker;
     }
 
     return result;
