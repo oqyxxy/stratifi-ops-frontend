@@ -141,7 +141,16 @@ class StrategyDetail extends Component {
             style={{height: '30em'}}
             options={{
               graphs: [{fillAlphas: 0}],
-              valueAxes: [{unit: '%', unitPosition: 'right'}]
+              valueAxes: [{unit: '%', unitPosition: 'right'}],
+              "export": {
+                enabled: true,
+                exportFields: ["0", "1", "date"],
+                columnNames: {
+                  0: "Strategy",
+                  1: "Benchmark",
+                  date: "Date"
+                }
+              }
             }}
           />
         </div>
@@ -154,7 +163,16 @@ class StrategyDetail extends Component {
             value={config.strategy.value}
             style={{height: '30em'}}
             options={{
-              valueAxes: [{unit: '%', unitPosition: 'right'}]
+              valueAxes: [{unit: '%', unitPosition: 'right'}],
+              "export": {
+                enabled: true,
+                exportFields: ["0", "1", "date"],
+                columnNames: {
+                  0: "Strategy",
+                  1: "Benchmark",
+                  date: "Date"
+                }
+              }
             }}
           />
         </div>
@@ -167,6 +185,16 @@ class StrategyDetail extends Component {
               data={basisReturns}
               value={config.strategy.value}
               style={{height: '30em'}}
+              options={{
+                "export": {
+                  enabled: true,
+                  exportFields: ["1", "date"],
+                  columnNames: {
+                    1: "Value",
+                    date: "Date"
+                  }
+                }
+              }}
             />
           </div>
           ) : false
