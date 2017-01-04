@@ -147,7 +147,7 @@ class StrategyDetail extends Component {
         </div>
 
         <div className="returns-barchart m-t-3">
-          <h4>Returns</h4>
+          <h4>Daily Returns</h4>
           <ChartBarReturns
             id="returnsBarChart"
             data={data.returns}
