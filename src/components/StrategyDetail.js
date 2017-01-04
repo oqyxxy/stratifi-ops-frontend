@@ -33,6 +33,7 @@ class StrategyDetail extends Component {
     return (
       <div className="strategy-detail">
         <h3>{data.strategyName}</h3>
+        <h4>{data.benchmarkName || 'No benchmark name for this model'}</h4>
 
         <div className="form-inline">
           <div className="form-group">
