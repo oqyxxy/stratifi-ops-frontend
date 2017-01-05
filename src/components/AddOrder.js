@@ -47,10 +47,7 @@ export default class AddOrder extends Component {
               <TableCellInput type="text" placeholder="Enter strike price" className="form-control" {...order.security.strike_price} />
               <TableCellInput type="text" placeholder="Enter expiration price" className="form-control" {...order.security.expiration_price} />
               <td className="action">
-                <a onClick={() => {
-                  console.log(index);
-                  orders.removeField(index);
-                }}>
+                <a onClick={() => orders.removeField(index)}>
                   <i className="icon-remove" />
                 </a>
               </td>

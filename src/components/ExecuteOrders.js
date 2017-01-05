@@ -71,6 +71,7 @@ class ExecuteOrders extends Component {
                 <th>Orders</th>
                 <th>Executed Price</th>
                 <th>Quantity</th>
+                <th>Multiplied quantity</th>
               </tr>
             </thead>
             <tbody>
@@ -80,6 +81,7 @@ class ExecuteOrders extends Component {
                     <td>{order.description.value}</td>
                     <TableCellInput type="text" placeholder="Enter Price" className="form-control" {...order.executed_price} />
                     <TableCellInput type="text" placeholder="Enter Quantity" className="form-control" {...order.quantity} />
+                    <td>{order.quantity.value * (order.multiplier.value || 1)}</td>
                   </tr>
                 ))
               }
@@ -110,7 +112,8 @@ export default reduxForm({
     'orders[].id',
     'orders[].description',
     'orders[].executed_price',
-    'orders[].quantity'
+    'orders[].quantity',
+    'orders[].multiplier'
   ],
   validate
 })(ExecuteOrders);

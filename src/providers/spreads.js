@@ -19,4 +19,14 @@ export default class SpreadsProvider extends DataProvider {
     return super.create(data);
   }
 
+  updateMultiplier(data) {
+    const { id, multiplier } = data;
+
+    return fetch(this.getObjectUrl(id), {
+      method: "PATCH",
+      headers: this.headers,
+      body: JSON.stringify({ multiplier })
+    });
+  }
+
 }

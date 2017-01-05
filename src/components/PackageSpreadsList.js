@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { toDateString, getSpreadStatus, getSpreadPrice } from '../utils/filters';
 import { Modal, ModalBody } from './modals';
 import CreateSpread from './CreateSpread';
 import ExecuteOrders from './ExecuteOrders';
+import SpreadListItem from './SpreadListItem';
 
 
 export default class PackageSpreadsList extends Component {
@@ -30,6 +30,9 @@ export default class PackageSpreadsList extends Component {
     this.hideModal = this.hideModal.bind(this);
     this.showExecuteModal = this.showExecuteModal.bind(this);
     this.hideExecuteModal = this.hideExecuteModal.bind(this);
+    this.updateMultiplier = this.updateMultiplier.bind(this);
+    this.undoMultiplier = this.undoMultiplier.bind(this);
+    this.toggleItem = this.toggleItem.bind(this);
   }
 
   toggleItem(id) {
@@ -74,10 +77,24 @@ export default class PackageSpreadsList extends Component {
 
     for (let spreadId of this.state.spreadsToExecute) {
       const spread = this.props.spreads.find(s => s.id === spreadId);
-      ordersToExecute = ordersToExecute.concat(spread.orders);
+      const orders = spread.orders.map(order => ({...order, multiplier: spread.multiplier}));
+      ordersToExecute = ordersToExecute.concat(orders);
     }
 
     return ordersToExecute;
+  }
+
+  updateMultiplier(id, multiplier) {
+    const { packId, spreadsProvider, packagesProvider } = this.props;
+    spreadsProvider.updateMultiplier({id, multiplier}).then(() => packagesProvider.getObject(packId));
+  }
+
+  undoMultiplier(sprd) {
+    const { packId, spreadsProvider, packagesProvider } = this.props;
+    spreadsProvider.updateMultiplier({
+      id: sprd.id,
+      multiplier: sprd.prev_multiplier
+    }).then(() => packagesProvider.getObject(packId));
   }
 
   render() {
@@ -95,31 +112,21 @@ export default class PackageSpreadsList extends Component {
                   <th>Spread Name</th>
                   <th># of Orders</th>
                   <th>Target Price</th>
+                  <th>Multiplier</th>
                   <th>Creation Date</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
               {
-                 spreads.map((sprd, index) => (
-                  <tr key={index}>
-                    <td className="checkbox-cell">
-                      {
-                        getSpreadStatus(sprd) !== 'Executed' ? (
-                          <label className="c-input c-checkbox">
-                            <input onClick={e => this.toggleItem(sprd.id)} type="checkbox"/>
-                            <span className="c-indicator icon-checkmark"/>
-                          </label>
-                        ) : null
-                      }
-                    </td>
-                    <td>{sprd.description}</td>
-                    <td>{sprd.orders.length}</td>
-                    <td>{getSpreadPrice(sprd)}</td>
-                    <td>{toDateString(sprd.creation_date)}</td>
-                    <td>{getSpreadStatus(sprd)}</td>
-                  </tr>
-                ))
+                 spreads.sort((a, b) => a.id - b.id).map((sprd, index) => (
+                   <SpreadListItem sprd={sprd}
+                                   key={sprd.id}
+                                   form={`spread-list-item-${sprd.id}`}
+                                   updateMultiplier={this.updateMultiplier}
+                                   undoMultiplier={this.undoMultiplier}
+                                   toggleSpread={this.toggleItem} />)
+                 )
               }
               </tbody>
             </table>
