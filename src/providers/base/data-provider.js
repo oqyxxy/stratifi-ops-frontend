@@ -42,7 +42,10 @@ export default class DataProvider extends Provider {
   create(data) {
     return fetch(this.resourceUrl, { method: 'POST', headers: this.headers, body: JSON.stringify(data) })
       .then(response => response.json())
-      .then(json => this.dispatch({ type: this.actionTypes.create, data: json }));
+      .then(json => {
+        this.dispatch({ type: this.actionTypes.create, data: json })
+        return json;
+      });
   }
 
 }

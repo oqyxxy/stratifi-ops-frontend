@@ -10,22 +10,23 @@ export default class SpreadsProvider extends DataProvider {
     return {
       fetchSuccess: FETCH_SPREAD_LIST,
       fetchObjectSuccess: FETCH_SPREAD_OBJECT,
-      create: CREATE_SPREAD,
+      create: CREATE_SPREAD
     };
   }
 
-  create(data, packId, tagsStore, securitiesStore) {
-    const json = {
-      package_id: Number.parseInt(packId, 10),
-      description: data.description,
-      orders: data.orders.map(order => ({
-        ...order,
-        tags: [tagsStore.find(o => o.name === order.tags).id],
-        security: securitiesStore.find(s => s.name === order.security).id
-      })),
-    };
+  create(data, packId) {
+    if (packId) data.package_id = packId;
+    return super.create(data);
+  }
 
-    return super.create(json);
+  updateMultiplier(data) {
+    const { id, multiplier } = data;
+
+    return fetch(this.getObjectUrl(id), {
+      method: "PATCH",
+      headers: this.headers,
+      body: JSON.stringify({ multiplier })
+    });
   }
 
 }

@@ -8,7 +8,7 @@ const Input = props => {
                   + (value ? ' has-value' : '')
                   + (error ? ' form-control-danger' : '');
   return (
-    <input {...{ checked, name, onBlur, onChange, onDragStart, onDrop, onFocus, type, placeholder }}
+    <input {...{ checked, name, onBlur, onChange, onDragStart, onDrop, onFocus, type, placeholder, value }}
            className={classes} onFocus={props.skipError || null} />
   );
 }

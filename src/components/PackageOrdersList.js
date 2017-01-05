@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
-import { toDateString } from '../utils/filters';
 import { Modal, ModalBody } from './modals';
 import ExecuteOrders from './ExecuteOrders';
+import OrderListItem from './OrderListItem';
 
 
 export default class PackageOrdersList extends Component {
@@ -18,6 +18,9 @@ export default class PackageOrdersList extends Component {
     this.state = { ordersToExecute: [], executeOrdersFormShown: false };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.toggleOrder = this.toggleOrder.bind(this);
+    this.updateMultiplier = this.updateMultiplier.bind(this);
+    this.undoMultiplier = this.undoMultiplier.bind(this);
   }
 
   toggleOrder(order) {
@@ -51,6 +54,19 @@ export default class PackageOrdersList extends Component {
     this.showModal(event);
   }
 
+  updateMultiplier(id, multiplier) {
+    const { packId, ordersProvider, packagesProvider } = this.props;
+    ordersProvider.updateMultiplier({id, multiplier}).then(() => packagesProvider.getObject(packId));
+  }
+
+  undoMultiplier(ord) {
+    const { packId, ordersProvider, packagesProvider } = this.props;
+    ordersProvider.updateMultiplier({
+      id: ord.id,
+      multiplier: ord.prev_multiplier
+    }).then(() => packagesProvider.getObject(packId));
+  }
+
   render() {
     const { orders, ordersProvider, packagesProvider, packId } = this.props;
     const { executeOrdersFormShown, ordersToExecute } = this.state;
@@ -66,30 +82,20 @@ export default class PackageOrdersList extends Component {
                 <th>Order Name</th>
                 <th>Security</th>
                 <th>Target Price</th>
+                <th>Multiplier</th>
                 <th>Creation Date</th>
                 <th>Status</th>
               </tr>
               </thead>
               <tbody>
               {
-                orders.map((ord, index) => (
-                  <tr key={index}>
-                    <td className="checkbox-cell">
-                      {
-                        ord.status !== 'Executed' && (
-                          <label className="c-input c-checkbox">
-                            <input onClick={e => this.toggleOrder(ord)} type="checkbox" />
-                            <span className="c-indicator icon-checkmark" />
-                          </label>
-                        )
-                      }
-                    </td>
-                    <td>{ord.description}</td>
-                    <td>{ord.security}</td>
-                    <td>{ord.target_price}</td>
-                    <td>{toDateString(ord.creation_date)}</td>
-                    <td>{ord.status}</td>
-                  </tr>
+                orders.sort((a, b) => a.id - b.id).map((ord, index) => (
+                  <OrderListItem ord={ord}
+                                 key={ord.id}
+                                 form={`order-list-item-${ord.id}`}
+                                 updateMultiplier={this.updateMultiplier}
+                                 undoMultiplier={this.undoMultiplier}
+                                 toggleOrder={this.toggleOrder} />
                 ))
               }
               </tbody>
@@ -101,7 +107,9 @@ export default class PackageOrdersList extends Component {
 
         {
           orders.length ? (
-            <button disabled={!ordersToExecute.length} onClick={this.onSubmit.bind(this)} className="btn btn-primary btn-title">Execute orders</button>
+            <button disabled={!ordersToExecute.length}
+                    onClick={this.onSubmit.bind(this)}
+                    className="btn btn-primary btn-title">Execute orders</button>
           ) : null
         }
 

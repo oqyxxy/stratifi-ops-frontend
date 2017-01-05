@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
-import { orderTypes } from '../constants/enums';
-import { TableCellInput, TableCellSelect } from './form';
+import { orderTypes, securityOptionTypes } from '../constants/enums';
+import { TableCellInput, TableCellSelect, ListAutosuggest } from './form';
 
 
 export default class AddOrder extends Component {
@@ -9,28 +9,27 @@ export default class AddOrder extends Component {
     orders: PropTypes.array.isRequired,
     securities: PropTypes.array.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
-    tagsProvider: PropTypes.object.isRequired,
-    tags: PropTypes.array.isRequired,
   };
 
   componentDidMount() {
-    const { securitiesProvider, tagsProvider } = this.props;
+    const { securitiesProvider } = this.props;
 
     securitiesProvider.getList();
-    tagsProvider.getList();
   }
 
   render() {
-    const { orders, securities, tags } = this.props;
+    const { orders, securities } = this.props;
 
     return (
       <table className="table table-bordered table-borderless-top editable-fields">
         <thead className="thead-graphite">
         <tr>
           <th>Order Name</th>
-          <th>Security</th>
           <th>Type</th>
-          <th>Tag</th>
+          <th>Security</th>
+          <th>Option type</th>
+          <th>Strike price</th>
+          <th>Expiration price</th>
         </tr>
         </thead>
         <tbody>
@@ -38,15 +37,15 @@ export default class AddOrder extends Component {
           orders.map((order, index) => (
             <tr key={index}>
               <TableCellInput type="text" placeholder="Enter order name" className="form-control" {...order.description} />
-              <TableCellSelect fieldData={order.security}
-                               optionsData={securities.map(s => s.name)}
-                               defaultOption={'select security'}/>
               <TableCellSelect fieldData={order.type}
                                optionsData={orderTypes}
-                               defaultOption={'select type'}/>
-              <TableCellSelect fieldData={order.tags}
-                               optionsData={tags.map(s => s.name)}
-                               defaultOption={'select tag'}/>
+                               defaultOption={'select type'} />
+              <td>
+                <ListAutosuggest data={securities} fieldName="name" fieldData={order.security.name} placeholder="Security" />
+              </td>
+              <TableCellSelect fieldData={order.security.option_type} optionsData={securityOptionTypes} defaultOption={'select option type'} />
+              <TableCellInput type="text" placeholder="Enter strike price" className="form-control" {...order.security.strike_price} />
+              <TableCellInput type="text" placeholder="Enter expiration price" className="form-control" {...order.security.expiration_price} />
               <td className="action">
                 <a onClick={() => orders.removeField(index)}>
                   <i className="icon-remove" />
@@ -56,8 +55,8 @@ export default class AddOrder extends Component {
           ))
         }
         <tr>
-          <td colSpan="4">
-            <a onClick={() => orders.addField({})} className="link"><i className="icon-add"></i> Add Order</a>
+          <td colSpan="7">
+            <a onClick={() => orders.addField({})} className="link"><i className="icon-add" /> Add Order</a>
           </td>
         </tr>
         </tbody>
