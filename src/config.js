@@ -71,15 +71,15 @@ export default {
   },
   metrics: {
     labels: {
-      annualized_return: 'Annualized Return',
-      annualized_volatility: 'Annualized Volatility',
-      max_drawdown: 'Max Drawdown',
-      returns_inception: 'Inception Return',
       returns_daily: 'Daily Return',
       returns_wtd: 'WTD Return',
       returns_mtd: 'MTD Return',
       returns_qtd: 'QTD Return',
       returns_ytd: 'YTD Return',
+      returns_inception: 'Inception Return',
+      annualized_return: 'Annualized Return',
+      annualized_volatility: 'Annualized Volatility',
+      max_drawdown: 'Max Drawdown',
     }
   },
   chart: {
