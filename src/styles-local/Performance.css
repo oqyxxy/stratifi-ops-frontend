@@ -1,0 +1,13 @@
+.sorted-table th {
+    cursor: pointer;
+}
+
+.sorted-table th:hover,
+.current-sort {
+    background: #394346 !important;
+}
+
+.performance-container {
+    width: 95%;
+    margin: 0 auto;
+}
