@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { FormattedNumber } from 'react-intl';
 
 import ModelsProvider from '../providers/models';
+import '../styles-local/Performance.css';
 
 
 class Performance extends Component {
@@ -12,6 +13,27 @@ class Performance extends Component {
     models: PropTypes.array.isRequired,
     modelsProvider: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortCol: null,
+      desc: true
+    };
+  }
+
+  setSort(colName) {
+    if (this.state.sortCol === colName) {
+      this.setState({ ...this.state, desc: !this.state.desc });
+    } else {
+      this.setState({ sortCol: colName, desc: true });
+    }
+  }
+
+  get sortedModels() {
+    const { sortCol, desc } = this.state;
+    return this.props.models.sort((a, b) => (a[sortCol] - b[sortCol]) * (desc ? 1 : -1));
+  }
 
   componentDidMount() {
     this.props.modelsProvider.getList();
@@ -23,7 +45,8 @@ class Performance extends Component {
 
   render() {
     const { models } = this.props;
-    const body = models.map((m, index) => (
+    const { sortCol } = this.state;
+    const body = this.sortedModels.map((m, index) => (
       <tr key={index}>
         <td>
           <Link to={{
@@ -60,7 +83,7 @@ class Performance extends Component {
     ));
 
     return (
-      <div className="container">
+      <div className="performance-container">
         <section className="m-b-3">
           <h1>Performance</h1>
           <p>
@@ -74,19 +97,19 @@ class Performance extends Component {
             models.length ? (
               <div>
                 <div style={{overflowX: 'auto'}}>
-                  <table className="table table-bordered table-borderless-top">
+                  <table className="table table-bordered table-borderless-top sorted-table">
                     <thead className="thead-graphite">
                       <tr>
                         <th>Model</th>
-                        <th>Daily Return</th>
-                        <th>WTD Return</th>
-                        <th>MTD Return</th>
-                        <th>QTD Return</th>
-                        <th>YTD Return</th>
-                        <th>Inception Return</th>
-                        <th>Annualized Return</th>
-                        <th>Annualized Volatility</th>
-                        <th>Max Drawdown</th>
+                        <th onClick={this.setSort.bind(this, 'returns_daily')} className={sortCol == 'returns_daily' ? 'current-sort' : ''}>Daily Return</th>
+                        <th onClick={this.setSort.bind(this, 'returns_wtd')} className={sortCol == 'returns_wtd' ? 'current-sort' : ''}>WTD Return</th>
+                        <th onClick={this.setSort.bind(this, 'returns_mtd')} className={sortCol == 'returns_mtd' ? 'current-sort' : ''}>MTD Return</th>
+                        <th onClick={this.setSort.bind(this, 'returns_qtd')} className={sortCol == 'returns_qtd' ? 'current-sort' : ''}>QTD Return</th>
+                        <th onClick={this.setSort.bind(this, 'returns_ytd')} className={sortCol == 'returns_ytd' ? 'current-sort' : ''}>YTD Return</th>
+                        <th onClick={this.setSort.bind(this, 'returns_inception')} className={sortCol == 'returns_inception' ? 'current-sort' : ''}>Inception Return</th>
+                        <th onClick={this.setSort.bind(this, 'annualized_return')} className={sortCol == 'annualized_return' ? 'current-sort' : ''}>Annualized Return</th>
+                        <th onClick={this.setSort.bind(this, 'annualized_volatility')} className={sortCol == 'annualized_volatility' ? 'current-sort' : ''}>Annualized Volatility</th>
+                        <th onClick={this.setSort.bind(this, 'max_drawdown')} className={sortCol == 'max_drawdown' ? 'current-sort' : ''}>Max Drawdown</th>
                   </tr>
                     </thead>
                     <tbody>{body}</tbody>
