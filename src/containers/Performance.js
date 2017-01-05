@@ -17,6 +17,10 @@ class Performance extends Component {
     this.props.modelsProvider.getList();
   }
 
+  regeneratePerformance() {
+    this.props.modelsProvider.regeneratePerformance();
+  }
+
   render() {
     const { models } = this.props;
     const body = models.map((m, index) => (
@@ -62,6 +66,9 @@ class Performance extends Component {
           <p>
             Daily Performance of the Overlay strategies.
           </p>
+          <button className="btn btn-title btn-primary" onClick={this.regeneratePerformance.bind(this)}>
+            Regenerate performance
+          </button>
 
           {
             models.length ? (
