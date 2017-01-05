@@ -11,8 +11,15 @@ const authTokens = {
 };
 
 
+const backendApi = {
+  'localhost': 'https://backend-dev.stratifi.com/api/',
+  'robo-pm-frontend.netlify.com': 'https://backend-production.stratifi.com/api/'
+};
+
+
 export const API_BASE_URL = api[hostname];
 export const BACKTESTER_BASE_URL = 'http://127.0.0.1:5000';
+export const BACKEND_BASE_URL = backendApi[hostname];
 const AUTH_TOKEN = authTokens[hostname];
 
 

@@ -1,4 +1,5 @@
 import { GET_MODEL_LIST, GET_MODEL_OBJECT, GET_MODEL_BASIS_OBJECT, CLEAR_MODEL_OBJECT,GET_MODEL_VIX_OBJECT } from '../constants/actions';
+import { BACKEND_BASE_URL } from '../config';
 import moment from 'moment';
 import DataProvider from './base/data-provider';
 import {queryParams} from '../utils/query-params';
@@ -132,6 +133,10 @@ export default class ModelsProvider extends DataProvider {
     }
 
     return result;
+  }
+
+  regeneratePerformance() {
+    return fetch(`${BACKEND_BASE_URL}strategy/compositebymodel/`, { method: "POST" });
   }
 
 }
