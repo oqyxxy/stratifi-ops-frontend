@@ -21,6 +21,7 @@ export default class ModelsProvider extends DataProvider {
 
   getDataFromJSON(json) {
     const tasks = super.getDataFromJSON(json);
+    tasks = tasks.filter(t => t.status_code === 200);
     return tasks
       .reduce((list, t) => (!list.includes(t.model)) ? list.concat(t.model) : list, [])
       .map(model => tasks.filter(t => t.model === model))
