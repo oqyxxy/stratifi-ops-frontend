@@ -2,7 +2,7 @@ const hostname = window.location.hostname;
 
 const api = {
   'localhost': 'https://robo-pm-dev.stratifi.com/api/',
-  'robo-pm-frontend.netlify.com': 'https://robo-pm-dev.stratifi.com/api/'
+  'robo-pm-frontend.netlify.com': 'https://robo-pm-production.stratifi.com/api/'
 };
 
 const authTokens = {
