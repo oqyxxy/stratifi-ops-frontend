@@ -72,7 +72,7 @@ class PackagesList extends Component {
             )
           }
 
-          <Link className="btn btn-primary btn-title" to="/packages/create">Create a package</Link>
+          <Link className="btn btn-primary btn-title m-b-3" to="/packages/create">Create a package</Link>
         </section>
       </div>
     );

@@ -1,33 +1,59 @@
 import React, { Component, PropTypes } from 'react';
-import { spreadLegBuySell, spreadLegCallPut } from '../constants/enums';
+import { DateField, DatePicker } from 'react-date-picker';
+import { orderTypes } from '../constants/enums';
 import { TableCellSelect, TableCellInput } from './form';
 
 
 export default class AddSpreadLeg extends Component {
 
   static propTypes = {
-    legs: PropTypes.array.isRequired
+    orders: PropTypes.array.isRequired
   };
 
   render() {
+
     return (
       <table className="table table-bordered table-borderless-top editable-fields">
         <thead className="thead-graphite">
         <tr>
-          <th>Call/Put</th>
-          <th>Buy/Sell</th>
+          <th>Option name</th>
+          <th>Order type</th>
+          <th>Security name</th>
           <th>Strike price</th>
+          <th>Expiration date</th>
           <th>Ratio</th>
         </tr>
         </thead>
         <tbody>
         {
-          this.props.legs.map((leg, index) => (
+          this.props.orders.map((order, index) => (
             <tr key={index}>
-              <TableCellSelect fieldData={leg.call_put} optionsData={spreadLegCallPut} defaultOption="Call/Put" />
-              <TableCellSelect fieldData={leg.buy_sell} optionsData={spreadLegBuySell} defaultOption="Buy/Sell" />
-              <TableCellInput type="number" placeholder="Strike price" className="form-control" {...leg.strike_price} />
-              <TableCellInput type="number" placeholder="Ratio" className="form-control" {...leg.ratio} />
+              <TableCellInput type="text" placeholder="Option name" className="form-control" {...order.description} />
+              <TableCellSelect fieldData={order.type}
+                               optionsData={orderTypes}
+                               defaultOption={'select type'} />
+              <TableCellInput type="text" placeholder="Security name" className="form-control" {...order.security.name} />
+              <TableCellInput type="number" placeholder="Strike price" className="form-control" {...order.security.strike_price} />
+              <td>
+                <DateField
+                  {...order.security.expiration_date}
+                  placeholder="YYYY-MM-DD"
+                  dateFormat="YYYY-MM-DD"
+                  forceValidDate
+                  updateOnDateClick={true}
+                  collapseOnDateClick={true}>
+
+                  <DatePicker
+                    navigation={true}
+                    locale="en"
+                    highlightWeekends={false}
+                    highlightToday={true}
+                    weekNumbers={false}
+                    footer={false}
+                  />
+                </DateField>
+              </td>
+              <TableCellInput type="number" placeholder="Ratio" className="form-control" {...order.ratio} />
             </tr>
           ))
         }

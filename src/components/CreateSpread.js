@@ -3,7 +3,6 @@ import { reduxForm } from 'redux-form';
 import validation from '../utils/validation';
 import { FormGroup, VerboseErrorInput } from './form';
 import AddSpreadLeg from '../components/AddSpreadLeg';
-import AddOrder from './AddOrder';
 
 
 const validate = values => {
@@ -36,23 +35,23 @@ class CreateSpread extends Component {
   }
 
   updateLegsCount(event) {
-    const { legs } = this.props.fields;
+    const { orders } = this.props.fields;
 
     if (!event.target.value) {
-      let index = legs.length;
-      for (; index > 0; --index) legs.removeField(index - 1);
+      let index = orders.length;
+      for (; index > 0; --index) orders.removeField(index - 1);
       return;
     }
 
     const newLegsCount = Number.parseInt(event.target.value, 10);
-    const currentLegsCount = legs.length;
+    const currentLegsCount = orders.length;
 
     if (newLegsCount > currentLegsCount) {
       let diff = newLegsCount - currentLegsCount;
-      for (; diff > 0; --diff) legs.addField({});
+      for (; diff > 0; --diff) orders.addField({security: {type: 'Option'}});
     } else if (currentLegsCount > newLegsCount) {
       let diff = currentLegsCount - newLegsCount;
-      for (; diff > 0; --diff) legs.removeField(newLegsCount + diff - 1);
+      for (; diff > 0; --diff) orders.removeField(newLegsCount + diff - 1);
     }
   }
 
@@ -71,7 +70,7 @@ class CreateSpread extends Component {
   }
 
   render() {
-    const { handleSubmit, fields, invalid, submitting, hideModal, securities, securitiesProvider, packId } = this.props;
+    const { handleSubmit, fields, invalid, submitting, hideModal, packId } = this.props;
 
     return this.state.created ? (
       <div className="text-xs-center">
@@ -109,15 +108,8 @@ class CreateSpread extends Component {
 
           <div className="m-b-3">
             {
-              fields.legs.length ? <AddSpreadLeg legs={fields.legs} /> : <p>Increase number of legs to add fields.</p>
+              fields.orders.length ? <AddSpreadLeg orders={fields.orders} /> : <p>Increase number of legs to add fields.</p>
             }
-          </div>
-
-          { /** Add orders subform(table) **/ }
-          <div>
-            <AddOrder securities={securities}
-                      securitiesProvider={securitiesProvider}
-                      orders={fields.orders} />
           </div>
 
           <div className="text-xs-center m-b-1">
@@ -144,16 +136,12 @@ export default reduxForm({
   fields: [
     'description',
     'orders[].description',
-    'orders[].security.name',
-    'orders[].security.option_type',
-    'orders[].security.strike_price',
-    'orders[].security.expiration_price',
     'orders[].type',
-    'legs[].call_put',
-    'legs[].buy_sell',
-    'legs[].strike_price',
-    'legs[].ratio'
+    'orders[].ratio',
+    'orders[].security.name',
+    'orders[].security.strike_price',
+    'orders[].security.expiration_date',
+    'orders[].security.type'
   ],
-  initialValues: {},
   validate
 })(CreateSpread);

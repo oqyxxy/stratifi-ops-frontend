@@ -5,11 +5,13 @@ import { reduxForm } from 'redux-form';
 import PackagesProvider from '../providers/packages';
 import SpreadsProvider from '../providers/spreads';
 import SecuritiesProvider from '../providers/securities';
+import TagTypesProvider from '../providers/tag-types';
 import TagsProvider from '../providers/tags';
 import validation from '../utils/validation';
 import { FormGroup, VerboseErrorInput, VerboseErrorSelect, ListAutosuggest } from '../components/form';
 import { Modal, ModalBody } from '../components/modals';
 import CreateSpread from '../components/CreateSpread';
+import CreateTag from '../components/CreateTag';
 import AddOrder from '../components/AddOrder';
 
 import '../styles-local/Autosuggest.css';
@@ -20,6 +22,7 @@ const validate = (values, props) => {
   const errors = {};
 
   errors.description = errors.description || validation.required(values.description);
+  errors.strategy_tag_name = errors.strategy_tag_name || validation.required(values.strategy_tag_name);
 
   return errors;
 };
@@ -30,25 +33,28 @@ class CreatePackage extends Component {
   static propTypes = {
     packagesProvider: PropTypes.object.isRequired,
     spreadsProvider: PropTypes.object.isRequired,
+    tagTypesProvider: PropTypes.object.isRequired,
     spreads: PropTypes.array.isRequired,
     securities: PropTypes.array.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
+    tagTypes: PropTypes.array.isRequired
   };
 
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { created: false, spreadCreateFormShown: false };
+    this.state = { created: false, spreadCreateFormShown: false, tagCreateFormShown: false };
 
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.showTagModal = this.showTagModal.bind(this);
+    this.hideTagModal = this.hideTagModal.bind(this);
   }
 
   onSubmit(values) {
     const { packagesProvider, spreads } = this.props;
-    console.log(values);
 
     packagesProvider.create(values, spreads)
       .then(() => {
@@ -60,6 +66,7 @@ class CreatePackage extends Component {
   componentDidMount() {
     this.props.tagsProvider.getList();
     this.props.spreadsProvider.getList();
+    this.props.tagTypesProvider.getList();
   }
 
   showModal(event) {
@@ -79,10 +86,20 @@ class CreatePackage extends Component {
     this.setState({ ...this.state, spreadCreateFormShown: false });
   }
 
+  showTagModal(event) {
+    event.preventDefault();
+    this.setState({ ...this.state, tagCreateFormShown: true });
+  }
+
+  hideTagModal(event) {
+    event.preventDefault();
+    this.setState({ ...this.state, tagCreateFormShown: false });
+  }
+
   render() {
     const {
       fields, invalid, submitting, handleSubmit, securities, securitiesProvider, tags, spreads,
-      tagsProvider, spreadsProvider
+      tagsProvider, spreadsProvider, tagTypes
     } = this.props;
 
     return this.state.created ? (
@@ -97,7 +114,7 @@ class CreatePackage extends Component {
         </div>
       </div>
     ) : (
-      <div className="container create-package-container">
+      <div className="create-package-container">
 
         <h3 className="text-title">Create a Package</h3>
         <p>
@@ -117,13 +134,22 @@ class CreatePackage extends Component {
           </div>
 
           <div className="row m-b-2">
-            <div className="col-sm-12">
+            <div className="col-sm-6">
               <VerboseErrorSelect fieldData={fields.strategy_tag_name}
                                   defaultOption="Select strategy tag"
                                   labelText="Strategy tag"
                                   optionsData={tags.map(t => ({value: t.id, label: t.name}))} />
             </div>
+            <div className="col-sm-6" style={{marginTop: '1.9rem', textAlign: 'right'}}>
+              <button className="btn btn-primary" onClick={this.showTagModal}>Create new tag</button>
+            </div>
           </div>
+
+          <Modal id="createTag" className="modal-lg wide" shown={this.state.tagCreateFormShown}>
+            <ModalBody>
+              <CreateTag tagTypes={tagTypes} tagsProvider={tagsProvider} hideModal={this.hideTagModal} />
+            </ModalBody>
+          </Modal>
 
           { /** Add orders subform(table) **/ }
           <div>
@@ -178,7 +204,7 @@ class CreatePackage extends Component {
           
         </form>
 
-        <Modal id="createSpread" className="modal-lg" shown={this.state.spreadCreateFormShown}>
+        <Modal id="createSpread" className="modal-lg wide" shown={this.state.spreadCreateFormShown}>
           <ModalBody>
             <CreateSpread hideModal={this.hideModal}
                           securitiesProvider={securitiesProvider}
@@ -199,14 +225,16 @@ export default connect(
   state => ({
     spreads: state.spreads.list,
     securities: state.securities.list,
-    tags: state.tags.list
+    tags: state.tags.list,
+    tagTypes: state.tagTypes
   }),
   dispatch => ({
     packagesProvider: new PackagesProvider(dispatch),
     spreadsProvider: new SpreadsProvider(dispatch),
     ordersProvider: new SecuritiesProvider(dispatch),
     tagsProvider: new TagsProvider(dispatch),
-    securitiesProvider: new SecuritiesProvider(dispatch)
+    securitiesProvider: new SecuritiesProvider(dispatch),
+    tagTypesProvider: new TagTypesProvider(dispatch)
   })
 )(reduxForm({
   form: 'createPackage',
@@ -214,11 +242,13 @@ export default connect(
     'description',
     'strategy_tag_name',
     'orders[].description',
+    'orders[].type',
+    'orders[].target_price',
     'orders[].security.name',
+    'orders[].security.type',
     'orders[].security.option_type',
     'orders[].security.strike_price',
-    'orders[].security.expiration_price',
-    'orders[].type',
+    'orders[].security.expiration_date',
     'spreads[].description',
   ],
   initialValues: {},

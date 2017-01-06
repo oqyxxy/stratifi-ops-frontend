@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
-import { orderTypes, securityOptionTypes } from '../constants/enums';
+import { DateField, DatePicker } from 'react-date-picker';
+import { orderTypes, securityOptionTypes, securityTypes } from '../constants/enums';
 import { TableCellInput, TableCellSelect, ListAutosuggest } from './form';
 
 
@@ -19,43 +20,88 @@ export default class AddOrder extends Component {
 
   render() {
     const { orders, securities } = this.props;
+    const containsOption = orders.find(ord => ord.security.type.value === 'Option');
 
     return (
       <table className="table table-bordered table-borderless-top editable-fields">
         <thead className="thead-graphite">
         <tr>
           <th>Order Name</th>
+          <th>Target price</th>
           <th>Type</th>
+          <th>Security type</th>
           <th>Security</th>
-          <th>Option type</th>
-          <th>Strike price</th>
-          <th>Expiration price</th>
+          { containsOption && <th>Option type</th> }
+          { containsOption && <th>Strike price</th> }
+          { containsOption && <th>Expiration date</th> }
         </tr>
         </thead>
         <tbody>
         {
-          orders.map((order, index) => (
-            <tr key={index}>
-              <TableCellInput type="text" placeholder="Enter order name" className="form-control" {...order.description} />
-              <TableCellSelect fieldData={order.type}
-                               optionsData={orderTypes}
-                               defaultOption={'select type'} />
-              <td>
-                <ListAutosuggest data={securities} fieldName="name" fieldData={order.security.name} placeholder="Security" />
-              </td>
-              <TableCellSelect fieldData={order.security.option_type} optionsData={securityOptionTypes} defaultOption={'select option type'} />
-              <TableCellInput type="text" placeholder="Enter strike price" className="form-control" {...order.security.strike_price} />
-              <TableCellInput type="text" placeholder="Enter expiration price" className="form-control" {...order.security.expiration_price} />
+          orders.map((order, index) => {
+            const isOption = order.security.type.value === 'Option';
+            return (
+              <tr key={index}>
+                <TableCellInput type="text" placeholder="Enter order name" className="form-control" {...order.description} />
+                <TableCellInput type="number" placeholder="Target price" className="form-control" {...order.target_price} />
+                <TableCellSelect fieldData={order.type}
+                                 optionsData={orderTypes}
+                                 defaultOption={'select type'} />
+                <TableCellSelect fieldData={order.security.type}
+                                 optionsData={securityTypes}
+                                 defaultOption="security type" />
+                <td>
+                  <ListAutosuggest data={securities}
+                                   fieldName="name"
+                                   fieldData={order.security.name}
+                                   placeholder="Security" />
+                </td>
+                {
+                  isOption && <TableCellSelect fieldData={order.security.option_type}
+                                               optionsData={securityOptionTypes}
+                                               defaultOption={'select option type'}/>
+                }
+                {
+                  isOption && <TableCellInput type="text"
+                                              placeholder="Enter strike price"
+                                              className="form-control"
+                                              {...order.security.strike_price} />
+                }
+                {
+                  isOption && (
+                    <td>
+                      <DateField
+                        {...order.security.expiration_date}
+                        placeholder="YYYY-MM-DD"
+                        dateFormat="YYYY-MM-DD"
+                        forceValidDate
+                        updateOnDateClick={true}
+                        collapseOnDateClick={true}>
+
+                        <DatePicker
+                          navigation={true}
+                          locale="en"
+                          highlightWeekends={false}
+                          highlightToday={true}
+                          weekNumbers={false}
+                          footer={false}
+                        />
+                      </DateField>
+                    </td>
+                  )
+                }
               <td className="action">
                 <a onClick={() => orders.removeField(index)}>
                   <i className="icon-remove" />
                 </a>
               </td>
             </tr>
-          ))
+              );
+            }
+          )
         }
         <tr>
-          <td colSpan="7">
+          <td colSpan={containsOption ? 9 : 5}>
             <a onClick={() => orders.addField({})} className="link"><i className="icon-add" /> Add Order</a>
           </td>
         </tr>
