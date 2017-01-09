@@ -22,3 +22,4 @@ export const FETCH_BACKTEST_OBJECT = 'fetch-backtest-object';
 export const RUN_BACKTEST = 'run-backtest';
 
 export const FETCH_TAG_TYPES = 'fetch-tag-types';
+export const CREATE_TAG_TYPE = 'create-tag-type';

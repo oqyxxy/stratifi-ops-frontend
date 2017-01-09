@@ -18,7 +18,7 @@ import '../styles-local/Autosuggest.css';
 import '../styles-local/CreatePackage.css';
 
 
-const validate = (values, props) => {
+const validate = values => {
   const errors = {};
 
   errors.description = errors.description || validation.required(values.description);
@@ -99,7 +99,7 @@ class CreatePackage extends Component {
   render() {
     const {
       fields, invalid, submitting, handleSubmit, securities, securitiesProvider, tags, spreads,
-      tagsProvider, spreadsProvider, tagTypes
+      tagsProvider, spreadsProvider, tagTypes, tagTypesProvider
     } = this.props;
 
     return this.state.created ? (
@@ -147,7 +147,10 @@ class CreatePackage extends Component {
 
           <Modal id="createTag" className="modal-lg wide" shown={this.state.tagCreateFormShown}>
             <ModalBody>
-              <CreateTag tagTypes={tagTypes} tagsProvider={tagsProvider} hideModal={this.hideTagModal} />
+              <CreateTag tagTypes={tagTypes}
+                         tagsProvider={tagsProvider}
+                         tagTypesProvider={tagTypesProvider}
+                         hideModal={this.hideTagModal} />
             </ModalBody>
           </Modal>
 
