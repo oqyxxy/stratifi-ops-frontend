@@ -99,7 +99,7 @@ class StrategyDetail extends Component {
               {
                 data.metrics.map((strategy, index) => (
                   <tr key={index}>
-                    <td>{index === 0 ? 'Benchmark' : data.strategyName}</td>
+                    <td>{index === 0 ? data.benchmarkName : data.strategyName}</td>
                     {
                       Object.keys(config.metrics.labels).map((key, i) =>
                         <td key={i}><FormattedNumber value={strategy[key]} format="percent" /></td>
@@ -121,7 +121,7 @@ class StrategyDetail extends Component {
               <div>
                 <small>
                   <hr className="hr-dash hr-primary-muted m-r-1" />
-                  Benchmark
+                  {data.benchmarkName}
                 </small>
               </div>
             </div>
