@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import validation from '../utils/validation';
-import { VerboseErrorInput, VerboseErrorSelect } from './form';
+import { VerboseErrorInput, VerboseErrorSelect, FormGroup } from './form';
 import CreateTagType from './CreateTagType';
 
 
@@ -61,8 +61,14 @@ class CreateTag extends Component {
         <p className="m-b-2">
           Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet.
         </p>
-        <VerboseErrorInput type="text" placeholder="Tag name" className="form-control m-b-2" {...fields.name} />
-        <VerboseErrorInput type="text" placeholder="Tag description" className="form-control m-b-2" {...fields.description} />
+        <FormGroup {...fields.name}>
+          <label>Tag name:</label>
+          <VerboseErrorInput type="text" placeholder="Tag name" className="form-control m-b-2" {...fields.name} />
+        </FormGroup>
+        <FormGroup {...fields.description}>
+          <label>Tag description:</label>
+          <VerboseErrorInput type="text" placeholder="Tag description" className="form-control m-b-2" {...fields.description} />
+        </FormGroup>
         <div className="row m-b-2">
           <div className="col-sm-6">
             <VerboseErrorSelect fieldData={fields.type}

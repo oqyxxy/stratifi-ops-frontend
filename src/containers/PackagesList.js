@@ -38,43 +38,41 @@ class PackagesList extends Component {
     ));
 
     return (
-      <div className="container">
-        <section className="packages-container">
-          <h1>Packages</h1>
-          <div className="packages-filter">
-            <i className="icon-search" />
-            <input type="text"
-                   placeholder="Search all packages"
-                   onChange={e => this.setState({ ...this.state, searchFilter: e.target.value })} />
-          </div>
-          <p>
-            Nullam quis risus eget urna mollis ornare vel eu leo.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-            eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
-          </p>
+      <section className="packages-container">
+        <h1>Packages</h1>
+        <div className="packages-filter">
+          <i className="icon-search" />
+          <input type="text"
+                 placeholder="Search all packages"
+                 onChange={e => this.setState({ ...this.state, searchFilter: e.target.value })} />
+        </div>
+        <p>
+          Nullam quis risus eget urna mollis ornare vel eu leo.
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
+          eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
+        </p>
 
-          {
-            this.packages.length ? (
-              <table className="table table-bordered table-borderless-top">
-                <thead className="thead-graphite">
-                <tr>
-                  <th>Package Name</th>
-                  <th>Total Orders</th>
-                  <th>Total Spreads</th>
-                  <th>Creation Date</th>
-                  <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>{tableBody}</tbody>
-              </table>
-            ) : (
-              <p>There are no packages :(</p>
-            )
-          }
+        {
+          this.packages.length ? (
+            <table className="table table-bordered table-borderless-top">
+              <thead className="thead-graphite">
+              <tr>
+                <th>Package Name</th>
+                <th>Total Orders</th>
+                <th>Total Spreads</th>
+                <th>Creation Date</th>
+                <th>Description</th>
+              </tr>
+              </thead>
+              <tbody>{tableBody}</tbody>
+            </table>
+          ) : (
+            <p>There are no packages :(</p>
+          )
+        }
 
-          <Link className="btn btn-primary btn-title m-b-3" to="/packages/create">Create a package</Link>
-        </section>
-      </div>
+        <Link className="btn btn-primary btn-title m-b-3" to="/packages/create">Create a package</Link>
+      </section>
     );
   }
 

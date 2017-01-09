@@ -147,7 +147,7 @@ export default class PackageSpreadsList extends Component {
         </div>
 
         <Modal id="createSpread"
-               className="modal-lg"
+               className="modal-lg wide"
                shown={this.state.createSpreadFormShown}
         >
           <ModalBody>
@@ -163,7 +163,7 @@ export default class PackageSpreadsList extends Component {
         </Modal>
 
         <Modal id="executeSpreads"
-               className="modal-lg"
+               className="modal-lg wide"
                shown={this.state.executeSpreadsFormShown}
         >
           <ModalBody>

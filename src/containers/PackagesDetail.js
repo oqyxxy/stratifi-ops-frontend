@@ -10,6 +10,7 @@ import PackageOrdersList from '../components/PackageOrdersList';
 import PackageSpreadsList from '../components/PackageSpreadsList';
 
 import '../styles-local/ArrowLink.css';
+import '../styles-local/PackagesDetail.css';
 
 
 class PackagesDetail extends Component {
@@ -37,7 +38,7 @@ class PackagesDetail extends Component {
             tagsProvider, packagesProvider, spreadsProvider, id } = this.props;
 
     return pack.description ? (
-      <div className="container">
+      <div className="package-container">
         <section className="arrow-link-container">
           <Link to="/packages" className="arrow-link">
             <i className="icon-arrow" />

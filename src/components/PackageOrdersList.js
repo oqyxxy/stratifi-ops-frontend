@@ -114,7 +114,7 @@ export default class PackageOrdersList extends Component {
         }
 
         <Modal id="executeOrdersModal"
-               className="modal-lg"
+               className="modal-lg wide"
                shown={executeOrdersFormShown}
         >
           <ModalBody>
