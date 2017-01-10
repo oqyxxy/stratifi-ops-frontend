@@ -37,13 +37,13 @@ class CreateTag extends Component {
 
   onSubmit(values) {
     const { tagsProvider } = this.props;
-    tagsProvider.create(values)
+    return tagsProvider.create(values)
       .then(() => tagsProvider.getList())
       .then(() => this.setState({ ...this.state, created: true }));
   }
 
   render() {
-    const { fields, handleSubmit, tagTypes, tagTypesProvider, hideModal } = this.props;
+    const { fields, handleSubmit, tagTypes, tagTypesProvider, hideModal, invalid, submitting } = this.props;
     const { createTagTypeShown } = this.state;
 
     return this.state.created ? (
@@ -81,7 +81,9 @@ class CreateTag extends Component {
           </div>
         </div>
         { createTagTypeShown && <CreateTagType tagTypesProvider={tagTypesProvider} /> }
-        <button className="btn btn-primary btn-title m-b-2 m-r-2" onClick={handleSubmit(this.onSubmit.bind(this))}>Create tag</button>
+        <button className="btn btn-primary btn-title m-b-2 m-r-2"
+                disabled={invalid || submitting}
+                onClick={handleSubmit(this.onSubmit.bind(this))}>Create tag</button>
         <button className="btn btn-primary btn-title btn-black m-b-2" onClick={hideModal}>Cancel</button>
       </div>
     );

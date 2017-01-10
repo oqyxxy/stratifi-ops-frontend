@@ -1,6 +1,6 @@
 import { API_BASE_URL, HEADERS } from '../../config';
 import Provider from './provider';
-import {queryParams} from '../../utils/query-params';
+import normalizeErrors from '../../utils/errors-normalizer';
 
 
 export default class DataProvider extends Provider {
@@ -41,9 +41,19 @@ export default class DataProvider extends Provider {
 
   create(data) {
     return fetch(this.resourceUrl, { method: 'POST', headers: this.headers, body: JSON.stringify(data) })
-      .then(response => response.json())
+      .then(response => Promise.all([response, response.json()]))
+      .then(([response, json]) => {
+        if (response.status === 201) {
+          return Promise.resolve(json);
+        } else if (response.status === 400) {
+          normalizeErrors(json);
+          return Promise.reject(json);
+        } else {
+          throw new Error('Unexpected status code');
+        }
+      })
       .then(json => {
-        this.dispatch({ type: this.actionTypes.create, data: json })
+        this.dispatch({ type: this.actionTypes.create, data: json });
         return json;
       });
   }

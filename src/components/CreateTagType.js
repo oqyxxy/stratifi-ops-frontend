@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import validation from '../utils/validation';
-import { VerboseErrorInput } from './form';
+import { VerboseErrorInput, FormGroup } from './form';
 
 
 const validate = values => {
@@ -29,7 +29,7 @@ class CreateTagType extends Component {
 
   onSubmit(values) {
     const { tagTypesProvider } = this.props;
-    tagTypesProvider.create(values)
+    return tagTypesProvider.create(values)
       .then(() => tagTypesProvider.getList())
       .then(() => this.setState({ ...this.state, created: true }));
   }
@@ -39,7 +39,7 @@ class CreateTagType extends Component {
   }
 
   render() {
-    const { fields, handleSubmit } = this.props;
+    const { fields, handleSubmit, invalid, submitting } = this.props;
 
     return this.state.created ? (
       <div>
@@ -48,9 +48,19 @@ class CreateTagType extends Component {
       </div>
     ) : (
       <div>
-        <VerboseErrorInput type="text" placeholder="Tag type name" className="form-control m-b-2" {...fields.name} />
-        <VerboseErrorInput type="text" placeholder="Tag type description" className="form-control m-b-2" {...fields.description} />
-        <button className="btn btn-primary btn-title btn-black m-b-3" onClick={handleSubmit(this.onSubmit)}>Create tag type</button>
+        <FormGroup {...fields.name}>
+          <label>Tag type name:</label>
+          <VerboseErrorInput type="text" placeholder="Tag type name" className="form-control m-b-2" {...fields.name} />
+        </FormGroup>
+        <FormGroup {...fields.description}>
+          <label>Tag type description:</label>
+          <VerboseErrorInput type="text" placeholder="Tag type description" className="form-control m-b-2" {...fields.description} />
+        </FormGroup>
+        <button className="btn btn-primary btn-title btn-black m-b-3"
+                disabled={invalid || submitting}
+                onClick={handleSubmit(this.onSubmit)}>
+          Create tag type
+        </button>
       </div>
     );
   }
