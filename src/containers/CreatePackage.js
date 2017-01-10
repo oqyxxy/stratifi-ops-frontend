@@ -56,7 +56,7 @@ class CreatePackage extends Component {
   onSubmit(values) {
     const { packagesProvider, spreads } = this.props;
 
-    packagesProvider.create(values, spreads)
+    return packagesProvider.create(values, spreads)
       .then(() => {
         this.setState({ ...this.state, created: true });
         packagesProvider.getList();

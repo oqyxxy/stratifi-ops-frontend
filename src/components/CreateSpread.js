@@ -62,7 +62,7 @@ class CreateSpread extends Component {
   onSubmit(values) {
     const { spreadsProvider, packId, packagesProvider } = this.props;
 
-    spreadsProvider.create(values, packId).then(json => {
+    return spreadsProvider.create(values, packId).then(json => {
       this.setState({ ...this.state, created: true, newSpreadId: json.id });
       (packId && packagesProvider) && packagesProvider.getObject(packId);
       spreadsProvider.getList();
