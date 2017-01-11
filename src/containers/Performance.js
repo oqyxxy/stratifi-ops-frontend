@@ -9,6 +9,9 @@ import '../styles-local/Performance.css';
 
 class Performance extends Component {
 
+  static LAST_REFRESH_TIME_KEY = 'last-refresh-time-key';
+  static REFRESH_PERF_TIMEOUT = 10;
+
   static propTypes = {
     models: PropTypes.array.isRequired,
     modelsProvider: PropTypes.object.isRequired
@@ -40,7 +43,20 @@ class Performance extends Component {
   }
 
   regeneratePerformance() {
+    localStorage.setItem(Performance.LAST_REFRESH_TIME_KEY, new Date().toISOString());
+    this.forceUpdate();
     this.props.modelsProvider.regeneratePerformance();
+  }
+
+  get regeneratePerformanceDisabled() {
+    const prevClickTime = localStorage.getItem(Performance.LAST_REFRESH_TIME_KEY);
+    if (!prevClickTime) return false;
+
+    const prev = new Date(prevClickTime);
+    const now = new Date();
+    const minutesPassed = (now - prev) / (60 * 1000);
+
+    return minutesPassed < Performance.REFRESH_PERF_TIMEOUT;
   }
 
   render() {
@@ -89,7 +105,9 @@ class Performance extends Component {
           <p>
             Daily Performance of the Overlay strategies.
           </p>
-          <button className="btn btn-title btn-primary" onClick={this.regeneratePerformance.bind(this)}>
+          <button className="btn btn-title btn-primary"
+                  disabled={this.regeneratePerformanceDisabled}
+                  onClick={this.regeneratePerformance.bind(this)}>
             Regenerate performance
           </button>
 
