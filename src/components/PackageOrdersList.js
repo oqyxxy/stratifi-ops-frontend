@@ -10,7 +10,8 @@ export default class PackageOrdersList extends Component {
     orders: PropTypes.array.isRequired,
     packId: PropTypes.string.isRequired,
     ordersProvider: PropTypes.object.isRequired,
-    packagesProvider: PropTypes.object.isRequired
+    packagesProvider: PropTypes.object.isRequired,
+    multiplier: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -19,8 +20,6 @@ export default class PackageOrdersList extends Component {
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
-    this.updateMultiplier = this.updateMultiplier.bind(this);
-    this.undoMultiplier = this.undoMultiplier.bind(this);
   }
 
   toggleOrder(order) {
@@ -54,21 +53,8 @@ export default class PackageOrdersList extends Component {
     this.showModal(event);
   }
 
-  updateMultiplier(id, multiplier) {
-    const { packId, ordersProvider, packagesProvider } = this.props;
-    ordersProvider.updateMultiplier({id, multiplier}).then(() => packagesProvider.getObject(packId));
-  }
-
-  undoMultiplier(ord) {
-    const { packId, ordersProvider, packagesProvider } = this.props;
-    ordersProvider.updateMultiplier({
-      id: ord.id,
-      multiplier: ord.prev_multiplier
-    }).then(() => packagesProvider.getObject(packId));
-  }
-
   render() {
-    const { orders, ordersProvider, packagesProvider, packId } = this.props;
+    const { orders, ordersProvider, packagesProvider, packId, multiplier } = this.props;
     const { executeOrdersFormShown, ordersToExecute } = this.state;
 
     return (
@@ -82,7 +68,7 @@ export default class PackageOrdersList extends Component {
                 <th>Order Name</th>
                 <th>Security</th>
                 <th>Target Price</th>
-                <th>Multiplier</th>
+                <th>Quantity</th>
                 <th>Creation Date</th>
                 <th>Status</th>
               </tr>
@@ -92,9 +78,7 @@ export default class PackageOrdersList extends Component {
                 orders.sort((a, b) => a.id - b.id).map((ord, index) => (
                   <OrderListItem ord={ord}
                                  key={ord.id}
-                                 form={`order-list-item-${ord.id}`}
-                                 updateMultiplier={this.updateMultiplier}
-                                 undoMultiplier={this.undoMultiplier}
+                                 multiplier={multiplier}
                                  toggleOrder={this.toggleOrder} />
                 ))
               }
@@ -120,6 +104,7 @@ export default class PackageOrdersList extends Component {
           <ModalBody>
             <ExecuteOrders initialValues={{ orders: ordersToExecute }}
                            packId={packId}
+                           multiplier={multiplier}
                            ordersProvider={ordersProvider}
                            packagesProvider={packagesProvider}
                            hideModal={this.hideModal} />

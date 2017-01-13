@@ -29,7 +29,8 @@ class ExecuteOrders extends Component {
     hideModal: PropTypes.func.isRequired,
     packId: PropTypes.string.isRequired,
     ordersProvider: PropTypes.object.isRequired,
-    packagesProvider: PropTypes.object.isRequired
+    packagesProvider: PropTypes.object.isRequired,
+    multiplier: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -39,16 +40,16 @@ class ExecuteOrders extends Component {
   }
 
   onSubmit(values) {
-    const { ordersProvider, packagesProvider, packId } = this.props;
+    const { ordersProvider, packagesProvider, packId, multiplier } = this.props;
 
-    ordersProvider.execute(values).then(() => {
+    ordersProvider.execute(values, multiplier).then(() => {
       packagesProvider.getObject(packId);
       this.setState({executed: values.orders.length});
     });
   }
 
   render() {
-    const { fields, handleSubmit, hideModal, invalid, submitting } = this.props;
+    const { fields, handleSubmit, hideModal, invalid, submitting, multiplier } = this.props;
     const { executed } = this.state;
 
     return executed ? (
@@ -81,7 +82,7 @@ class ExecuteOrders extends Component {
                     <td>{order.description.value}</td>
                     <TableCellInput type="text" placeholder="Enter Price" className="form-control" {...order.executed_price} />
                     <TableCellInput type="text" placeholder="Enter Quantity" className="form-control" {...order.quantity} />
-                    <td>{order.quantity.value * (order.multiplier.value || 1)}</td>
+                    <td>{order.quantity.value * (multiplier || 1)}</td>
                   </tr>
                 ))
               }
@@ -113,7 +114,6 @@ export default reduxForm({
     'orders[].description',
     'orders[].executed_price',
     'orders[].quantity',
-    'orders[].multiplier'
   ],
   validate
 })(ExecuteOrders);

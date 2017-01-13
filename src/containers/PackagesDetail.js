@@ -8,6 +8,7 @@ import OrdersProvider from '../providers/orders';
 import TagsProvider from '../providers/tags';
 import PackageOrdersList from '../components/PackageOrdersList';
 import PackageSpreadsList from '../components/PackageSpreadsList';
+import UpdateMultiplier from '../components/UpdateMultiplier';
 
 import '../styles-local/ArrowLink.css';
 import '../styles-local/PackagesDetail.css';
@@ -51,10 +52,12 @@ class PackagesDetail extends Component {
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
             eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor.
           </p>
+          <UpdateMultiplier form={`update-multiplier-${pack.id}`} pack={pack} packagesProvider={packagesProvider} />
 
           <h3 className="text-title m-t-3">Orders</h3>
           <PackageOrdersList orders={pack.orders}
                              packId={id}
+                             multiplier={pack.multiplier}
                              ordersProvider={ordersProvider}
                              packagesProvider={packagesProvider} />
 
@@ -67,6 +70,7 @@ class PackagesDetail extends Component {
                               spreadsProvider={spreadsProvider}
                               tagsProvider={tagsProvider}
                               packId={id}
+                              multiplier={pack.multiplier}
                               tags={tags} />
         </section>
       </div>
