@@ -4,13 +4,12 @@ import ExecuteOrders from './ExecuteOrders';
 import OrderListItem from './OrderListItem';
 
 
-export default class PackageOrdersList extends Component {
+export default class OrdersList extends Component {
 
   static propTypes = {
     orders: PropTypes.array.isRequired,
-    packId: PropTypes.string.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     ordersProvider: PropTypes.object.isRequired,
-    packagesProvider: PropTypes.object.isRequired,
     multiplier: PropTypes.number.isRequired
   };
 
@@ -20,6 +19,7 @@ export default class PackageOrdersList extends Component {
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.toggleOrder = this.toggleOrder.bind(this);
+    this.onExecute = this.onExecute.bind(this);
   }
 
   toggleOrder(order) {
@@ -39,6 +39,11 @@ export default class PackageOrdersList extends Component {
     }
   }
 
+  onExecute() {
+    this.props.onSuccess();
+    this.setState({...this.state, ordersToExecute: []})
+  }
+
   showModal(event) {
     event.preventDefault();
     this.setState({ ...this.state, executeOrdersFormShown: true });
@@ -54,7 +59,7 @@ export default class PackageOrdersList extends Component {
   }
 
   render() {
-    const { orders, ordersProvider, packagesProvider, packId, multiplier } = this.props;
+    const { orders, ordersProvider, onSuccess, multiplier } = this.props;
     const { executeOrdersFormShown, ordersToExecute } = this.state;
 
     return (
@@ -103,10 +108,9 @@ export default class PackageOrdersList extends Component {
         >
           <ModalBody>
             <ExecuteOrders initialValues={{ orders: ordersToExecute }}
-                           packId={packId}
+                           onSuccess={this.onExecute}
                            multiplier={multiplier}
                            ordersProvider={ordersProvider}
-                           packagesProvider={packagesProvider}
                            hideModal={this.hideModal} />
           </ModalBody>
         </Modal>

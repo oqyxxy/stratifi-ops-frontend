@@ -14,6 +14,10 @@ export default class SpreadsProvider extends DataProvider {
     };
   }
 
+  getDataFromJSON(json) {
+    return json.data.items[0];
+  }
+
   splitOrders({orders}) {
     const spreadOrders = [];
     const packageOrders = [];

@@ -6,7 +6,7 @@ import SecuritiesProvider from '../providers/securities';
 import SpreadsProvider from '../providers/spreads';
 import OrdersProvider from '../providers/orders';
 import TagsProvider from '../providers/tags';
-import PackageOrdersList from '../components/PackageOrdersList';
+import OrdersList from '../components/OrdersList';
 import PackageSpreadsList from '../components/PackageSpreadsList';
 import UpdateMultiplier from '../components/UpdateMultiplier';
 
@@ -35,6 +35,11 @@ class PackagesDetail extends Component {
     packagesProvider.getObject(id);
   }
 
+  refreshObjectData() {
+    const { packagesProvider, id } = this.props;
+    packagesProvider.getObject(id);
+  }
+
   render() {
     const { pack, securities, securitiesProvider, tags, ordersProvider,
             tagsProvider, packagesProvider, spreadsProvider, id } = this.props;
@@ -56,11 +61,10 @@ class PackagesDetail extends Component {
           <UpdateMultiplier form={`update-multiplier-${pack.id}`} pack={pack} packagesProvider={packagesProvider} />
 
           <h3 className="text-title m-t-3">Orders</h3>
-          <PackageOrdersList orders={pack.orders}
-                             packId={id}
-                             multiplier={pack.multiplier}
-                             ordersProvider={ordersProvider}
-                             packagesProvider={packagesProvider} />
+          <OrdersList orders={pack.orders}
+                      onSuccess={this.refreshObjectData.bind(this)}
+                      multiplier={pack.multiplier}
+                      ordersProvider={ordersProvider} />
 
           <h3 className="text-title m-t-3">Spreads</h3>
           <PackageSpreadsList securities={securities}
