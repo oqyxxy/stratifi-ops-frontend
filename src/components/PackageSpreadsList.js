@@ -142,6 +142,7 @@ export default class PackageSpreadsList extends Component {
                           hideModal={this.hideModal}
                           tags={tags}
                           packId={packId}
+                          ordersProvider={ordersProvider}
                           tagsProvider={tagsProvider} />
           </ModalBody>
         </Modal>

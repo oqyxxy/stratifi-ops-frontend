@@ -22,11 +22,14 @@ class CreateSpread extends Component {
     hideModal: PropTypes.func.isRequired,
     securitiesProvider: PropTypes.object.isRequired,
     packagesProvider: PropTypes.object,
+    ordersProvider: PropTypes.object,
     spreadsProvider: PropTypes.object.isRequired,
     securities: PropTypes.array.isRequired,
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
-    packId: PropTypes.string
+
+    packId: PropTypes.string,
+    orders: PropTypes.object
   };
 
   constructor(props) {
@@ -62,10 +65,21 @@ class CreateSpread extends Component {
   }
 
   onSubmit(values) {
-    const { spreadsProvider, packId, packagesProvider } = this.props;
+    let newSpreadId;
+    const { spreadsProvider, packId, packagesProvider, orders, ordersProvider } = this.props;
+    const [spreadOrders, packageOrders] = spreadsProvider.splitOrders(values);
+    const data = {...values, orders: spreadOrders};
 
-    return spreadsProvider.create(values, packId).then(json => {
-      this.setState({ ...this.state, created: true, newSpreadId: json.id });
+    return spreadsProvider.create(data, packId).then(json => {
+      newSpreadId = json.id;
+      if (packId) {
+        return ordersProvider.bulkCreate({orders: packageOrders}, packId);
+      } else {
+        for (let order of packageOrders) orders.addField({...order});
+        return Promise.resolve();
+      }
+    }).then(() => {
+      this.setState({ ...this.state, created: true, newSpreadId });
       (packId && packagesProvider) && packagesProvider.getObject(packId);
       spreadsProvider.getList();
     });

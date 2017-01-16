@@ -6,6 +6,8 @@ export const FETCH_SPREAD_LIST = 'fetch-spread-list';
 export const FETCH_SPREAD_OBJECT = 'fetch-spread-object';
 export const CREATE_SPREAD = 'create-spread';
 
+export const BULK_CREATE_ORDERS = 'bulk-create-order';
+
 export const FETCH_SECURITY_LIST = 'fetch-security-list';
 
 export const FETCH_TAG_LIST = 'fetch-tag-list';
