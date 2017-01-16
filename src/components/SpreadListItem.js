@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { toDateString, getSpreadStatus, getSpreadPrice } from '../utils/filters';
 
 
@@ -36,7 +37,7 @@ export default class SpreadListItem extends Component {
             ) : null
           }
         </td>
-        <td>{sprd.description}</td>
+        <td><Link to={`/spreads/${sprd.id}`}>{sprd.description}</Link></td>
         <td>{sprd.orders.length}</td>
         <td>{getSpreadPrice(sprd)}</td>
         <td>{this.presentQuantity}</td>

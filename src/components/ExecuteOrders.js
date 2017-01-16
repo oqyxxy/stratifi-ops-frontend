@@ -27,9 +27,8 @@ class ExecuteOrders extends Component {
 
   static propTypes = {
     hideModal: PropTypes.func.isRequired,
-    packId: PropTypes.string.isRequired,
+    onSuccess: PropTypes.func.isRequired,
     ordersProvider: PropTypes.object.isRequired,
-    packagesProvider: PropTypes.object.isRequired,
     multiplier: PropTypes.number.isRequired
   };
 
@@ -40,10 +39,10 @@ class ExecuteOrders extends Component {
   }
 
   onSubmit(values) {
-    const { ordersProvider, packagesProvider, packId, multiplier } = this.props;
+    const { ordersProvider, multiplier, onSuccess } = this.props;
 
     ordersProvider.execute(values, multiplier).then(() => {
-      packagesProvider.getObject(packId);
+      onSuccess();
       this.setState({executed: values.orders.length});
     });
   }

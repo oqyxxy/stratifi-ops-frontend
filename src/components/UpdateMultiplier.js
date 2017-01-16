@@ -20,6 +20,7 @@ class UpdateMultiplier extends Component {
 
   updateMultiplier(values) {
     const { packagesProvider, pack } = this.props;
+    if (pack.multiplier === values.multiplier) return Promise.resolve();
     return packagesProvider.updateMultiplier(pack.id, values.multiplier)
       .then(() => packagesProvider.getObject(pack.id));
   }

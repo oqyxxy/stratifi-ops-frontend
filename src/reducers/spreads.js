@@ -1,7 +1,7 @@
 import { FETCH_SPREAD_LIST, FETCH_SPREAD_OBJECT } from '../constants/actions';
 
 
-const defaultState = { list: [], detail: {} };
+const defaultState = { list: [], object: {} };
 
 export default function(state = defaultState, action) {
 

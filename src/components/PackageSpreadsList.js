@@ -34,6 +34,11 @@ export default class PackageSpreadsList extends Component {
     this.toggleItem = this.toggleItem.bind(this);
   }
 
+  refreshPackageData() {
+    const { packagesProvider, id } = this.props;
+    packagesProvider.getObject(id);
+  }
+
   toggleItem(id) {
     const { spreadsToExecute } = this.state;
     const index = spreadsToExecute.indexOf(id);
@@ -154,10 +159,9 @@ export default class PackageSpreadsList extends Component {
           <ModalBody>
             <ExecuteOrders initialValues={{ orders: this.ordersToExecute }}
                            hideModal={this.hideExecuteModal}
-                           packId={packId}
+                           onSuccess={this.refreshPackageData.bind(this)}
                            multiplier={multiplier}
-                           ordersProvider={ordersProvider}
-                           packagesProvider={packagesProvider} />
+                           ordersProvider={ordersProvider} />
           </ModalBody>
         </Modal>
       </div>
