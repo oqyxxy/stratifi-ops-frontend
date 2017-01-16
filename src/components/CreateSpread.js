@@ -4,6 +4,8 @@ import validation from '../utils/validation';
 import { FormGroup, VerboseErrorInput } from './form';
 import AddSpreadLeg from '../components/AddSpreadLeg';
 
+import '../styles-local/CreateSpread.css';
+
 
 const validate = values => {
   const errors = {};
@@ -48,7 +50,7 @@ class CreateSpread extends Component {
 
     if (newLegsCount > currentLegsCount) {
       let diff = newLegsCount - currentLegsCount;
-      for (; diff > 0; --diff) orders.addField({security: {type: 'Option'}});
+      for (; diff > 0; --diff) orders.addField({security: {type: 'Option'}, order_kind: 'Limit'});
     } else if (currentLegsCount > newLegsCount) {
       let diff = currentLegsCount - newLegsCount;
       for (; diff > 0; --diff) orders.removeField(newLegsCount + diff - 1);
@@ -138,9 +140,14 @@ export default reduxForm({
     'orders[].description',
     'orders[].type',
     'orders[].ratio',
+    'orders[].target_price',
+    'orders[].order_type',
+    'orders[].order_kind',
+    'orders[].quantity',
     'orders[].security.name',
     'orders[].security.strike_price',
     'orders[].security.expiration_date',
+    'orders[].security.option_type',
     'orders[].security.type'
   ],
   validate

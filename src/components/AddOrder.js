@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { DateField, DatePicker } from 'react-date-picker';
-import { orderTypes, securityOptionTypes, securityTypes } from '../constants/enums';
+import { orderTypes, securityOptionTypes, securityTypes, orderKinds } from '../constants/enums';
 import { TableCellInput, TableCellSelect, ListAutosuggest } from './form';
 
 
@@ -28,6 +28,8 @@ export default class AddOrder extends Component {
         <tr>
           <th>Order Name</th>
           <th>Target price</th>
+          <th>Quantity</th>
+          <th>Order kind</th>
           <th>Type</th>
           <th>Security type</th>
           <th>Security</th>
@@ -42,11 +44,23 @@ export default class AddOrder extends Component {
             const isOption = order.security.type.value === 'Option';
             return (
               <tr key={index}>
-                <TableCellInput type="text" placeholder="Enter order name" className="form-control" {...order.description} />
-                <TableCellInput type="number" placeholder="Target price" className="form-control" {...order.target_price} />
+                <TableCellInput type="text"
+                                placeholder="Enter order name"
+                                className="form-control"
+                                {...order.description} />
+                <TableCellInput type="number"
+                                placeholder="Target price"
+                                className="form-control"
+                                {...order.target_price} />
+                <TableCellInput type="number"
+                                placeholder="Quantity"
+                                className="form-control"
+                                {...order.quantity} />
+                <TableCellSelect fieldData={order.order_kind}
+                                 optionsData={orderKinds} />
                 <TableCellSelect fieldData={order.type}
                                  optionsData={orderTypes}
-                                 defaultOption={'select type'} />
+                                 defaultOption={'type'} />
                 <TableCellSelect fieldData={order.security.type}
                                  optionsData={securityTypes}
                                  defaultOption="security type" />
@@ -101,8 +115,8 @@ export default class AddOrder extends Component {
           )
         }
         <tr>
-          <td colSpan={containsOption ? 9 : 5}>
-            <a onClick={() => orders.addField({})} className="link"><i className="icon-add" /> Add Order</a>
+          <td colSpan={containsOption ? 10 : 7}>
+            <a onClick={() => orders.addField({order_kind: 'Limit'})} className="link"><i className="icon-add" /> Add Order</a>
           </td>
         </tr>
         </tbody>

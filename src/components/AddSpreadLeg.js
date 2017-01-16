@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DateField, DatePicker } from 'react-date-picker';
-import { orderTypes } from '../constants/enums';
+import { orderTypes, securityOptionTypes, orderKinds } from '../constants/enums';
 import { TableCellSelect, TableCellInput } from './form';
 
 
@@ -18,6 +18,10 @@ export default class AddSpreadLeg extends Component {
         <tr>
           <th>Option name</th>
           <th>Order type</th>
+          <th>Order kind</th>
+          <th>Target price</th>
+          <th>Quantity</th>
+          <th>Option type</th>
           <th>Security name</th>
           <th>Strike price</th>
           <th>Expiration date</th>
@@ -28,12 +32,35 @@ export default class AddSpreadLeg extends Component {
         {
           this.props.orders.map((order, index) => (
             <tr key={index}>
-              <TableCellInput type="text" placeholder="Option name" className="form-control" {...order.description} />
+              <TableCellInput type="text"
+                              placeholder="Option name"
+                              className="form-control"
+                              {...order.description} />
               <TableCellSelect fieldData={order.type}
                                optionsData={orderTypes}
-                               defaultOption={'select type'} />
-              <TableCellInput type="text" placeholder="Security name" className="form-control" {...order.security.name} />
-              <TableCellInput type="number" placeholder="Strike price" className="form-control" {...order.security.strike_price} />
+                               defaultOption={'order type'} />
+              <TableCellSelect fieldData={order.order_kind}
+                               optionsData={orderKinds}
+                               defaultOption={'order kind'} />
+              <TableCellInput type="number"
+                              placeholder="Target price"
+                              className="form-control"
+                              {...order.target_price} />
+              <TableCellInput type="number"
+                              placeholder="Quantity"
+                              className="form-control"
+                              {...order.quantity} />
+              <TableCellSelect fieldData={order.security.option_type}
+                               optionsData={securityOptionTypes}
+                               defaultOption={'option type'} />
+              <TableCellInput type="text"
+                              placeholder="Security name"
+                              className="form-control"
+                              {...order.security.name} />
+              <TableCellInput type="number"
+                              placeholder="Strike price"
+                              className="form-control"
+                              {...order.security.strike_price} />
               <td>
                 <DateField
                   {...order.security.expiration_date}

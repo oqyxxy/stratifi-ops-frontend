@@ -4,7 +4,7 @@ import FormGroup from './FormGroup';
 
 const TableCellSelect = props => {
 
-  const { touched, error, name, onBlur, onChange, onDragStart, onDrop, onFocus, } = props.fieldData,
+  const { touched, error, name, onBlur, onChange, onDragStart, onDrop, onFocus, value } = props.fieldData,
     { optionsData, defaultOption } = props,
     invalid = !!(touched && error),
     invalidStyles = { borderBottom: '2px solid #FF002D' },
@@ -19,8 +19,8 @@ const TableCellSelect = props => {
     <td style={invalid ? invalidStyles : null}>
       <FormGroup {...props.fieldData}>
         <div className="c-select-wrap">
-          <select defaultValue="" className="form-control c-select" {...{ name, onBlur, onChange, onDragStart, onDrop, onFocus }}>
-            <option value="" disabled>{defaultOption}</option>
+          <select className="form-control c-select" {...{ name, onBlur, onChange, onDragStart, onDrop, onFocus, value }}>
+            { defaultOption && <option value="" disabled>{defaultOption}</option> }
             {
               optionsData.map((item) => {
                 return (<option value={item} key={item}>{item}</option>);
