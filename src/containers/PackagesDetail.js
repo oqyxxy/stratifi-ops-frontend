@@ -12,6 +12,7 @@ import UpdateMultiplier from '../components/UpdateMultiplier';
 
 import '../styles-local/ArrowLink.css';
 import '../styles-local/PackagesDetail.css';
+import '../styles-local/CreateSpread.css';
 
 
 class PackagesDetail extends Component {

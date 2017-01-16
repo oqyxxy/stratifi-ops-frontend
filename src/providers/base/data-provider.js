@@ -39,8 +39,8 @@ export default class DataProvider extends Provider {
       .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: json }));
   }
 
-  create(data) {
-    return fetch(this.resourceUrl, { method: 'POST', headers: this.headers, body: JSON.stringify(data) })
+  _create(data, url, actionType) {
+    return fetch(url, { method: 'POST', headers: this.headers, body: JSON.stringify(data) })
       .then(response => Promise.all([response, response.json()]))
       .then(([response, json]) => {
         if (response.status === 201) {
@@ -53,9 +53,17 @@ export default class DataProvider extends Provider {
         }
       })
       .then(json => {
-        this.dispatch({ type: this.actionTypes.create, data: json });
+        this.dispatch({ type: actionType, data: json });
         return json;
       });
+  }
+
+  create(data) {
+    return this._create(data, this.resourceUrl, this.actionTypes.create);
+  }
+
+  bulkCreate(data) {
+    return this._create(data, `${this.resourceUrl}bulk`, this.actionTypes.bulkCreate);
   }
 
 }

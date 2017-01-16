@@ -214,6 +214,7 @@ class CreatePackage extends Component {
                           spreadsProvider={spreadsProvider}
                           securities={securities}
                           tagsProvider={tagsProvider}
+                          orders={fields.orders}
                           tags={tags} />
           </ModalBody>
         </Modal>
