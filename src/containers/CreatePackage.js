@@ -247,6 +247,8 @@ export default connect(
     'orders[].description',
     'orders[].type',
     'orders[].target_price',
+    'orders[].quantity',
+    'orders[].order_kind',
     'orders[].security.name',
     'orders[].security.type',
     'orders[].security.option_type',
