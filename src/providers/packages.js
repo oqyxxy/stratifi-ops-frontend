@@ -25,4 +25,12 @@ export default class PackagesProvider extends DataProvider {
 
   getDataFromJSON(json) { return json; }
 
+  updateMultiplier(id, multiplier) {
+    return fetch(this.getObjectUrl(id), {
+      method: "PATCH",
+      headers: this.headers,
+      body: JSON.stringify({ multiplier })
+    });
+  }
+
 }

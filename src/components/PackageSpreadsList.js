@@ -17,6 +17,7 @@ export default class PackageSpreadsList extends Component {
     tagsProvider: PropTypes.object.isRequired,
     tags: PropTypes.array.isRequired,
     packId: PropTypes.string.isRequired,
+    multiplier: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -30,8 +31,6 @@ export default class PackageSpreadsList extends Component {
     this.hideModal = this.hideModal.bind(this);
     this.showExecuteModal = this.showExecuteModal.bind(this);
     this.hideExecuteModal = this.hideExecuteModal.bind(this);
-    this.updateMultiplier = this.updateMultiplier.bind(this);
-    this.undoMultiplier = this.undoMultiplier.bind(this);
     this.toggleItem = this.toggleItem.bind(this);
   }
 
@@ -84,21 +83,8 @@ export default class PackageSpreadsList extends Component {
     return ordersToExecute;
   }
 
-  updateMultiplier(id, multiplier) {
-    const { packId, spreadsProvider, packagesProvider } = this.props;
-    spreadsProvider.updateMultiplier({id, multiplier}).then(() => packagesProvider.getObject(packId));
-  }
-
-  undoMultiplier(sprd) {
-    const { packId, spreadsProvider, packagesProvider } = this.props;
-    spreadsProvider.updateMultiplier({
-      id: sprd.id,
-      multiplier: sprd.prev_multiplier
-    }).then(() => packagesProvider.getObject(packId));
-  }
-
   render() {
-    const { spreads, securities, securitiesProvider, tagsProvider,
+    const { spreads, securities, securitiesProvider, tagsProvider, multiplier,
             tags, spreadsProvider, packId, packagesProvider, ordersProvider } = this.props;
 
     return (
@@ -112,7 +98,7 @@ export default class PackageSpreadsList extends Component {
                   <th>Spread Name</th>
                   <th># of Orders</th>
                   <th>Target Price</th>
-                  <th>Multiplier</th>
+                  <th>Quantity</th>
                   <th>Creation Date</th>
                   <th>Status</th>
                 </tr>
@@ -122,9 +108,7 @@ export default class PackageSpreadsList extends Component {
                  spreads.sort((a, b) => a.id - b.id).map((sprd, index) => (
                    <SpreadListItem sprd={sprd}
                                    key={sprd.id}
-                                   form={`spread-list-item-${sprd.id}`}
-                                   updateMultiplier={this.updateMultiplier}
-                                   undoMultiplier={this.undoMultiplier}
+                                   multiplier={multiplier}
                                    toggleSpread={this.toggleItem} />)
                  )
               }
@@ -170,6 +154,7 @@ export default class PackageSpreadsList extends Component {
             <ExecuteOrders initialValues={{ orders: this.ordersToExecute }}
                            hideModal={this.hideExecuteModal}
                            packId={packId}
+                           multiplier={multiplier}
                            ordersProvider={ordersProvider}
                            packagesProvider={packagesProvider} />
           </ModalBody>

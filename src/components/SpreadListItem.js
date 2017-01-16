@@ -1,25 +1,28 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm } from 'redux-form';
-import { TableCellInput } from './form';
 import { toDateString, getSpreadStatus, getSpreadPrice } from '../utils/filters';
 
 
-class SpreadListItem extends Component {
+export default class SpreadListItem extends Component {
 
   static propTypes = {
     sprd: PropTypes.object.isRequired,
-    updateMultiplier: PropTypes.func.isRequired,
-    undoMultiplier: PropTypes.func.isRequired,
+    multiplier: PropTypes.number.isRequired,
     toggleSpread: PropTypes.func.isRequired
   };
 
-  onUpdateMultiplier(values) {
-    const { sprd, updateMultiplier } = this.props;
-    updateMultiplier(sprd.id, values.multiplier);
+  get presentQuantity() {
+    const { multiplier, sprd } = this.props;
+    const quantity = sprd.orders.reduce((prev, cur) => prev + (cur.quantity || 0), 0);
+    if (!quantity) return '-';
+    if (multiplier !== 1) {
+      return `${quantity} x ${multiplier}`;
+    } else {
+      return multiplier;
+    }
   }
 
   render() {
-    const { sprd, fields, handleSubmit, toggleSpread, undoMultiplier } = this.props;
+    const { sprd, toggleSpread } = this.props;
 
     return (
       <tr key={sprd.id}>
@@ -36,26 +39,11 @@ class SpreadListItem extends Component {
         <td>{sprd.description}</td>
         <td>{sprd.orders.length}</td>
         <td>{getSpreadPrice(sprd)}</td>
-        <TableCellInput type="number" {...fields.multiplier} onBlur={handleSubmit(this.onUpdateMultiplier.bind(this))} />
+        <td>{this.presentQuantity}</td>
         <td>{toDateString(sprd.creation_date)}</td>
         <td>{getSpreadStatus(sprd)}</td>
-        {
-          (sprd.multiplier !== sprd.prev_multiplier) ? (
-            <td className="action">
-              <button className="btn btn-primary btn-black"
-                      onClick={e => undoMultiplier(sprd)}>Undo</button>
-            </td>
-          ) : null
-        }
       </tr>
     );
   }
 
 }
-
-
-export default reduxForm({
-  fields: ['multiplier']
-}, (state, ownProps) => ({
-  initialValues: {multiplier: ownProps.sprd.multiplier}
-}))(SpreadListItem);

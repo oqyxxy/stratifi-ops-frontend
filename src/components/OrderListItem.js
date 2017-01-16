@@ -1,25 +1,27 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm } from 'redux-form';
-import { TableCellInput } from './form';
 import { toDateString } from '../utils/filters';
 
 
-class OrderListItem extends Component {
+export default class OrderListItem extends Component {
 
   static propTypes = {
     ord: PropTypes.object.isRequired,
-    updateMultiplier: PropTypes.func.isRequired,
-    undoMultiplier: PropTypes.func.isRequired,
+    multiplier: PropTypes.number.isRequired,
     toggleOrder: PropTypes.func.isRequired
   };
 
-  onUpdateMultiplier(values) {
-    const { ord, updateMultiplier } = this.props;
-    updateMultiplier(ord.id, values.multiplier);
+  get presentQuantity() {
+    const { multiplier, ord } = this.props;
+    if (!ord.quantity) return '-';
+    if (multiplier !== 1) {
+      return `${ord.quantity} x ${multiplier}`;
+    } else {
+      return multiplier;
+    }
   }
 
   render() {
-    const { ord, toggleOrder, undoMultiplier, fields, handleSubmit } = this.props;
+    const { ord, toggleOrder } = this.props;
 
     return (
       <tr>
@@ -36,26 +38,11 @@ class OrderListItem extends Component {
         <td>{ord.description}</td>
         <td>{ord.security}</td>
         <td>{ord.target_price}</td>
-        <TableCellInput type="number" {...fields.multiplier} onBlur={handleSubmit(this.onUpdateMultiplier.bind(this))} />
+        <td>{this.presentQuantity}</td>
         <td>{toDateString(ord.creation_date)}</td>
         <td>{ord.status}</td>
-        {
-          (ord.multiplier !== ord.prev_multiplier) ? (
-            <td className="action">
-              <button className="btn btn-primary btn-black"
-                      onClick={e => undoMultiplier(ord)}>Undo</button>
-            </td>
-          ) : null
-        }
       </tr>
     );
   }
 
 }
-
-
-export default reduxForm({
-  fields: ['multiplier']
-}, (state, ownProps) => ({
-  initialValues: {multiplier: ownProps.ord.multiplier}
-}))(OrderListItem);
