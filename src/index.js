@@ -20,6 +20,7 @@ import Performance from './containers/Performance';
 import Dashboard from './containers/Dashboard';
 import Research from './containers/Research';
 import StrategyDetail from './containers/StrategyDetail';
+import SpreadDetail from './containers/SpreadDetail';
 
 import getStore from './store';
 
@@ -36,6 +37,9 @@ ReactDOM.render(
             <IndexRoute component={PackagesList} />
             <Route path="create" component={CreatePackage} />
             <Route path=":id" component={PackagesDetail} />
+          </Route>
+          <Route path="spreads">
+            <Route path=":id" component={SpreadDetail} />
           </Route>
           <Route path="performance" component={Performance} />
           <Route path="research" component={Research} />

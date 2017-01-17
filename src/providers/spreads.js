@@ -15,7 +15,7 @@ export default class SpreadsProvider extends DataProvider {
   }
 
   getDataFromJSON(json) {
-    return json.data.items[0];
+    return super.getDataFromJSON(json)[0];
   }
 
   splitOrders({orders}) {

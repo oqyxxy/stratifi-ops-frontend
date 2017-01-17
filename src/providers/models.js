@@ -29,6 +29,10 @@ export default class ModelsProvider extends DataProvider {
       .map(task => ({ ...task, ...JSON.parse(task.json.replace(/\bNaN\b/g, "null")).strategy.metrics }))
   }
 
+  getObjectDataFromJSON(json) {
+    return json;
+  }
+
   _getTaskDateRange(task) {
     const minDate = new Date(task.min_date);
     const maxDate = new Date(task.max_date);
