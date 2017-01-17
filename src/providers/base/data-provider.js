@@ -16,7 +16,7 @@ export default class DataProvider extends Provider {
   }
 
   getDataFromJSON(json) {
-    return json;
+    return json.data.items;
   }
 
   getList() {
@@ -34,9 +34,12 @@ export default class DataProvider extends Provider {
   }
 
   getObject(id) {
+    const unpackMethodToUse = this.getObjectDataFromJSON || this.getDataFromJSON;
     return fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
       .then(response => response.json())
-      .then(json => this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: this.getDataFromJSON(json) }));
+      .then(json => {
+        this.dispatch({ type: this.actionTypes.fetchObjectSuccess, data: unpackMethodToUse(json) })
+      });
   }
 
   _create(data, url, actionType) {
