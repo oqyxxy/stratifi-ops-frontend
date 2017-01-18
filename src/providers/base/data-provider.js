@@ -34,7 +34,7 @@ export default class DataProvider extends Provider {
   }
 
   getObject(id) {
-    const unpackMethodToUse = this.getObjectDataFromJSON || this.getDataFromJSON;
+    const unpackMethodToUse = (this.getObjectDataFromJSON || this.getDataFromJSON).bind(this);
     return fetch(`${this.resourceUrl}/${id}`, { headers: this.headers })
       .then(response => response.json())
       .then(json => {

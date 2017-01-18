@@ -13,10 +13,10 @@ export default class OrderListItem extends Component {
   get presentQuantity() {
     const { multiplier, ord } = this.props;
     if (!ord.quantity) return '-';
-    if (multiplier !== 1) {
-      return `${ord.quantity} x ${multiplier}`;
+    if (!multiplier || multiplier === 1 || ord.status === 'Executed') {
+      return ord.quantity;
     } else {
-      return multiplier;
+      return `${ord.quantity} x ${multiplier}`;
     }
   }
 
